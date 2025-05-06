@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "528225851763",
+    "project_id": "elderblisscare1",
+    "storage_bucket": "elderblisscare1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528225851763:android:657dac95d91022849a4d06",
+        "android_client_info": {
+          "package_name": "com.elderblisscare1.myapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACMApWHbeMhdoCZRszbfE0uYlnZ2vuS7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

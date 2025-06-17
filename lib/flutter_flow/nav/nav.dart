@@ -7,6 +7,7 @@ import '/auth/base_auth_user_provider.dart';
 
 import '/main.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
 
 import '/index.dart';
 
@@ -274,7 +275,7 @@ extension NavigationExtensions on BuildContext {
             );
 
   void safePop() {
-    // If there is only one route on the stack, navigate to the initial
+    // If there's nothing to pop, go to the initial route
     // page instead of popping.
     if (canPop()) {
       pop();
@@ -409,12 +410,20 @@ class FFRoute {
                   builder: (context, _) => builder(context, ffParams),
                 )
               : builder(context, ffParams);
-          final child = appStateNotifier.loading
+          // Fixed iOS loading issue - reduced dependency on loading state
+          final child = (appStateNotifier.showSplashImage && 
+                        appStateNotifier.user == null)
               ? Container(
-                  color: Colors.transparent,
-                  child: Image.asset(
-                    'assets/images/IMG_4799.JPG',
-                    fit: BoxFit.cover,
+                  color: FlutterFlowTheme.of(context).primaryBackground,
+                  child: Center(
+                    child: SizedBox(
+                      width: 200.0,
+                      height: 200.0,
+                      child: Image.asset(
+                        'assets/images/IMG_4799.JPG',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
                   ),
                 )
               : page;

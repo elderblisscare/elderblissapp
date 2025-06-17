@@ -28,8 +28,7 @@
             <string>Editor</string>
             <key>CFBundleURLSchemes</key>
             <array>
-                <!--FF_REVERSED_CLIENT_ID-->
-                
+                <string>com.googleusercontent.apps.528225851763-ffkkdd9o9sf31aio93nm4l95ra5hehe9</string>
             </array>
         </dict>
 
@@ -47,17 +46,33 @@
     <key>FlutterDeepLinkingEnabled</key>
     <true/>
 
-
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 
-
-	<key>PermissionGroupNotification</key>
-    <string>ElderBlissCare  needs to send you notifications about meal updates and other important messages.</string>
-
-
+    <!-- Essential iOS Permissions -->
+    <key>NSCameraUsageDescription</key>
+    <string>This app requires camera access to take photos for your profile and service requests</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>This app requires access to the photo library to upload profile pictures and evidence for service requests</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app requires location access to provide local elder care services near you</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>This app requires microphone access for voice notes and caregiver communication</string>
+    
+    <!-- Additional permissions for paid developer account
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>This app requires location access to provide local elder care services near you</string>
+    <key>NSCalendarsUsageDescription</key>
+    <string>This app requires calendar access to schedule care appointments</string>
+    <key>NSContactsUsageDescription</key>
+    <string>This app requires contacts access to add emergency contacts</string>
+    <key>PermissionGroupNotification</key>
+    <string>ElderBlissCare needs to send you notifications about meal updates and other important messages.</string>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>This identifier will be used to deliver personalized care services to you.</string>
+    -->
 
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
@@ -79,5 +94,9 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>

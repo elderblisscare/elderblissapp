@@ -1168,13 +1168,33 @@ class _Auth4OnboardingOneWidgetState extends State<Auth4OnboardingOneWidget>
                               if (_model.pageViewCurrentIndex == 0) {
                                 logFirebaseEvent('Button_auth');
                                 final phoneNumberVal =
-                                    _model.phoneNumberTextController.text;
-                                if (phoneNumberVal.isEmpty ||
-                                    !phoneNumberVal.startsWith('+')) {
+                                    _model.phoneNumberTextController.text.trim();
+                                if (phoneNumberVal.isEmpty) {
+                                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(
-                                          'Phone Number is required and has to start with +.'),
+                                      content: Text('Please enter your phone number'),
+                                      backgroundColor: Colors.orange,
+                                    ),
+                                  );
+                                  return;
+                                }
+                                if (!phoneNumberVal.startsWith('+')) {
+                                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Phone number must include country code (e.g., +91 for India)'),
+                                      backgroundColor: Colors.orange,
+                                    ),
+                                  );
+                                  return;
+                                }
+                                if (phoneNumberVal.length < 10) {
+                                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Please enter a valid phone number'),
+                                      backgroundColor: Colors.orange,
                                     ),
                                   );
                                   return;

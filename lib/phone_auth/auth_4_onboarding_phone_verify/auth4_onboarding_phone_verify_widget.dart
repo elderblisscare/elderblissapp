@@ -303,78 +303,51 @@ class _Auth4OnboardingPhoneVerifyWidgetState
                           onPressed: () async {
                             logFirebaseEvent(
                                 'AUTH_4_ONBOARDING_PHONE_VERIFY_VERIFY_CO');
-                            if (widget.isLogin == true) {
-                              logFirebaseEvent('Button_auth');
-                              GoRouter.of(context).prepareAuthEvent();
-                              final smsCodeVal = _model.pinCodeController!.text;
-                              if (smsCodeVal.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content:
-                                        Text('Enter SMS verification code.'),
-                                  ),
-                                );
-                                return;
-                              }
-                              final phoneVerifiedUser =
-                                  await authManager.verifySmsCode(
-                                context: context,
-                                smsCode: smsCodeVal,
+                            logFirebaseEvent('Button_auth');
+                            GoRouter.of(context).prepareAuthEvent();
+                            
+                            final smsCodeVal = _model.pinCodeController!.text;
+                            if (smsCodeVal.isEmpty) {
+                              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Enter SMS verification code.'),
+                                  backgroundColor: Colors.orange,
+                                ),
                               );
-                              if (phoneVerifiedUser == null) {
-                                return;
-                              }
+                              return;
+                            }
+                            
+                            final phoneVerifiedUser = await authManager.verifySmsCode(
+                              context: context,
+                              smsCode: smsCodeVal,
+                            );
+                            
+                            if (phoneVerifiedUser == null) {
+                              return;
+                            }
 
-                              logFirebaseEvent('Button_navigate_to');
-
+                            logFirebaseEvent('Button_navigate_to');
+                            
+                            if (widget.isLogin == true) {
                               context.pushNamedAuth(
                                 Auth4OnboardingOneWidget.routeName,
                                 context.mounted,
                                 queryParameters: {
-                                  'index': serializeParam(
-                                    1,
-                                    ParamType.int,
-                                  ),
+                                  'index': serializeParam(1, ParamType.int),
                                 }.withoutNulls,
                               );
                             } else {
-                              logFirebaseEvent('Button_auth');
-                              GoRouter.of(context).prepareAuthEvent();
-                              final smsCodeVal = _model.pinCodeController!.text;
-                              if (smsCodeVal.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content:
-                                        Text('Enter SMS verification code.'),
-                                  ),
-                                );
-                                return;
-                              }
-                              final phoneVerifiedUser =
-                                  await authManager.verifySmsCode(
-                                context: context,
-                                smsCode: smsCodeVal,
-                              );
-                              if (phoneVerifiedUser == null) {
-                                return;
-                              }
-
-                              logFirebaseEvent('Button_navigate_to');
-
                               context.goNamedAuth(
                                 Auth4OnboardingOneWidget.routeName,
                                 context.mounted,
                                 queryParameters: {
-                                  'index': serializeParam(
-                                    1,
-                                    ParamType.int,
-                                  ),
+                                  'index': serializeParam(1, ParamType.int),
                                 }.withoutNulls,
                                 extra: <String, dynamic>{
                                   kTransitionInfoKey: TransitionInfo(
                                     hasTransition: true,
-                                    transitionType:
-                                        PageTransitionType.leftToRight,
+                                    transitionType: PageTransitionType.leftToRight,
                                     duration: Duration(milliseconds: 250),
                                   ),
                                 },

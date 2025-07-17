@@ -1,0 +1,30 @@
+# Flutter & Dart
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+*.lock  # Excludes both pubspec.lock and Podfile.lock
+
+# Android
+android/gradlew
+android/gradlew.bat
+android/gradle/
+android/local.properties
+android/key.properties
+
+# iOS
+ios/Flutter/.last_build_id
+ios/Flutter/*.podspec
+ios/Flutter/*.xcconfig
+ios/Flutter/*.sh
+ios/Podfile.lock
+ios/Pods/
+ios/.symlinks/
+ios/Runner.xcworkspace/xcuserdata/
+ios/Runner.xcodeproj/xcuserdata/
+ios/Runner.xcodeproj/project.xcworkspace/xcuserdata/
+ios/Runner/GoogleService-Info.plist

@@ -207,8 +207,11 @@ class FirebaseAuthManager extends AuthManager
             .update(() => phoneAuthManager.triggerOnCodeSent = false);
       } else if (phoneAuthManager.phoneAuthError != null) {
         final e = phoneAuthManager.phoneAuthError!;
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Error: ${e.message!}'),
+          content: Text('Error: ${e.message ?? 'An unknown error occurred'}'),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 4),
         ));
         phoneAuthManager.update(() => phoneAuthManager.phoneAuthError = null);
       }
@@ -221,11 +224,22 @@ class FirebaseAuthManager extends AuthManager
     required String phoneNumber,
     required void Function(BuildContext) onCodeSent,
   }) async {
+    // Clean and validate phone number format
+    final cleanPhoneNumber = phoneNumber.replaceAll(RegExp(r'[^\d+]'), '');
+    
     phoneAuthManager.update(() => phoneAuthManager.onCodeSent = onCodeSent);
     if (kIsWeb) {
-      phoneAuthManager.webPhoneAuthConfirmationResult =
-          await FirebaseAuth.instance.signInWithPhoneNumber(phoneNumber);
-      phoneAuthManager.update(() => phoneAuthManager.triggerOnCodeSent = true);
+      try {
+        phoneAuthManager.webPhoneAuthConfirmationResult =
+            await FirebaseAuth.instance.signInWithPhoneNumber(cleanPhoneNumber);
+        phoneAuthManager.update(() => phoneAuthManager.triggerOnCodeSent = true);
+      } catch (e) {
+        phoneAuthManager.update(() => phoneAuthManager.phoneAuthError = 
+          FirebaseAuthException(
+            code: 'web-phone-auth-failed',
+            message: 'Failed to send verification code: ${e.toString()}',
+          ));
+      }
       return;
     }
     final completer = Completer<bool>();
@@ -235,22 +249,27 @@ class FirebaseAuthManager extends AuthManager
     // * For iOS: https://firebase.google.com/docs/auth/ios/phone-auth?authuser=0#start-receiving-silent-notifications
     // * Finally modify verificationCompleted below as instructed.
     await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      timeout:
-          Duration(seconds: 0), // Skips Android's default auto-verification
+      phoneNumber: cleanPhoneNumber,
+      timeout: Duration(seconds: 60), // 60 seconds timeout for SMS
       verificationCompleted: (phoneAuthCredential) async {
-        await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential);
-        phoneAuthManager.update(() {
-          phoneAuthManager.triggerOnCodeSent = false;
-          phoneAuthManager.phoneAuthError = null;
-        });
-        // If you've implemented auto-verification, navigate to home page or
-        // onboarding page here manually. Uncomment the lines below and replace
-        // DestinationPage() with the desired widget.
-        // await Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (_) => DestinationPage()),
-        // );
+        try {
+          await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential);
+          phoneAuthManager.update(() {
+            phoneAuthManager.triggerOnCodeSent = false;
+            phoneAuthManager.phoneAuthError = null;
+          });
+          // Auto-verification successful, user is signed in
+          completer.complete(true);
+        } catch (e) {
+          phoneAuthManager.update(() {
+            phoneAuthManager.triggerOnCodeSent = false;
+            phoneAuthManager.phoneAuthError = FirebaseAuthException(
+              code: 'verification-failed',
+              message: 'Auto-verification failed: ${e.toString()}',
+            );
+          });
+          completer.complete(false);
+        }
       },
       verificationFailed: (e) {
         phoneAuthManager.update(() {
@@ -267,7 +286,12 @@ class FirebaseAuthManager extends AuthManager
         });
         completer.complete(true);
       },
-      codeAutoRetrievalTimeout: (_) {},
+      codeAutoRetrievalTimeout: (verificationId) {
+        // Set the verification ID even if auto-retrieval times out
+        phoneAuthManager.update(() {
+          phoneAuthManager.phoneAuthVerificationCode = verificationId;
+        });
+      },
     );
 
     return completer.future;
@@ -277,14 +301,40 @@ class FirebaseAuthManager extends AuthManager
   Future verifySmsCode({
     required BuildContext context,
     required String smsCode,
-  }) {
+  }) async {
+    // Validate SMS code
+    if (smsCode.isEmpty || smsCode.length != 6) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Please enter a valid 6-digit verification code'),
+        backgroundColor: Colors.red,
+      ));
+      return null;
+    }
+
     if (kIsWeb) {
+      if (phoneAuthManager.webPhoneAuthConfirmationResult == null) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Phone verification session expired. Please try again.'),
+          backgroundColor: Colors.red,
+        ));
+        return null;
+      }
       return _signInOrCreateAccount(
         context,
         () => phoneAuthManager.webPhoneAuthConfirmationResult!.confirm(smsCode),
         'PHONE',
       );
     } else {
+      if (phoneAuthManager.phoneAuthVerificationCode == null) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Phone verification session expired. Please try again.'),
+          backgroundColor: Colors.red,
+        ));
+        return null;
+      }
       final authCredential = PhoneAuthProvider.credential(
         verificationId: phoneAuthManager.phoneAuthVerificationCode!,
         smsCode: smsCode,
@@ -319,11 +369,29 @@ class FirebaseAuthManager extends AuthManager
           'Error: The email is already in use by a different account',
         'INVALID_LOGIN_CREDENTIALS' =>
           'Error: The supplied auth credential is incorrect, malformed or has expired',
-        _ => 'Error: ${e.message!}',
+        'invalid-verification-code' =>
+          'Error: The verification code is invalid. Please try again',
+        'invalid-verification-id' =>
+          'Error: The verification session has expired. Please request a new code',
+        'too-many-requests' =>
+          'Error: Too many requests. Please try again later',
+        'session-expired' =>
+          'Error: The verification session has expired. Please try again',
+        'quota-exceeded' =>
+          'Error: SMS quota exceeded. Please try again later',
+        'missing-verification-code' =>
+          'Error: Please enter the verification code',
+        'missing-verification-id' =>
+          'Error: Verification session not found. Please try again',
+        _ => 'Error: ${e.message ?? 'An unknown error occurred'}',
       };
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMsg)),
+        SnackBar(
+          content: Text(errorMsg),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 4),
+        ),
       );
       return null;
     }

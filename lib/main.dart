@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'auth/firebase_auth/firebase_user_provider.dart';
 import 'auth/firebase_auth/auth_util.dart';
 
@@ -54,8 +55,8 @@ class _MyAppState extends State<MyApp> {
 
   late AppStateNotifier _appStateNotifier;
   late GoRouter _router;
-  String getRoute([RouteMatch? routeMatch]) {
-    final RouteMatch lastMatch =
+  String getRoute([RouteMatchBase? routeMatch]) {
+    final RouteMatchBase lastMatch =
         routeMatch ?? _router.routerDelegate.currentConfiguration.last;
     final RouteMatchList matchList = lastMatch is ImperativeRouteMatch
         ? lastMatch.matches
@@ -78,6 +79,18 @@ class _MyAppState extends State<MyApp> {
 
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier);
+    
+    // Initialize with current Firebase auth state immediately to avoid null user
+    try {
+      final currentFirebaseUser = FirebaseAuth.instance.currentUser;
+      final initialUser = Elderblisscare1FirebaseUser(currentFirebaseUser);
+      _appStateNotifier.update(initialUser);
+    } catch (e) {
+      // If Firebase isn't ready, create an unauthenticated user
+      final initialUser = Elderblisscare1FirebaseUser(null);
+      _appStateNotifier.update(initialUser);
+    }
+    
     userStream = elderblisscare1FirebaseUserStream()
       ..listen((user) {
         _appStateNotifier.update(user);

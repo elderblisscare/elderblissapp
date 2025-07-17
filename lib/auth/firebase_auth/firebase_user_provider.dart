@@ -67,9 +67,6 @@ class Elderblisscare1FirebaseUser extends BaseAuthUser {
 Stream<BaseAuthUser> elderblisscare1FirebaseUserStream() =>
     FirebaseAuth.instance
         .authStateChanges()
-        .debounce((user) => user == null && !loggedIn
-            ? TimerStream(true, const Duration(seconds: 1))
-            : Stream.value(user))
         .map<BaseAuthUser>(
       (user) {
         currentUser = Elderblisscare1FirebaseUser(user);

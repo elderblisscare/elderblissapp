@@ -166,13 +166,63 @@ class _NavBarPageState extends State<NavBarPage> {
     _currentPage = widget.page;
   }
 
+  Widget _buildNavItem(BuildContext context, int index, int currentIndex, IconData icon, String label) {
+    final isSelected = index == currentIndex;
+    final tabs = {
+      'Dashboard': DashboardWidget(),
+      'View_plans': ViewPlansWidget(),
+      'Services': ServicesWidget(),
+      'Profile': ProfileWidget(),
+    };
+    return InkWell(
+      onTap: () => safeSetState(() {
+        _currentPage = null;
+        _currentPageName = tabs.keys.toList()[index];
+      }),
+      borderRadius: BorderRadius.circular(16.0),
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        padding: EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 12.0),
+        decoration: BoxDecoration(
+          color: isSelected 
+              ? FlutterFlowTheme.of(context).primary.withOpacity(0.1)
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              color: isSelected
+                  ? FlutterFlowTheme.of(context).primary
+                  : FlutterFlowTheme.of(context).secondaryText,
+              size: 24.0,
+            ),
+            SizedBox(height: 4.0),
+            Text(
+              label,
+              style: TextStyle(
+                color: isSelected
+                    ? FlutterFlowTheme.of(context).primary
+                    : FlutterFlowTheme.of(context).secondaryText,
+                fontSize: 12.0,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final tabs = {
       'Dashboard': DashboardWidget(),
+      'View_plans': ViewPlansWidget(),
       'Services': ServicesWidget(),
       'Profile': ProfileWidget(),
-      'View_plans': ViewPlansWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
@@ -185,120 +235,35 @@ class _NavBarPageState extends State<NavBarPage> {
               .removeViewPadding(removeBottom: true),
           child: _currentPage ?? tabs[_currentPageName]!),
       extendBody: true,
-      bottomNavigationBar: FloatingNavbar(
-        currentIndex: currentIndex,
-        onTap: (i) => safeSetState(() {
-          _currentPage = null;
-          _currentPageName = tabs.keys.toList()[i];
-        }),
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        selectedItemColor: FlutterFlowTheme.of(context).primary,
-        unselectedItemColor: FlutterFlowTheme.of(context).secondaryText,
-        selectedBackgroundColor: Color(0x00000000),
-        borderRadius: 8.0,
-        itemBorderRadius: 8.0,
-        margin: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-        padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-        width: double.infinity,
-        elevation: 0.0,
-        items: [
-          FloatingNavbarItem(
-            customWidget: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: FlutterFlowTheme.of(context).secondaryBackground,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 10.0,
+              color: FlutterFlowTheme.of(context).alternate.withOpacity(0.3),
+              offset: Offset(0.0, -2.0),
+            )
+          ],
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Icon(
-                  Icons.home,
-                  color: currentIndex == 0
-                      ? FlutterFlowTheme.of(context).primary
-                      : FlutterFlowTheme.of(context).secondaryText,
-                  size: 24.0,
-                ),
-                Text(
-                  'Home',
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: currentIndex == 0
-                        ? FlutterFlowTheme.of(context).primary
-                        : FlutterFlowTheme.of(context).secondaryText,
-                    fontSize: 11.0,
-                  ),
-                ),
+                _buildNavItem(context, 0, currentIndex, Icons.home_rounded, 'Home'),
+                _buildNavItem(context, 1, currentIndex, Icons.workspace_premium_rounded, 'Plans'),
+                _buildNavItem(context, 2, currentIndex, Icons.medical_services_rounded, 'Services'),
+                _buildNavItem(context, 3, currentIndex, Icons.person_rounded, 'Profile'),
               ],
             ),
           ),
-          FloatingNavbarItem(
-            customWidget: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.medical_services,
-                  color: currentIndex == 1
-                      ? FlutterFlowTheme.of(context).primary
-                      : FlutterFlowTheme.of(context).secondaryText,
-                ),
-                Text(
-                  'Services',
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: currentIndex == 1
-                        ? FlutterFlowTheme.of(context).primary
-                        : FlutterFlowTheme.of(context).secondaryText,
-                    fontSize: 11.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          FloatingNavbarItem(
-            customWidget: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  currentIndex == 2
-                      ? Icons.person_rounded
-                      : Icons.person_outline_rounded,
-                  color: currentIndex == 2
-                      ? FlutterFlowTheme.of(context).primary
-                      : FlutterFlowTheme.of(context).secondaryText,
-                  size: currentIndex == 2 ? 24.0 : 24.0,
-                ),
-                Text(
-                  'Profile',
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: currentIndex == 2
-                        ? FlutterFlowTheme.of(context).primary
-                        : FlutterFlowTheme.of(context).secondaryText,
-                    fontSize: 11.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          FloatingNavbarItem(
-            customWidget: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.workspace_premium,
-                  color: currentIndex == 3
-                      ? FlutterFlowTheme.of(context).primary
-                      : FlutterFlowTheme.of(context).secondaryText,
-                ),
-                Text(
-                  'Plans',
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: currentIndex == 3
-                        ? FlutterFlowTheme.of(context).primary
-                        : FlutterFlowTheme.of(context).secondaryText,
-                    fontSize: 11.0,
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
+        ),
       ),
     );
   }

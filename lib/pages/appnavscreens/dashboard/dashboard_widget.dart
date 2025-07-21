@@ -27,6 +27,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
   late PageController _testimonialController;
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
+  bool _imagesPreloaded = false;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -34,17 +35,17 @@ class _DashboardWidgetState extends State<DashboardWidget>
   final List<Map<String, String>> testimonials = [
     {
       'text': 'ElderBlissCare has transformed how I care for my aging parents. The emergency response is incredibly fast and reliable.',
-      'name': 'Sarah Johnson',
+      'name': 'Minti',
       'role': 'Daughter & Caregiver'
     },
     {
       'text': 'The peace of mind this service provides is invaluable. I know my mother is safe and has immediate access to help when needed.',
-      'name': 'Michael Chen',
+      'name': 'Bruce Wayne',
       'role': 'Son & Healthcare Professional'
     },
     {
       'text': 'Outstanding service quality and compassionate care. The team treats our family like their own.',
-      'name': 'Elizabeth Rodriguez',
+      'name': 'Elizabeth Oleson',
       'role': 'Family Coordinator'
     },
   ];
@@ -90,25 +91,34 @@ class _DashboardWidgetState extends State<DashboardWidget>
       FFAppState().name = 'userdata.name';
       FFAppState().phonenumber = 'userdata.phone_number';
       safeSetState(() {});
-      
-      // Preload images after widget is built to eliminate lag
-      _preloadImages();
     });
   }
 
-  void _preloadImages() {
-    // Preload all service card images to eliminate loading lag
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Preload images after dependencies are available to avoid inherited widget errors
+    if (!_imagesPreloaded) {
+      _preloadImagesImmediate();
+      _imagesPreloaded = true;
+    }
+  }
+
+  void _preloadImagesImmediate() {
+    // Preload all service card images immediately to eliminate loading lag
     final imageList = [
-      'assets/images/WhatsApp_Image_2025-03-22_at_13.46.23_19615335.jpg',
       'assets/images/IMG_4787.JPG',
+      'assets/images/WhatsApp_Image_2025-03-22_at_13.46.23_19615335.jpg',
       'assets/images/IMG_4796.JPG',
-      'assets/images/lifestyle.png',
+      'assets/images/lifestyle.jpg', // Updated to .jpg
     ];
     
     for (String imagePath in imageList) {
       precacheImage(AssetImage(imagePath), context);
     }
   }
+
+
 
   @override
   void dispose() {
@@ -157,7 +167,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
             ),
             child: Stack(
               children: [
-                // Background Image
+                // Background Image (optimized and preloaded)
                 Positioned.fill(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
@@ -376,7 +386,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'ElderBlissCare',
+                                      'Elder Bliss Care',
                                       style: GoogleFonts.inter(
                                         fontSize: 28,
                                         fontWeight: FontWeight.bold,
@@ -446,12 +456,12 @@ class _DashboardWidgetState extends State<DashboardWidget>
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.06,
-                      vertical: MediaQuery.of(context).size.height * 0.02,
+                      vertical: MediaQuery.of(context).size.height * 0.015,
                     ),
                     child: Container(
                       constraints: BoxConstraints(
-                        minHeight: 80,
-                        maxHeight: 120,
+                        minHeight: 60,
+                        maxHeight: 80,
                       ),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -459,7 +469,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
                             color: Color(0xFFDC2626).withOpacity(0.3),
@@ -476,10 +486,10 @@ class _DashboardWidgetState extends State<DashboardWidget>
                             logFirebaseEvent('Button_navigate_to');
                             context.pushNamed(PanicScreenWidget.routeName);
                           },
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(16),
                           child: Padding(
                             padding: EdgeInsets.symmetric(
-                              vertical: MediaQuery.of(context).size.height * 0.02,
+                              vertical: 16,
                               horizontal: MediaQuery.of(context).size.width * 0.04,
                             ),
                             child: LayoutBuilder(
@@ -499,38 +509,43 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                   children: [
                                     // Emergency Icon Container
                                     Container(
-                                      padding: EdgeInsets.all(isSmallScreen ? 8 : 10),
+                                      padding: EdgeInsets.all(isSmallScreen ? 8 : 12),
                                       decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.25),
+                                        color: Colors.black.withOpacity(0.8),
                                         borderRadius: BorderRadius.circular(isSmallScreen ? 14 : 16),
                                         border: Border.all(
                                           color: Colors.white.withOpacity(0.3),
-                                          width: 2,
+                                          width: 1,
                                         ),
-                                      ),
-                                      child: Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          // Outer ring
-                                          Container(
-                                            width: containerSize,
-                                            height: containerSize,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                color: Colors.white,
-                                                width: 2,
-                                              ),
-                                            ),
-                                          ),
-                                          // Inner alert icon
-                                          Icon(
-                                            Icons.priority_high,
-                                            color: Colors.white,
-                                            size: iconSize,
-                                            weight: 900,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withOpacity(0.2),
+                                            blurRadius: 12,
+                                            offset: Offset(0, 6),
                                           ),
                                         ],
+                                      ),
+                                      child: Container(
+                                        width: containerSize * 1.8,
+                                        height: containerSize * 1.8,
+                                        child: Image.asset(
+                                          'assets/images/PanicButton.png',
+                                          fit: BoxFit.contain,
+                                          errorBuilder: (context, error, stackTrace) {
+                                            // Fallback to icon if image not found
+                                            return Container(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Color(0xFFDC2626).withOpacity(0.1),
+                                              ),
+                                              child: Icon(
+                                                Icons.warning,
+                                                color: Color(0xFFDC2626),
+                                                size: iconSize,
+                                              ),
+                                            );
+                                          },
+                                        ),
                                       ),
                                     ),
                                     
@@ -668,7 +683,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                             ),
                             _buildServiceCard(
                               title: 'Lifestyle',
-                              image: 'assets/images/lifestyle.png',
+                              image: 'assets/images/lifestyle.jpg', // Updated to .jpg
                               primaryColor: Color(0xFFEA580C),
                               secondaryColor: Color(0xFFF97316),
                               onTap: () async {
@@ -775,3 +790,4 @@ class _DashboardWidgetState extends State<DashboardWidget>
     );
   }
 }
+

@@ -34,8 +34,197 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
   @override
   void dispose() {
     _model.dispose();
-
     super.dispose();
+  }
+
+  Widget _buildLifestyleCard({
+    required String title,
+    required String description,
+    required List<String> activities,
+    required IconData icon,
+    required Color primaryColor,
+    required Color backgroundColor,
+    bool isEmphasized = false,
+  }) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 20),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: primaryColor.withOpacity(isEmphasized ? 0.3 : 0.2),
+          width: isEmphasized ? 2 : 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(isEmphasized ? 0.1 : 0.05),
+            blurRadius: isEmphasized ? 15 : 10,
+            offset: Offset(0, isEmphasized ? 8 : 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header Section
+          Container(
+            padding: EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: isEmphasized ? primaryColor.withOpacity(0.1) : Colors.transparent,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
+              ),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: primaryColor.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    icon,
+                    color: primaryColor,
+                    size: 24,
+                  ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: GoogleFonts.inter(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1F2937),
+                        ),
+                        overflow: TextOverflow.visible,
+                        softWrap: true,
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        description,
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          color: Color(0xFF6B7280),
+                          height: 1.4,
+                        ),
+                        overflow: TextOverflow.visible,
+                        softWrap: true,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Activities List
+          Padding(
+            padding: EdgeInsets.fromLTRB(24, 0, 24, 24),
+            child: Column(
+              children: activities.map((activity) => Container(
+                margin: EdgeInsets.only(bottom: 12),
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: primaryColor.withOpacity(0.1),
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        activity,
+                        style: GoogleFonts.inter(
+                          fontSize: 15,
+                          color: Color(0xFF374151),
+                          height: 1.4,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )).toList(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWellnessMetric({
+    required String value,
+    required String label,
+    required String description,
+    required IconData icon,
+    required Color color,
+  }) {
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: color.withOpacity(0.2),
+            width: 1,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              icon,
+              color: color,
+              size: 28,
+            ),
+            SizedBox(height: 12),
+            Text(
+              value,
+              style: GoogleFonts.inter(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF1F2937),
+              ),
+            ),
+            SizedBox(height: 4),
+            Text(
+              label,
+              style: GoogleFonts.inter(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: color,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              description,
+              style: GoogleFonts.inter(
+                fontSize: 12,
+                color: Color(0xFF6B7280),
+                height: 1.3,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -47,624 +236,132 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        body: SafeArea(
-          top: true,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Flex(
-              direction: Axis.vertical,
-              mainAxisSize: MainAxisSize.max,
+        backgroundColor: Color(0xFFF8FAFC),
+        body: SingleChildScrollView(
+          child: Column(
               children: [
-                Column(
-                  mainAxisSize: MainAxisSize.max,
+              // Hero Section
+              Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.5,
+                child: Stack(
                   children: [
-                    InkWell(
-                      splashColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () async {
-                        logFirebaseEvent(
-                            'LIFESTYLE_BOG_Container_nchrjf8s_ON_TAP');
-                        logFirebaseEvent('customAppbar_navigate_to');
-
-                        context.pushNamed(DashboardWidget.routeName);
-                      },
-                      child: wrapWithModel(
-                        model: _model.customAppbarModel,
-                        updateCallback: () => safeSetState(() {}),
-                        child: CustomAppbarWidget(
-                          backButton: false,
-                          actionButton: false,
-                          optionsButton: false,
-                          actionButtonAction: () async {},
-                          optionsButtonAction: () async {},
+                    // Background Image
+                    Positioned.fill(
+                      child: Image.asset(
+                        'assets/images/lifestyle.jpg',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    // Gradient Overlay
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.black.withOpacity(0.3),
+                              Colors.black.withOpacity(0.7),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    SingleChildScrollView(
-                      primary: false,
+                    // Back Button
+                    Positioned(
+                      top: MediaQuery.of(context).padding.top + 16,
+                      left: 16,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                        context.pushNamed(DashboardWidget.routeName);
+                      },
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Wellness Badge
+                    Positioned(
+                      top: MediaQuery.of(context).padding.top + 16,
+                      right: 16,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: Color(0xFFEA580C),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.self_improvement,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            SizedBox(width: 4),
+                            Text(
+                              'Wellness',
+                              style: GoogleFonts.inter(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // Content
+                    Positioned(
+                      bottom: 40,
+                      left: 24,
+                      right: 24,
                       child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            width: MediaQuery.sizeOf(context).width * 1.0,
-                            height: 300.0,
-                            child: Image.asset(
-                              'assets/images/lifestyle.png',
-                              width: MediaQuery.sizeOf(context).width * 1.0,
-                              height: MediaQuery.sizeOf(context).height * 1.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.sizeOf(context).width * 1.0,
+                            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
+                              color: Color(0xFFEA580C),
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  24.0, 24.0, 24.0, 24.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Text(
+                            child: Text(
                                     'Lifestyle',
-                                    style: FlutterFlowTheme.of(context)
-                                        .displaySmall
-                                        .override(
-                                          font: GoogleFonts.sora(
+                              style: GoogleFonts.inter(
+                                fontSize: 14,
                                             fontWeight: FontWeight.w600,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .displaySmall
-                                                    .fontStyle,
-                                          ),
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w600,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .displaySmall
-                                                  .fontStyle,
-                                        ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Lifestyle changes can significantly improve the aging process, enabling older adults to enjoy better physical health, mental clarity, and emotional well-being. Aging gracefully isn’t just about genetics—it’s also about adopting habits that promote a vibrant and fulfilling life. Here’s how lifestyle adjustments can positively impact aging:',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
+                                color: Colors.white,
                                           ),
                                     ),
                                   ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Enhanced Physical Health',
-                                      style: FlutterFlowTheme.of(context)
-                                          .headlineSmall
-                                          .override(
-                                            font: GoogleFonts.sora(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmall
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmall
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineSmall
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineSmall
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Balanced Nutrition:\nEating a diet rich in fruits, vegetables, whole grains, lean proteins, and healthy fats can reduce the risk of chronic diseases like diabetes, heart disease, and osteoporosis.\nNutrient-rich foods provide the energy and vitamins needed to maintain vitality and support the immune system.\nRegular Exercise:\nActivities like walking, swimming, yoga, or strength training improve mobility, balance, and muscle strength, reducing the risk of falls.\nExercise enhances cardiovascular health, boosts metabolism, and promotes longevity.\nAdequate Sleep:\nPrioritizing 7-8 hours of restful sleep supports cognitive function, mood stability, and physical repair processes.\nProper sleep reduces the risk of conditions like depression, obesity, and heart disease.',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyLarge
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyLarge
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyLarge
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyLarge
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyLarge
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Improved Mental and Cognitive Health',
-                                      textAlign: TextAlign.start,
-                                      style: FlutterFlowTheme.of(context)
-                                          .headlineSmall
-                                          .override(
-                                            font: GoogleFonts.sora(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmall
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmall
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineSmall
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineSmall
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Mental Stimulation:\nEngaging in activities like puzzles, reading, learning new skills, or playing musical instruments keeps the brain sharp and reduces the risk of cognitive decline.\nLifelong learning fosters curiosity and adaptability, essential traits for successful aging.\nMindfulness and Stress Management:\nPractices like meditation, yoga, and deep breathing reduce stress, which is linked to accelerated aging and numerous health issues.\nCultivating a positive mindset and emotional resilience can improve overall mental health.\nSocial Engagement:\nMaintaining connections with friends, family, and community combats loneliness and enhances emotional well-being.\nParticipation in group activities, volunteering, or hobby clubs can create a sense of purpose and belonging.',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Increased Longevity',
-                                      style: FlutterFlowTheme.of(context)
-                                          .headlineSmall
-                                          .override(
-                                            font: GoogleFonts.sora(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmall
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmall
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineSmall
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineSmall
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Avoiding Harmful Habits:\nQuitting smoking and limiting alcohol consumption greatly reduce the risk of cancer, liver disease, and other age-related conditions.\nPreventive Healthcare:\nRegular check-ups, vaccinations, and screenings help catch potential health issues early, increasing the chances of effective treatment.\nMonitoring chronic conditions such as hypertension or diabetes keeps complications at bay.',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Greater Emotional Well-Being',
-                                      style: FlutterFlowTheme.of(context)
-                                          .headlineSmall
-                                          .override(
-                                            font: GoogleFonts.sora(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmall
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmall
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineSmall
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineSmall
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Pursuing Passions:\nEngaging in hobbies and activities that bring joy contributes to a sense of fulfillment and reduces stress.\nCreative outlets like painting, gardening, or writing can be therapeutic and enhance quality of life.\nGratitude and Positivity:\nPracticing gratitude helps shift focus from challenges to blessings, creating a more optimistic outlook on life.\nPositive relationships and shared experiences enrich emotional health.',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Better Mobility and Independence',
-                                      style: FlutterFlowTheme.of(context)
-                                          .headlineSmall
-                                          .override(
-                                            font: GoogleFonts.sora(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmall
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmall
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineSmall
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineSmall
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Ergonomic Living Spaces:\nAdapting homes for accessibility, such as installing grab bars or decluttering, reduces hazards and supports independence.\nStaying Active:\nPhysical activities tailored to abilities maintain flexibility and reduce stiffness, enabling seniors to perform daily tasks with ease.',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Environmental Adaptations',
-                                      textAlign: TextAlign.start,
-                                      style: FlutterFlowTheme.of(context)
-                                          .headlineSmall
-                                          .override(
-                                            font: GoogleFonts.sora(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmall
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmall
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineSmall
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineSmall
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Connection to Nature:\nSpending time outdoors in natural settings promotes relaxation, reduces stress, and boosts vitamin D levels for bone health.\nSustainable Living:\nMinimalist and eco-conscious choices encourage simplicity and mental clarity, reducing clutter and creating a harmonious living space.',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Holistic Approach to Wellness',
-                                      style: FlutterFlowTheme.of(context)
-                                          .headlineSmall
-                                          .override(
-                                            font: GoogleFonts.sora(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmall
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmall
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineSmall
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineSmall
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Spiritual Growth:\nPractices like meditation, prayer, or attending spiritual gatherings offer inner peace and a sense of purpose.\nComplementary Therapies:\nIncorporating therapies like acupuncture, aromatherapy, or massage supports physical and emotional well-being.',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Summary',
-                                      style: FlutterFlowTheme.of(context)
-                                          .headlineSmall
-                                          .override(
-                                            font: GoogleFonts.sora(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmall
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmall
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineSmall
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineSmall
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                    child: Text(
-                                      'Lifestyle changes can transform the aging process from merely surviving to truly thriving. By adopting healthier habits, staying socially connected, and focusing on mental and physical wellness, older adults can enjoy a higher quality of life, maintain their independence, and age with dignity and grace. These changes empower seniors to embrace aging as a rewarding journey filled with opportunities for growth and joy.',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                ].divide(SizedBox(height: 24.0)),
-                              ),
+                          SizedBox(height: 12),
+                                                    Text(
+                            'Active Living &\nWellness Journey',
+                            style: GoogleFonts.inter(
+                              fontSize: MediaQuery.of(context).size.width > 400 ? 32 : 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              height: 1.2,
+                            ),
+                            overflow: TextOverflow.visible,
+                            softWrap: true,
+                          ),
+                          SizedBox(height: 12),
+                          Text(
+                            'Embrace an enriching lifestyle with activities, social connections, and wellness practices designed for senior vitality',
+                            style: GoogleFonts.inter(
+                              fontSize: 16,
+                              color: Colors.white.withOpacity(0.9),
+                              height: 1.5,
                             ),
                           ),
                         ],
@@ -672,10 +369,374 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                     ),
                   ],
                 ),
+              ),
+
+              // Content Section
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                                        // Wellness Metrics
+                    Row(
+                      children: [
+                        _buildWellnessMetric(
+                          value: '78%',
+                          label: 'Happiness Boost',
+                          description: 'Increased life satisfaction through active lifestyle',
+                          icon: Icons.mood,
+                          color: Color(0xFFEA580C),
+                        ),
+                        SizedBox(width: 12),
+                        _buildWellnessMetric(
+                          value: '65%',
+                          label: 'Social Connections',
+                          description: 'More meaningful relationships and community engagement',
+                          icon: Icons.people,
+                          color: Color(0xFF10B981),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(height: 32),
+
+                    // Introduction
+                    Container(
+                      padding: EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: Offset(0, 4),
+                                          ),
+                        ],
+                                  ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.favorite,
+                                color: Color(0xFFEA580C),
+                                size: 28,
+                              ),
+                              SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  'Enriching Senior Lifestyle',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF1F2937),
+                                  ),
+                                  overflow: TextOverflow.visible,
+                                  softWrap: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 16),
+                          Text(
+                            'A fulfilling lifestyle in senior years encompasses physical wellness, social engagement, personal growth, and meaningful activities that bring joy and purpose to daily life.',
+                            style: GoogleFonts.inter(
+                              fontSize: 16,
+                              color: Color(0xFF4B5563),
+                              height: 1.6,
+                            ),
+                          ),
+                        ],
+                                    ),
+                                  ),
+
+                    SizedBox(height: 32),
+
+                    // Lifestyle Categories
+                    Text(
+                      'Wellness & Lifestyle Activities',
+                      style: GoogleFonts.inter(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1F2937),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+
+                    _buildLifestyleCard(
+                      title: 'Physical Wellness & Activity',
+                      description: 'Maintaining physical health through gentle exercise and movement',
+                      activities: [
+                        'Daily walking routines and nature exploration',
+                        'Chair yoga and gentle stretching exercises',
+                        'Swimming and water aerobics programs',
+                        'Gardening and outdoor activities',
+                        'Balance and fall prevention exercises'
+                      ],
+                      icon: Icons.fitness_center,
+                      primaryColor: Color(0xFFEA580C),
+                      backgroundColor: Color(0xFFFFF7ED),
+                      isEmphasized: true,
+                                            ),
+
+                    _buildLifestyleCard(
+                      title: 'Social Engagement & Community',
+                      description: 'Building connections and maintaining meaningful relationships',
+                      activities: [
+                        'Senior center activities and group gatherings',
+                        'Book clubs and discussion groups',
+                        'Volunteer work and community service',
+                        'Intergenerational programs with youth',
+                        'Cultural events and local excursions'
+                      ],
+                      icon: Icons.groups,
+                      primaryColor: Color(0xFF10B981),
+                      backgroundColor: Color(0xFFF0FDF4),
+                                          ),
+
+                    _buildLifestyleCard(
+                      title: 'Creative Expression & Hobbies',
+                      description: 'Exploring creativity and pursuing personal interests',
+                      activities: [
+                        'Art classes and painting workshops',
+                        'Music therapy and instrument learning',
+                        'Photography and digital storytelling',
+                        'Crafting and handwork projects',
+                        'Writing memoirs and life stories'
+                      ],
+                      icon: Icons.palette,
+                      primaryColor: Color(0xFF8B5CF6),
+                      backgroundColor: Color(0xFFF5F3FF),
+                    ),
+
+                    _buildLifestyleCard(
+                      title: 'Mental Stimulation & Learning',
+                      description: 'Keeping the mind active through continuous learning',
+                      activities: [
+                        'Brain games and puzzle solving',
+                        'Language learning and communication',
+                        'Technology classes and digital literacy',
+                        'History and cultural education programs',
+                        'Memory exercises and cognitive training'
+                      ],
+                      icon: Icons.psychology,
+                      primaryColor: Color(0xFF3B82F6),
+                      backgroundColor: Color(0xFFF0F9FF),
+                    ),
+
+                    // Lifestyle Benefits Highlight
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(24),
+                      margin: EdgeInsets.symmetric(vertical: 20),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(0xFFEA580C).withOpacity(0.1),
+                            Color(0xFFF97316).withOpacity(0.1),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: Color(0xFFEA580C).withOpacity(0.2),
+                          width: 1,
+                                    ),
+                                  ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.celebration,
+                                color: Color(0xFFEA580C),
+                                size: 28,
+                              ),
+                              SizedBox(width: 12),
+                              Text(
+                                'Life Enrichment Benefits',
+                                style: GoogleFonts.inter(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF1F2937),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          GridView.count(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 12,
+                            childAspectRatio: MediaQuery.of(context).size.width > 400 ? 2.5 : 2.0,
+                            children: [
+                              _buildBenefitItem('Enhanced Mood', 'Positive outlook and emotional well-being', Icons.sentiment_very_satisfied),
+                              _buildBenefitItem('Improved Sleep', 'Better rest and sleep quality', Icons.bedtime),
+                              _buildBenefitItem('Stronger Immunity', 'Enhanced resistance to illness', Icons.shield),
+                              _buildBenefitItem('Cognitive Health', 'Maintained mental sharpness', Icons.memory),
+                            ],
+                                          ),
+                        ],
+                                    ),
+                                  ),
+
+                    SizedBox(height: 32),
+
+                    // Key Takeaways Card
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(0xFFEA580C),
+                            Color(0xFFF97316),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xFFEA580C).withOpacity(0.3),
+                            blurRadius: 20,
+                            offset: Offset(0, 8),
+                                    ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(8),
+                                            ),
+                                child: Icon(
+                                  Icons.auto_awesome,
+                                  color: Colors.white,
+                                  size: 24,
+                                          ),
+                                    ),
+                              SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  'Lifestyle Enhancement Keys',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                  overflow: TextOverflow.visible,
+                                  softWrap: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          _buildTakeawayPoint('Active engagement in diverse activities promotes overall well-being'),
+                          _buildTakeawayPoint('Social connections are essential for emotional and mental health'),
+                          _buildTakeawayPoint('Continuous learning keeps the mind sharp and engaged'),
+                          _buildTakeawayPoint('Creative expression brings joy and personal fulfillment'),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 40),
+                  ],
+                ),
+                ),
               ],
-            ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildBenefitItem(String title, String description, IconData icon) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Color(0xFFEA580C).withOpacity(0.1),
+          width: 1,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            icon,
+            color: Color(0xFFEA580C),
+            size: 20,
+          ),
+          SizedBox(height: 8),
+          Text(
+            title,
+            style: GoogleFonts.inter(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1F2937),
+            ),
+            overflow: TextOverflow.visible,
+            softWrap: true,
+          ),
+          SizedBox(height: 4),
+          Expanded(
+            child: Text(
+              description,
+              style: GoogleFonts.inter(
+                fontSize: 12,
+                color: Color(0xFF6B7280),
+                height: 1.3,
+              ),
+              overflow: TextOverflow.visible,
+              softWrap: true,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTakeawayPoint(String text) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 6, right: 12),
+            width: 6,
+            height: 6,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              text,
+              style: GoogleFonts.inter(
+                fontSize: 16,
+                color: Colors.white,
+                height: 1.5,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -170,19 +170,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  logFirebaseEvent(
-                                      'SERVICES_PAGE_Container_dx9y3b9m_ON_TAP');
-                                  logFirebaseEvent('Container_navigate_to');
-
-                                  context.pushNamed(
-                                      EmergencyservicesWidget.routeName);
-                                },
+                              Container(
                                 child: Material(
                                   color: Colors.transparent,
                                   elevation: 4.0,
@@ -297,19 +285,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                   ),
                                 ),
                               ),
-                              InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  logFirebaseEvent(
-                                      'SERVICES_PAGE_Container_oe8xq16v_ON_TAP');
-                                  logFirebaseEvent('Container_navigate_to');
-
-                                  context
-                                      .pushNamed(MedicalSetupWidget.routeName);
-                                },
+                              Container(
                                 child: Material(
                                   color: Colors.transparent,
                                   elevation: 4.0,
@@ -424,19 +400,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                   ),
                                 ),
                               ),
-                              InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  logFirebaseEvent(
-                                      'SERVICES_PAGE_Container_5al46zt7_ON_TAP');
-                                  logFirebaseEvent('Container_navigate_to');
-
-                                  context.pushNamed(
-                                      MedicalEquipmentWidget.routeName);
-                                },
+                              Container(
                                 child: Material(
                                   color: Colors.transparent,
                                   elevation: 4.0,
@@ -551,19 +515,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                   ),
                                 ),
                               ),
-                              InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  logFirebaseEvent(
-                                      'SERVICES_PAGE_Container_b6bd7su4_ON_TAP');
-                                  logFirebaseEvent('Container_navigate_to');
-
-                                  context.pushNamed(
-                                      HomecareServicesWidget.routeName);
-                                },
+                              Container(
                                 child: Material(
                                   color: Colors.transparent,
                                   elevation: 4.0,
@@ -678,19 +630,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                   ),
                                 ),
                               ),
-                              InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  logFirebaseEvent(
-                                      'SERVICES_PAGE_Container_0mdatg4h_ON_TAP');
-                                  logFirebaseEvent('Container_navigate_to');
-
-                                  context.pushNamed(
-                                      SafetyServicesWidget.routeName);
-                                },
+                              Container(
                                 child: Material(
                                   color: Colors.transparent,
                                   elevation: 4.0,

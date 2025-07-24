@@ -31,22 +31,32 @@ class _DashboardWidgetState extends State<DashboardWidget>
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // Testimonials data
+  // Testimonials data - NEWLY UPDATED
   final List<Map<String, String>> testimonials = [
     {
-      'text': 'ElderBlissCare has transformed how I care for my aging parents. The emergency response is incredibly fast and reliable.',
-      'name': 'Minti',
-      'role': 'Daughter & Caregiver'
+      'text': 'When my mother needed a doctor late at night, ElderBliss Care came through without delay. The doctor arrived quickly, was calm and reassuring, and took great care of her. I truly appreciate their dependable service during such a tense moment.',
+      'name': 'Antionette Martin',
+      'role': 'Jungpura, South Delhi • Doctor Visit'
     },
     {
-      'text': 'The peace of mind this service provides is invaluable. I know my mother is safe and has immediate access to help when needed.',
-      'name': 'Bruce Wayne',
-      'role': 'Son & Healthcare Professional'
+      'text': 'The nursing support from ElderBliss has been excellent. The nurse is not only skilled but also kind and respectful. It’s reassuring to have someone so dependable looking after my health at home.',
+      'name': 'V C Abraham',
+      'role': 'Kalkaji, South Delhi • Nursing at home'
     },
     {
-      'text': 'Outstanding service quality and compassionate care. The team treats our family like their own.',
-      'name': 'Elizabeth Oleson',
-      'role': 'Family Coordinator'
+      'text': 'We needed urgent help for my father late at night, and ElderBliss Care arranged an attendant within hours. The caregiver was calm, skilled, and handled everything with great care. Truly grateful for their prompt and reliable support during a critical time.',
+      'name': 'Geetanjali Shabi',
+      'role': 'Faridabad • Caregiver Services (Attendant)'
+    },
+    {
+      'text': 'ElderBliss Care truly came through when my father needed medical attention early in the morning. They quickly arranged a doctor visit and diagnostics at home, making the whole process smooth and stress-free. Their prompt and caring service made all the difference.',
+      'name': 'Nitish Arun',
+      'role': 'Munirka, Delhi • Emergency Doctor Visit'
+    },
+    {
+      'text': 'ElderBlissCare has been a great support for us. The attendant assigned to my mother is caring, patient and treats her like family. We feel so much more at peace knowing Mom’s in good hands.',
+      'name': 'Aditya Mota',
+      'role': 'Greater Noida • Caregiver Services (Attendant)'
     },
   ];
 
@@ -117,8 +127,6 @@ class _DashboardWidgetState extends State<DashboardWidget>
       precacheImage(AssetImage(imagePath), context);
     }
   }
-
-
 
   @override
   void dispose() {
@@ -262,8 +270,9 @@ class _DashboardWidgetState extends State<DashboardWidget>
 
   Widget _buildTestimonialCard(Map<String, String> testimonial) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8),
-      padding: EdgeInsets.all(24),
+      // Adjusted padding and margin for better fit
+      margin: EdgeInsets.symmetric(horizontal: 12), // Slightly more horizontal margin
+      padding: EdgeInsets.fromLTRB(20, 20, 20, 16), // Top/bottom slightly less, sides for content
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -280,26 +289,32 @@ class _DashboardWidgetState extends State<DashboardWidget>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            // Added padding for the stars to align with text
             children: List.generate(
               5,
               (index) => Icon(
-                Icons.star,
-                color: Color(0xFFFFD700),
+                Icons.star_rounded, // Using filled star for consistent look
+                color: Color(0xFFFFD700), // Gold color for stars
                 size: 20,
               ),
             ),
           ),
-          SizedBox(height: 16),
-          Text(
-            '"${testimonial['text']}"',
-            style: GoogleFonts.inter(
-              fontSize: 14,
-              color: Color(0xFF374151),
-              height: 1.5,
-              fontStyle: FontStyle.italic,
+          SizedBox(height: 12), // Reduced spacing slightly
+          Expanded( // Use Expanded to allow text to take available space
+            child: SingleChildScrollView( // Allow text to scroll if it's very long
+              child: Text(
+                '"${testimonial['text']}"',
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  color: Color(0xFF374151),
+                  height: 1.5,
+                  fontStyle: FontStyle.italic,
+                ),
+                overflow: TextOverflow.fade, // Fade out long text instead of ellipsis
+              ),
             ),
           ),
-          SizedBox(height: 16),
+          SizedBox(height: 12), // Reduced spacing slightly
           Row(
             children: [
               CircleAvatar(
@@ -323,6 +338,8 @@ class _DashboardWidgetState extends State<DashboardWidget>
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF1F2937),
                       ),
+                      overflow: TextOverflow.ellipsis, // Ensure name fits
+                      maxLines: 1,
                     ),
                     Text(
                       testimonial['role']!,
@@ -330,6 +347,8 @@ class _DashboardWidgetState extends State<DashboardWidget>
                         fontSize: 12,
                         color: Color(0xFF6B7280),
                       ),
+                      overflow: TextOverflow.ellipsis, // Ensure role fits
+                      maxLines: 1,
                     ),
                   ],
                 ),
@@ -749,7 +768,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                         ),
                         SizedBox(height: 24),
                         Container(
-                          height: 200,
+                          height: 250, // Increased height to accommodate more text
                           child: PageView.builder(
                             controller: _testimonialController,
                             itemCount: testimonials.length,
@@ -790,4 +809,3 @@ class _DashboardWidgetState extends State<DashboardWidget>
     );
   }
 }
-

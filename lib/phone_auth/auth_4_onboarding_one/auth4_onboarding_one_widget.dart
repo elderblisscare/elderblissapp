@@ -1,4 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -1227,9 +1228,63 @@ class _Auth4OnboardingOneWidgetState extends State<Auth4OnboardingOneWidget>
                                     !_model.formKey.currentState!.validate()) {
                                   return;
                                 }
-                                // controlPageView
-                                logFirebaseEvent('Button_controlPageView');
-
+                                
+                                // Save user name to both Firebase Auth and Firestore
+                                logFirebaseEvent('Button_backend_call');
+                                final userName = _model.yourNameTextController.text.trim();
+                                
+                                // Update Firebase Auth displayName
+                                if (FirebaseAuth.instance.currentUser != null) {
+                                  await FirebaseAuth.instance.currentUser!.updateDisplayName(userName);
+                                }
+                                
+                                // Update Firestore user document
+                                await currentUserReference!.update(createUsersRecordData(
+                                  displayName: userName,
+                                ));
+                                
+                                // Update app state
+                                FFAppState().name = userName;
+                                
+                                logFirebaseEvent('Button_show_snack_bar');
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Your profile has been completed!',
+                                      style: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .override(
+                                            font: GoogleFonts.inter(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .fontStyle,
+                                            ),
+                                            color: FlutterFlowTheme.of(context)
+                                                .info,
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontStyle,
+                                          ),
+                                    ),
+                                    duration: Duration(milliseconds: 4000),
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context).primary,
+                                  ),
+                                );
+                                
+                                // Navigate to dashboard
+                                logFirebaseEvent('Button_navigate_to');
                                 context.pushNamed(DashboardWidget.routeName);
                               } else {
                                 logFirebaseEvent('Button_backend_call');

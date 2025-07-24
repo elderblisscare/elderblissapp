@@ -569,20 +569,34 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                             ],
                           ),
                           SizedBox(height: 20),
-                          GridView.count(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12,
-                            childAspectRatio: MediaQuery.of(context).size.width > 400 ? 2.5 : 2.0,
-                            children: [
-                              _buildBenefitItem('Enhanced Mood', 'Positive outlook and emotional well-being', Icons.sentiment_very_satisfied),
-                              _buildBenefitItem('Improved Sleep', 'Better rest and sleep quality', Icons.bedtime),
-                              _buildBenefitItem('Stronger Immunity', 'Enhanced resistance to illness', Icons.shield),
-                              _buildBenefitItem('Cognitive Health', 'Maintained mental sharpness', Icons.memory),
-                            ],
-                                          ),
+                          LayoutBuilder( // Use LayoutBuilder to get constraints
+                            builder: (context, constraints) {
+                              // Calculate dynamic childAspectRatio based on available width
+                              // This will give more height for text on smaller screens
+                              double aspectRatio = (constraints.maxWidth - (12 * 3)) / 2 / 100; // Adjust 100 as needed
+                              // You might need to fine-tune the 100 based on your desired height
+                              if (constraints.maxWidth < 600) { // Example for smaller screens
+                                aspectRatio = (constraints.maxWidth - (12 * 3)) / 2 / 120; // Increase height
+                              }
+                              // A more robust approach might involve fixed heights for items and using Wrap
+                              // if exact two-column layout isn't critical on very small screens.
+                              
+                              return GridView.count(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 12,
+                                mainAxisSpacing: 12,
+                                childAspectRatio: aspectRatio, // Dynamic aspect ratio
+                                children: [
+                                  _buildBenefitItem('Enhanced Mood', 'Positive outlook and emotional well-being', Icons.sentiment_very_satisfied),
+                                  _buildBenefitItem('Improved Sleep', 'Better rest and sleep quality', Icons.bedtime),
+                                  _buildBenefitItem('Stronger Immunity', 'Enhanced resistance to illness', Icons.shield),
+                                  _buildBenefitItem('Cognitive Health', 'Maintained mental sharpness', Icons.memory),
+                                ],
+                              );
+                            }
+                          ),
                         ],
                                     ),
                                   ),
@@ -690,11 +704,13 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
               fontWeight: FontWeight.bold,
               color: Color(0xFF1F2937),
             ),
-            overflow: TextOverflow.visible,
-            softWrap: true,
+            // Allow title to wrap if needed
+            maxLines: 2, // Allow up to 2 lines
+            overflow: TextOverflow.ellipsis, // Use ellipsis if still overflows
           ),
           SizedBox(height: 4),
-          Expanded(
+          // Using Flexible instead of Expanded for better control in some cases
+          Flexible( 
             child: Text(
               description,
               style: GoogleFonts.inter(
@@ -702,8 +718,9 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                 color: Color(0xFF6B7280),
                 height: 1.3,
               ),
-              overflow: TextOverflow.visible,
-              softWrap: true,
+              // Ensure text wraps and shows ellipsis if it exceeds available space
+              maxLines: 3, // Allow more lines for the description
+              overflow: TextOverflow.ellipsis, // Add ellipsis for overflow
             ),
           ),
         ],

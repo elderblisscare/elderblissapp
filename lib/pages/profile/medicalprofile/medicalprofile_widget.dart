@@ -1,5 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -684,8 +685,20 @@ class _MedicalprofileWidgetState extends State<MedicalprofileWidget> {
                              logFirebaseEvent('MEDICALPROFILE_SAVE_INFORMATION_BTN_ON_T');
                              logFirebaseEvent('Button_backend_call');
                              
+                             final userName = _model.textController1.text.trim();
+                             
+                             // Update Firebase Auth displayName if name changed
+                             if (userName != currentUserDisplayName && userName.isNotEmpty) {
+                               if (FirebaseAuth.instance.currentUser != null) {
+                                 await FirebaseAuth.instance.currentUser!.updateDisplayName(userName);
+                               }
+                               // Update app state
+                               FFAppState().name = userName;
+                             }
+                             
+                             // Update Firestore user document
                              await currentUserReference!.update(createUsersRecordData(
-                               displayName: _model.textController1.text,
+                               displayName: userName,
                                bloodGroup: _model.choiceChipsValue,
                                medicalCondition: _model.textController2.text,
                                drugAllergy: _model.textController3.text,

@@ -1,3 +1,5 @@
+import 'package:google_fonts/google_fonts.dart';
+
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -6,7 +8,6 @@ import '/index.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'dashboard_model.dart';
 export 'dashboard_model.dart';
@@ -74,10 +75,10 @@ class _DashboardWidgetState extends State<DashboardWidget>
     );
 
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'Dashboard'});
-    
+
     // Start fade animation
     _fadeController.forward();
-    
+
     // Auto-scroll testimonials
     Timer.periodic(Duration(seconds: 5), (timer) {
       if (_testimonialController.hasClients) {
@@ -122,7 +123,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
       'assets/images/IMG_4796.JPG',
       'assets/images/lifestyle.jpg', // Updated to .jpg
     ];
-    
+
     for (String imagePath in imageList) {
       precacheImage(AssetImage(imagePath), context);
     }
@@ -396,74 +397,107 @@ class _DashboardWidgetState extends State<DashboardWidget>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Top Row
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Elder Bliss Care',
-                                      style: GoogleFonts.inter(
-                                        fontSize: 28,
-                                        fontWeight: FontWeight.bold,
+                          // Top Row with Image and Text
+                          IntrinsicHeight( // Ensures children within this row have the same height
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // NEWLY ADDED IMAGE CONTAINER (for favicon.png)
+                                // This container wraps the image to control its padding and potentially its size.
+                                Container(
+                                  // No specific background color is set; it will be transparent by default.
+                                  // Add horizontal padding to create space between the logo and the text.
+                                  padding: EdgeInsets.only(right: 11),
+                                  child: Image.asset(
+                                    'assets/images/favicon.png',
+                                    // BoxFit.contain: Scales the image down to fit within its container
+                                    // while preserving its aspect ratio. It ensures the entire image is visible.
+                                    // If the image is still too large or small, consider:
+                                    // 1. Adjusting the 'height' property here directly.
+                                    // 2. Adjusting the intrinsic size of the 'favicon.png' asset itself.
+                                    // 3. Using a SizedBox around the Image.asset for explicit dimensions.
+                                    fit: BoxFit.contain,
+                                    // You can explicitly set a height for the image if 'IntrinsicHeight'
+                                    // doesn't yield the desired result or if the image aspect ratio
+                                    // causes too much empty space.
+                                    height: 40, // Example: Set a fixed height. Adjust this value as needed.
+                                    // width: 30, // You can also set a width, or rely on 'fit' to adjust.
+                                    errorBuilder: (context, error, stackTrace) {
+                                      // Fallback for when the image asset cannot be loaded.
+                                      return Icon(
+                                        Icons.error, // Display a generic error icon
                                         color: Colors.white,
-                                        letterSpacing: -0.5,
-                                      ),
-                                    ),
-                                    SizedBox(height: 4),
-                                    RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: 'Welcome back, ',
-                                            style: GoogleFonts.inter(
-                                              fontSize: 16,
-                                              color: Colors.white.withOpacity(0.9),
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: currentUserDisplayName.isNotEmpty 
-                                                ? currentUserDisplayName 
-                                                : 'User',
-                                            style: GoogleFonts.inter(
-                                              fontSize: 16,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    color: Colors.white.withOpacity(0.3),
-                                    width: 1,
+                                        size: 45,
+                                      );
+                                    },
                                   ),
                                 ),
-                                child: IconButton(
-                                  onPressed: () async {
-                                    logFirebaseEvent('DASHBOARD_PAGE_HELP_BTN_ON_TAP');
-                                    logFirebaseEvent('Button_navigate_to');
-                                    context.pushNamed(ContactusWidget.routeName);
-                                  },
-                                  icon: Icon(
-                                    Icons.help_outline,
-                                    color: Colors.white,
-                                    size: 24,
+                                Expanded( // Existing Expanded for text content (takes remaining space)
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Elder Bliss Care',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          letterSpacing: -0.5,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: 'Welcome back, ',
+                                              style: GoogleFonts.inter(
+                                                fontSize: 16,
+                                                color: Colors.white.withOpacity(0.9),
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: currentUserDisplayName.isNotEmpty
+                                                  ? currentUserDisplayName
+                                                  : 'User',
+                                              style: GoogleFonts.inter(
+                                                fontSize: 16,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ),
-                            ],
+                                // Existing Help Button Container (on the right side)
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: Colors.white.withOpacity(0.3),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: IconButton(
+                                    onPressed: () async {
+                                      logFirebaseEvent('DASHBOARD_PAGE_HELP_BTN_ON_TAP');
+                                      logFirebaseEvent('Button_navigate_to');
+                                      context.pushNamed(ContactusWidget.routeName);
+                                    },
+                                    icon: Icon(
+                                      Icons.help_outline,
+                                      color: Colors.white,
+                                      size: 24,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -516,14 +550,14 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                 final screenWidth = MediaQuery.of(context).size.width;
                                 final isSmallScreen = screenWidth < 400;
                                 final isMediumScreen = screenWidth < 600;
-                                
+
                                 // Responsive font sizes
                                 final titleFontSize = isSmallScreen ? 16.0 : isMediumScreen ? 17.0 : 18.0;
                                 final subtitleFontSize = isSmallScreen ? 12.0 : isMediumScreen ? 13.0 : 14.0;
                                 final iconSize = isSmallScreen ? 20.0 : isMediumScreen ? 22.0 : 24.0;
                                 final containerSize = isSmallScreen ? 28.0 : isMediumScreen ? 30.0 : 32.0;
                                 final spacing = isSmallScreen ? 12.0 : 16.0;
-                                
+
                                 return Row(
                                   children: [
                                     // Emergency Icon Container
@@ -567,9 +601,9 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                         ),
                                       ),
                                     ),
-                                    
+
                                     SizedBox(width: spacing),
-                                    
+
                                     // Text Content - Flexible to prevent overflow
                                     Expanded(
                                       child: Column(
@@ -589,7 +623,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                           ),
                                           SizedBox(height: 2),
                                           Text(
-                                            isSmallScreen 
+                                            isSmallScreen
                                                 ? 'Tap for emergency help'
                                                 : 'Tap for immediate emergency help',
                                             style: GoogleFonts.inter(
@@ -603,9 +637,9 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                         ],
                                       ),
                                     ),
-                                    
+
                                     SizedBox(width: spacing),
-                                    
+
                                     // Arrow Icon
                                     Icon(
                                       Icons.arrow_forward_ios,

@@ -39,7 +39,7 @@ class _ContactusWidgetState extends State<ContactusWidget>
     );
 
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'Contactus'});
-    
+
     // Start fade animation
     _fadeController.forward();
   }
@@ -299,7 +299,7 @@ class _ContactusWidgetState extends State<ContactusWidget>
         Container(
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: isOpen 
+            color: isOpen
                 ? Color(0xFF10B981).withOpacity(0.1)
                 : Color(0xFFEF4444).withOpacity(0.1),
             borderRadius: BorderRadius.circular(8),
@@ -466,12 +466,28 @@ class _ContactusWidgetState extends State<ContactusWidget>
                         ),
                         SizedBox(height: 16),
 
+                        // Modified "Visit Our Office" card with address and onTap functionality
                         _buildContactCard(
                           icon: Icons.location_on_rounded,
                           title: 'Visit Our Office',
-                          subtitle: 'Available by appointment',
+                          subtitle: 'Available by appointment\nD 29, Block D, Sector 105, Noida, Uttar Pradesh 201304',
                           iconColor: Color(0xFF8B5CF6),
                           backgroundColor: Color(0xFF8B5CF6).withOpacity(0.1),
+                          onTap: () async {
+                            // URL to open in Google Maps (or a browser that redirects to maps)
+                            final String mapsUrl = 'https://www.google.com/maps/dir//D+29,+Block+D,+Sector+105,+Noida,+Uttar+Pradesh+201304/@28.5335105,77.2840622,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x390ce7bb80ef7757:0x3a7d871c1480d878!2m2!1d77.3664636!2d28.5335354?entry=ttu&g_ep=EgoyMDI1MDcyMS4wIKXMDSoASAFQAw%3D%3D';
+                            final Uri uri = Uri.parse(mapsUrl);
+                            if (await canLaunchUrl(uri)) {
+                              await launchUrl(uri, mode: LaunchMode.externalApplication);
+                            } else {
+                              // Optional: Show a SnackBar or AlertDialog if the URL cannot be launched
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Could not open map application.'),
+                                ),
+                              );
+                            }
+                          },
                         ),
 
                         SizedBox(height: 32),

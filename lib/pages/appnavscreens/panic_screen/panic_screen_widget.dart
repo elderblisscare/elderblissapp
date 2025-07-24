@@ -64,7 +64,7 @@ class _PanicScreenWidgetState extends State<PanicScreenWidget> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Sending request...',
+                    'Send request...',
                     textAlign: TextAlign.center,
                     style: FlutterFlowTheme.of(context).headlineMedium.override(
                           font: GoogleFonts.sora(

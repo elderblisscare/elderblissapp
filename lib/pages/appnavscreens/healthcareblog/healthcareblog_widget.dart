@@ -1,6 +1,7 @@
 import '/components/custom_appbar/custom_appbar_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -528,6 +529,87 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                           _buildTakeawayPoint('Technology enables seniors to maintain independence with confidence'),
                           _buildTakeawayPoint('Early detection significantly improves treatment outcomes'),
                           _buildTakeawayPoint('Comprehensive monitoring provides peace of mind for families'),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 40),
+
+                    // Contact Us Button
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 15,
+                            offset: Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.health_and_safety,
+                            color: Color(0xFF059669),
+                            size: 48,
+                          ),
+                          SizedBox(height: 16),
+                          Text(
+                            'Start Your Health Journey?',
+                            style: GoogleFonts.inter(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1F2937),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Speak with our healthcare specialists to begin your personalized health tracking and care plan.',
+                            style: GoogleFonts.inter(
+                              fontSize: 16,
+                              color: Color(0xFF6B7280),
+                              height: 1.5,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 24),
+                          FFButtonWidget(
+                            onPressed: () async {
+                              try {
+                                logFirebaseEvent('HEALTHCARE_BLOG_CONTACT_BTN_ON_TAP');
+                              } catch (e) {
+                                print('Firebase logging error: $e');
+                              }
+                              await launchURL('https://wa.me/message/BFIUAWXCKN3BM1');
+                            },
+                            text: 'Healthcare Consultation',
+                            icon: Icon(
+                              Icons.chat_bubble_outline,
+                              color: Colors.white,
+                              size: 20.0,
+                            ),
+                            options: FFButtonOptions(
+                              width: double.infinity,
+                              height: 56.0,
+                              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0),
+                              color: Color(0xFF059669),
+                              textStyle: GoogleFonts.inter(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                                letterSpacing: 0.0,
+                              ),
+                              elevation: 4.0,
+                              borderRadius: BorderRadius.circular(28.0),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
                         ],
                       ),
                     ),

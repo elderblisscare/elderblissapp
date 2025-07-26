@@ -1,6 +1,7 @@
 import '/components/custom_appbar/custom_appbar_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -581,6 +582,87 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                           _buildTakeawayPoint('Trusted service providers ensure safety and reliability'),
                           _buildTakeawayPoint('Customized solutions adapt to individual needs and preferences'),
                           _buildTakeawayPoint('Regular support reduces stress and promotes well-being'),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 40),
+
+                    // Contact Us Button
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 15,
+                            offset: Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.support_agent,
+                            color: Color(0xFF8B5CF6),
+                            size: 48,
+                          ),
+                          SizedBox(height: 16),
+                          Text(
+                            'Need Convenience Services?',
+                            style: GoogleFonts.inter(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1F2937),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Let our team help you with personalized convenience solutions for your daily needs.',
+                            style: GoogleFonts.inter(
+                              fontSize: 16,
+                              color: Color(0xFF6B7280),
+                              height: 1.5,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 24),
+                          FFButtonWidget(
+                            onPressed: () async {
+                              try {
+                                logFirebaseEvent('CONVENIENCE_BLOG_CONTACT_BTN_ON_TAP');
+                              } catch (e) {
+                                print('Firebase logging error: $e');
+                              }
+                              await launchURL('https://wa.me/message/BFIUAWXCKN3BM1');
+                            },
+                            text: 'Get Convenience Support',
+                            icon: Icon(
+                              Icons.chat_bubble_outline,
+                              color: Colors.white,
+                              size: 20.0,
+                            ),
+                            options: FFButtonOptions(
+                              width: double.infinity,
+                              height: 56.0,
+                              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0),
+                              color: Color(0xFF8B5CF6),
+                              textStyle: GoogleFonts.inter(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                                letterSpacing: 0.0,
+                              ),
+                              elevation: 4.0,
+                              borderRadius: BorderRadius.circular(28.0),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
                         ],
                       ),
                     ),

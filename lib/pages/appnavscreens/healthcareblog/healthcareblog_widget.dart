@@ -1,5 +1,6 @@
 import '/components/custom_appbar/custom_appbar_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
@@ -533,6 +534,86 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                     ),
 
                     SizedBox(height: 40),
+
+                     //Contact Us Button
+                    Container(
+                      width:double.infinity,
+                      padding:EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            // ignore: deprecated_member_use
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 15,
+                            offset: Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(
+                          Icons.health_and_safety,
+                          color: Color(0xFF059669),
+                          size:48,
+                          ),
+                          SizedBox(height: 16),
+                          Text(
+                            'Start your Heath Journey?',
+                            style:GoogleFonts.inter(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1F2937),
+                            ),
+                            textAlign: TextAlign.center,
+                            ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Speak with our healthcare specialists to begin your personalized health tracking and care plan.',
+                            style:GoogleFonts.inter(
+                              fontSize: 16,
+                              color: Color(0xFF4B5563),
+                              height: 1.5,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 24),
+                          FFButtonWidget(
+                            onPressed: () async{
+                              try{
+                                logFirebaseEvent('Healthcare_BLOG_Contact_BTN_ON_TAP');}
+                              catch (e) {
+                                print('Firebase logging error: $e');
+                              }
+                              await launchURL('https://wa.me/message/BFIUAWXCKN3BM1');
+                            },
+                            text:'Healthcare Consultation',
+                            icon: Icon(
+                              Icons.chat_bubble_outline,
+                              color:Colors.white,
+                              size:20.0,
+                            ),
+                            options:FFButtonOptions(
+                              width: double.infinity,
+                              height: 54.0,
+                              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 0.0),
+                              iconPadding: const EdgeInsetsDirectional.fromSTEB(0.0,0.0, 8.0, 0.0),
+                              color: Color(0xFF059669),
+                              textStyle: GoogleFonts.inter(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.0,
+                              ),
+                              elevation: 4.0,
+                              borderRadius: BorderRadius.circular(28.0),
+                              borderSide:BorderSide.none
+                            ),
+                          ),
+                        ]
+                      ),
+                    )
                   ],
                 ),
                 ),

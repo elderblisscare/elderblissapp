@@ -405,31 +405,37 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                 // NEWLY ADDED IMAGE CONTAINER (for favicon.png)
                                 // This container wraps the image to control its padding and potentially its size.
                                 Container(
-                                  // No specific background color is set; it will be transparent by default.
-                                  // Add horizontal padding to create space between the logo and the text.
                                   padding: EdgeInsets.only(right: 11),
-                                  child: Image.asset(
-                                    'assets/images/favicon.png',
-                                    // BoxFit.contain: Scales the image down to fit within its container
-                                    // while preserving its aspect ratio. It ensures the entire image is visible.
-                                    // If the image is still too large or small, consider:
-                                    // 1. Adjusting the 'height' property here directly.
-                                    // 2. Adjusting the intrinsic size of the 'favicon.png' asset itself.
-                                    // 3. Using a SizedBox around the Image.asset for explicit dimensions.
-                                    fit: BoxFit.contain,
-                                    // You can explicitly set a height for the image if 'IntrinsicHeight'
-                                    // doesn't yield the desired result or if the image aspect ratio
-                                    // causes too much empty space.
-                                    height: 40, // Example: Set a fixed height. Adjust this value as needed.
-                                    // width: 30, // You can also set a width, or rely on 'fit' to adjust.
-                                    errorBuilder: (context, error, stackTrace) {
-                                      // Fallback for when the image asset cannot be loaded.
-                                      return Icon(
-                                        Icons.error, // Display a generic error icon
-                                        color: Colors.white,
-                                        size: 45,
-                                      );
-                                    },
+                                  child: Container( // This new container will provide the circular white background
+                                    width: 45, // Set a fixed width for the circular container
+                                    height: 45, // Set a fixed height for the circular container (should match width for a perfect circle)
+                                    decoration: BoxDecoration(
+                                      color: Colors.white, // White background
+                                      shape: BoxShape.circle, // Make it circular
+                                      boxShadow: [ // Optional: Add a subtle shadow for depth
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 5,
+                                          offset: Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    alignment: Alignment.center, // Center the image inside the circle
+                                    child: ClipOval( // Clip the image to an oval (which will be a circle due to the parent container's shape)
+                                      child: Image.asset(
+                                        'assets/images/favicon.png',
+                                        fit: BoxFit.contain, // Keep fit.contain to scale the image within the circle
+                                        height: 35, // Adjust this height to control the size of the image *inside* the circle
+                                        width: 35, // Adjust this width
+                                        errorBuilder: (context, error, stackTrace) {
+                                          return Icon(
+                                            Icons.error,
+                                            color: Colors.grey, // Changed color for error icon on white background
+                                            size: 30, // Adjusted size
+                                          );
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 Expanded( // Existing Expanded for text content (takes remaining space)
@@ -437,7 +443,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Elder Bliss Care',
+                                        'ElderBlissCare',
                                         style: GoogleFonts.inter(
                                           fontSize: 28,
                                           fontWeight: FontWeight.bold,

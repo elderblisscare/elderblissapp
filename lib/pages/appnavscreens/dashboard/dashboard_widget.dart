@@ -32,7 +32,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // Testimonials data - NEWLY UPDATED
+  // Testimonials data
   final List<Map<String, String>> testimonials = [
     {
       'text': 'When my mother needed a doctor late at night, ElderBliss Care came through without delay. The doctor arrived quickly, was calm and reassuring, and took great care of her. I truly appreciate their dependable service during such a tense moment.',
@@ -76,10 +76,8 @@ class _DashboardWidgetState extends State<DashboardWidget>
 
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'Dashboard'});
 
-    // Start fade animation
     _fadeController.forward();
 
-    // Auto-scroll testimonials
     Timer.periodic(Duration(seconds: 5), (timer) {
       if (_testimonialController.hasClients) {
         int nextPage = (_testimonialController.page?.round() ?? 0) + 1;
@@ -92,7 +90,6 @@ class _DashboardWidgetState extends State<DashboardWidget>
       }
     });
 
-    // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('DASHBOARD_PAGE_Dashboard_ON_INIT_STATE');
       logFirebaseEvent('Dashboard_backend_call');
@@ -108,7 +105,6 @@ class _DashboardWidgetState extends State<DashboardWidget>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Preload images after dependencies are available to avoid inherited widget errors
     if (!_imagesPreloaded) {
       _preloadImagesImmediate();
       _imagesPreloaded = true;
@@ -116,12 +112,11 @@ class _DashboardWidgetState extends State<DashboardWidget>
   }
 
   void _preloadImagesImmediate() {
-    // Preload all service card images immediately to eliminate loading lag
     final imageList = [
       'assets/images/IMG_4787.JPG',
       'assets/images/WhatsApp_Image_2025-03-22_at_13.46.23_19615335.jpg',
       'assets/images/IMG_4796.JPG',
-      'assets/images/lifestyle.jpg', // Updated to .jpg
+      'assets/images/lifestyle.jpg',
     ];
 
     for (String imagePath in imageList) {
@@ -137,12 +132,15 @@ class _DashboardWidgetState extends State<DashboardWidget>
     super.dispose();
   }
 
+  // UPDATED: Helper widget now accepts separate scale factors for layout and font.
   Widget _buildServiceCard({
     required String title,
     required String image,
     required VoidCallback onTap,
     required Color primaryColor,
     required Color secondaryColor,
+    required double layoutScale,
+    required double fontScale,
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -176,7 +174,6 @@ class _DashboardWidgetState extends State<DashboardWidget>
             ),
             child: Stack(
               children: [
-                // Background Image (optimized and preloaded)
                 Positioned.fill(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
@@ -199,7 +196,6 @@ class _DashboardWidgetState extends State<DashboardWidget>
                     ),
                   ),
                 ),
-                // Gradient Overlay
                 Positioned.fill(
                   child: Container(
                     decoration: BoxDecoration(
@@ -215,10 +211,9 @@ class _DashboardWidgetState extends State<DashboardWidget>
                     ),
                   ),
                 ),
-                // Content
                 Positioned.fill(
                   child: Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(12 * layoutScale), // Use layout scale
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,7 +221,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                         Text(
                           title,
                           style: GoogleFonts.inter(
-                            fontSize: 18,
+                            fontSize: 17 * fontScale, // Use font scale
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                             shadows: [
@@ -251,7 +246,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                           child: Text(
                             'Explore →',
                             style: GoogleFonts.inter(
-                              fontSize: 12,
+                              fontSize: 12 * fontScale, // Use font scale
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
                             ),
@@ -269,11 +264,12 @@ class _DashboardWidgetState extends State<DashboardWidget>
     );
   }
 
-  Widget _buildTestimonialCard(Map<String, String> testimonial) {
+  // UPDATED: Helper widget now accepts separate scale factors for layout and font.
+  Widget _buildTestimonialCard(
+      Map<String, String> testimonial, double layoutScale, double fontScale) {
     return Container(
-      // Adjusted padding and margin for better fit
-      margin: EdgeInsets.symmetric(horizontal: 12), // Slightly more horizontal margin
-      padding: EdgeInsets.fromLTRB(20, 20, 20, 16), // Top/bottom slightly less, sides for content
+      margin: EdgeInsets.symmetric(horizontal: 12),
+      padding: EdgeInsets.all(18 * layoutScale), // Use layout scale
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -290,41 +286,40 @@ class _DashboardWidgetState extends State<DashboardWidget>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            // Added padding for the stars to align with text
             children: List.generate(
               5,
               (index) => Icon(
-                Icons.star_rounded, // Using filled star for consistent look
-                color: Color(0xFFFFD700), // Gold color for stars
-                size: 20,
+                Icons.star_rounded,
+                color: Color(0xFFFFD700),
+                size: 20 * layoutScale, // Use layout scale for icon
               ),
             ),
           ),
-          SizedBox(height: 12), // Reduced spacing slightly
-          Expanded( // Use Expanded to allow text to take available space
-            child: SingleChildScrollView( // Allow text to scroll if it's very long
+          SizedBox(height: 12 * layoutScale), // Use layout scale
+          Expanded(
+            child: SingleChildScrollView(
               child: Text(
                 '"${testimonial['text']}"',
                 style: GoogleFonts.inter(
-                  fontSize: 14,
+                  fontSize: 14 * fontScale, // Use font scale
                   color: Color(0xFF374151),
                   height: 1.5,
                   fontStyle: FontStyle.italic,
                 ),
-                overflow: TextOverflow.fade, // Fade out long text instead of ellipsis
+                overflow: TextOverflow.fade,
               ),
             ),
           ),
-          SizedBox(height: 12), // Reduced spacing slightly
+          SizedBox(height: 12 * layoutScale), // Use layout scale
           Row(
             children: [
               CircleAvatar(
-                radius: 20,
+                radius: 20 * layoutScale, // Use layout scale
                 backgroundColor: FlutterFlowTheme.of(context).primary.withOpacity(0.1),
                 child: Icon(
                   Icons.person,
                   color: FlutterFlowTheme.of(context).primary,
-                  size: 20,
+                  size: 20 * layoutScale, // Use layout scale
                 ),
               ),
               SizedBox(width: 12),
@@ -335,20 +330,20 @@ class _DashboardWidgetState extends State<DashboardWidget>
                     Text(
                       testimonial['name']!,
                       style: GoogleFonts.inter(
-                        fontSize: 14,
+                        fontSize: 14 * fontScale, // Use font scale
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF1F2937),
                       ),
-                      overflow: TextOverflow.ellipsis, // Ensure name fits
+                      overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
                     Text(
                       testimonial['role']!,
                       style: GoogleFonts.inter(
-                        fontSize: 12,
+                        fontSize: 10 * fontScale, // Reduced from 12 to 10
                         color: Color(0xFF6B7280),
                       ),
-                      overflow: TextOverflow.ellipsis, // Ensure role fits
+                      overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
                   ],
@@ -364,6 +359,26 @@ class _DashboardWidgetState extends State<DashboardWidget>
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
+
+    // --- UPDATED RESPONSIVE SCALING LOGIC ---
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    const double baseWidth = 375.0;
+
+    // Get accessibility text scale factor and clamp it to prevent UI breakage
+    final accessibilityTextScale = MediaQuery.textScalerOf(context).scale(1.0);
+    final clampedTextScale = accessibilityTextScale.clamp(1.0, 1.3); // Max 130% for accessibility
+
+    // A factor for layout elements like padding and container sizes.
+    // Clamped to prevent elements from becoming excessively large.
+    final double layoutScaleFactor = (screenWidth / baseWidth).clamp(1.0, 1.2);
+
+    // Conservative font scale factor that considers accessibility settings
+    final double fontScaleFactor = ((screenWidth / baseWidth) * clampedTextScale).clamp(1.0, 1.15);
+    
+    // Calculate bottom navigation bar height to prevent content overlap
+    final double bottomNavHeight = MediaQuery.of(context).padding.bottom + 80; // Safe area + nav bar height
+    // --- END OF RESPONSIVE SCALING LOGIC ---
 
     return GestureDetector(
       onTap: () {
@@ -393,26 +408,25 @@ class _DashboardWidgetState extends State<DashboardWidget>
                       ),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(24, 20, 24, 32),
+                      padding: EdgeInsets.fromLTRB(
+                          screenWidth * 0.06, 20, screenWidth * 0.06, 32),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Top Row with Image and Text
-                          IntrinsicHeight( // Ensures children within this row have the same height
+                          IntrinsicHeight(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                // NEWLY ADDED IMAGE CONTAINER (for favicon.png)
-                                // This container wraps the image to control its padding and potentially its size.
                                 Container(
                                   padding: EdgeInsets.only(right: 11),
-                                  child: Container( // This new container will provide the circular white background
-                                    width: 45, // Set a fixed width for the circular container
-                                    height: 45, // Set a fixed height for the circular container (should match width for a perfect circle)
+                                  child: Container(
+                                    width: 45 * layoutScaleFactor, // Use layout scale
+                                    height: 45 * layoutScaleFactor, // Use layout scale
                                     decoration: BoxDecoration(
-                                      color: Colors.white, // White background
-                                      shape: BoxShape.circle, // Make it circular
-                                      boxShadow: [ // Optional: Add a subtle shadow for depth
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
                                         BoxShadow(
                                           color: Colors.black.withOpacity(0.1),
                                           blurRadius: 5,
@@ -420,32 +434,33 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                         ),
                                       ],
                                     ),
-                                    alignment: Alignment.center, // Center the image inside the circle
-                                    child: ClipOval( // Clip the image to an oval (which will be a circle due to the parent container's shape)
+                                    alignment: Alignment.center,
+                                    child: ClipOval(
                                       child: Image.asset(
                                         'assets/images/favicon.png',
-                                        fit: BoxFit.contain, // Keep fit.contain to scale the image within the circle
-                                        height: 35, // Adjust this height to control the size of the image *inside* the circle
-                                        width: 35, // Adjust this width
+                                        fit: BoxFit.contain,
+                                        height: 35 * layoutScaleFactor, // Use layout scale
+                                        width: 35 * layoutScaleFactor, // Use layout scale
                                         errorBuilder: (context, error, stackTrace) {
                                           return Icon(
                                             Icons.error,
-                                            color: Colors.grey, // Changed color for error icon on white background
-                                            size: 30, // Adjusted size
+                                            color: Colors.grey,
+                                            size: 30,
                                           );
                                         },
                                       ),
                                     ),
                                   ),
                                 ),
-                                Expanded( // Existing Expanded for text content (takes remaining space)
+                                Expanded(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
                                         'ElderBlissCare',
                                         style: GoogleFonts.inter(
-                                          fontSize: 28,
+                                          fontSize: 22 * fontScaleFactor, // Reduced from 26 to 22
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
                                           letterSpacing: -0.5,
@@ -458,7 +473,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                             TextSpan(
                                               text: 'Welcome back, ',
                                               style: GoogleFonts.inter(
-                                                fontSize: 16,
+                                                fontSize: 16 * fontScaleFactor, // Use font scale
                                                 color: Colors.white.withOpacity(0.9),
                                                 fontWeight: FontWeight.w400,
                                               ),
@@ -468,7 +483,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                                   ? currentUserDisplayName
                                                   : 'User',
                                               style: GoogleFonts.inter(
-                                                fontSize: 16,
+                                                fontSize: 16 * fontScaleFactor, // Use font scale
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w600,
                                               ),
@@ -479,7 +494,6 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                     ],
                                   ),
                                 ),
-                                // Existing Help Button Container (on the right side)
                                 Container(
                                   decoration: BoxDecoration(
                                     color: Colors.white.withOpacity(0.2),
@@ -498,7 +512,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                     icon: Icon(
                                       Icons.help_outline,
                                       color: Colors.white,
-                                      size: 24,
+                                      size: 24 * layoutScaleFactor, // Use layout scale
                                     ),
                                   ),
                                 ),
@@ -514,13 +528,13 @@ class _DashboardWidgetState extends State<DashboardWidget>
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.06,
-                      vertical: MediaQuery.of(context).size.height * 0.015,
+                      horizontal: screenWidth * 0.06,
+                      vertical: 16,
                     ),
                     child: Container(
                       constraints: BoxConstraints(
                         minHeight: 60,
-                        maxHeight: 80,
+                        maxHeight: 100,
                       ),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -549,112 +563,83 @@ class _DashboardWidgetState extends State<DashboardWidget>
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                               vertical: 16,
-                              horizontal: MediaQuery.of(context).size.width * 0.04,
+                              horizontal: screenWidth * 0.04,
                             ),
-                            child: LayoutBuilder(
-                              builder: (context, constraints) {
-                                final screenWidth = MediaQuery.of(context).size.width;
-                                final isSmallScreen = screenWidth < 400;
-                                final isMediumScreen = screenWidth < 600;
-
-                                // Responsive font sizes
-                                final titleFontSize = isSmallScreen ? 16.0 : isMediumScreen ? 17.0 : 18.0;
-                                final subtitleFontSize = isSmallScreen ? 12.0 : isMediumScreen ? 13.0 : 14.0;
-                                final iconSize = isSmallScreen ? 20.0 : isMediumScreen ? 22.0 : 24.0;
-                                final containerSize = isSmallScreen ? 28.0 : isMediumScreen ? 30.0 : 32.0;
-                                final spacing = isSmallScreen ? 12.0 : 16.0;
-
-                                return Row(
-                                  children: [
-                                    // Emergency Icon Container
-                                    Container(
-                                      padding: EdgeInsets.all(isSmallScreen ? 8 : 12),
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.8),
-                                        borderRadius: BorderRadius.circular(isSmallScreen ? 14 : 16),
-                                        border: Border.all(
-                                          color: Colors.white.withOpacity(0.3),
-                                          width: 1,
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.8),
+                                    borderRadius: BorderRadius.circular(16),
+                                    border: Border.all(
+                                      color: Colors.white.withOpacity(0.3),
+                                      width: 1,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.2),
+                                        blurRadius: 12,
+                                        offset: Offset(0, 6),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Container(
+                                    width: 32 * layoutScaleFactor * 1.5, // Use layout scale
+                                    height: 32 * layoutScaleFactor * 1.5, // Use layout scale
+                                    child: Image.asset(
+                                      'assets/images/PanicButton.png',
+                                      fit: BoxFit.contain,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return Icon(
+                                          Icons.warning,
+                                          color: Color(0xFFDC2626),
+                                          size: 24 * layoutScaleFactor, // Use layout scale
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 16 * layoutScaleFactor),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Panic Button',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 17.0 * fontScaleFactor, // Use font scale
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          letterSpacing: 0.5,
                                         ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black.withOpacity(0.2),
-                                            blurRadius: 12,
-                                            offset: Offset(0, 6),
-                                          ),
-                                        ],
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                       ),
-                                      child: Container(
-                                        width: containerSize * 1.8,
-                                        height: containerSize * 1.8,
-                                        child: Image.asset(
-                                          'assets/images/PanicButton.png',
-                                          fit: BoxFit.contain,
-                                          errorBuilder: (context, error, stackTrace) {
-                                            // Fallback to icon if image not found
-                                            return Container(
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Color(0xFFDC2626).withOpacity(0.1),
-                                              ),
-                                              child: Icon(
-                                                Icons.warning,
-                                                color: Color(0xFFDC2626),
-                                                size: iconSize,
-                                              ),
-                                            );
-                                          },
+                                      SizedBox(height: 2),
+                                      Text(
+                                        screenWidth < 400
+                                            ? 'Tap for emergency help'
+                                            : 'Tap for immediate emergency help',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 11.0 * fontScaleFactor, // Reduced from 13 to 11
+                                          color: Colors.white.withOpacity(0.9),
+                                          fontWeight: FontWeight.w500,
                                         ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                       ),
-                                    ),
-
-                                    SizedBox(width: spacing),
-
-                                    // Text Content - Flexible to prevent overflow
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'Panic Button',
-                                            style: GoogleFonts.inter(
-                                              fontSize: titleFontSize,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                              letterSpacing: 0.5,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                          ),
-                                          SizedBox(height: 2),
-                                          Text(
-                                            isSmallScreen
-                                                ? 'Tap for emergency help'
-                                                : 'Tap for immediate emergency help',
-                                            style: GoogleFonts.inter(
-                                              fontSize: subtitleFontSize,
-                                              color: Colors.white.withOpacity(0.9),
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-
-                                    SizedBox(width: spacing),
-
-                                    // Arrow Icon
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.white,
-                                      size: isSmallScreen ? 16 : 18,
-                                    ),
-                                  ],
-                                );
-                              },
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: 16 * layoutScaleFactor),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.white,
+                                  size: 16 * layoutScaleFactor, // Use layout scale
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -668,11 +653,12 @@ class _DashboardWidgetState extends State<DashboardWidget>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(height: 16),
                         Row(
                           children: [
                             Container(
                               width: 4,
-                              height: 24,
+                              height: 24 * layoutScaleFactor, // Use layout scale
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context).primary,
                                 borderRadius: BorderRadius.circular(2),
@@ -682,7 +668,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                             Text(
                               'Our Care Services',
                               style: GoogleFonts.inter(
-                                fontSize: 24,
+                                fontSize: 22 * fontScaleFactor, // Use font scale
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xFF1F2937),
                               ),
@@ -693,7 +679,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                         Text(
                           'Comprehensive care solutions tailored for your loved ones',
                           style: GoogleFonts.inter(
-                            fontSize: 16,
+                            fontSize: 15 * fontScaleFactor, // Use font scale
                             color: Color(0xFF6B7280),
                             height: 1.4,
                           ),
@@ -705,16 +691,16 @@ class _DashboardWidgetState extends State<DashboardWidget>
                           crossAxisCount: 2,
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16,
-                          childAspectRatio: 0.85,
+                          childAspectRatio: screenWidth > 420 ? 0.8 : 0.85,
                           children: [
                             _buildServiceCard(
                               title: 'Healthcare',
                               image: 'assets/images/WhatsApp_Image_2025-03-22_at_13.46.23_19615335.jpg',
                               primaryColor: Color(0xFF059669),
                               secondaryColor: Color(0xFF10B981),
+                              layoutScale: layoutScaleFactor,
+                              fontScale: fontScaleFactor,
                               onTap: () async {
-                                logFirebaseEvent('DASHBOARD_PAGE_HEALTHCARE_CARD_ON_TAP');
-                                logFirebaseEvent('Card_navigate_to');
                                 context.pushNamed(HealthcareblogWidget.routeName);
                               },
                             ),
@@ -723,9 +709,9 @@ class _DashboardWidgetState extends State<DashboardWidget>
                               image: 'assets/images/IMG_4787.JPG',
                               primaryColor: Color(0xFFDC2626),
                               secondaryColor: Color(0xFFEF4444),
+                              layoutScale: layoutScaleFactor,
+                              fontScale: fontScaleFactor,
                               onTap: () async {
-                                logFirebaseEvent('DASHBOARD_PAGE_EMERGENCY_CARD_ON_TAP');
-                                logFirebaseEvent('Card_navigate_to');
                                 context.pushNamed(EmergencyBlogWidget.routeName);
                               },
                             ),
@@ -734,20 +720,20 @@ class _DashboardWidgetState extends State<DashboardWidget>
                               image: 'assets/images/IMG_4796.JPG',
                               primaryColor: Color(0xFF7C3AED),
                               secondaryColor: Color(0xFF8B5CF6),
+                              layoutScale: layoutScaleFactor,
+                              fontScale: fontScaleFactor,
                               onTap: () async {
-                                logFirebaseEvent('DASHBOARD_PAGE_CONVENIENCE_CARD_ON_TAP');
-                                logFirebaseEvent('Card_navigate_to');
                                 context.pushNamed(ConvenienceBlogWidget.routeName);
                               },
                             ),
                             _buildServiceCard(
                               title: 'Lifestyle',
-                              image: 'assets/images/lifestyle.jpg', // Updated to .jpg
+                              image: 'assets/images/lifestyle.jpg',
                               primaryColor: Color(0xFFEA580C),
                               secondaryColor: Color(0xFFF97316),
+                              layoutScale: layoutScaleFactor,
+                              fontScale: fontScaleFactor,
                               onTap: () async {
-                                logFirebaseEvent('DASHBOARD_PAGE_LIFESTYLE_CARD_ON_TAP');
-                                logFirebaseEvent('Card_navigate_to');
                                 context.pushNamed(LifestyleBogWidget.routeName);
                               },
                             ),
@@ -776,7 +762,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                 children: [
                                   Container(
                                     width: 4,
-                                    height: 24,
+                                    height: 24 * layoutScaleFactor, // Use layout scale
                                     decoration: BoxDecoration(
                                       color: FlutterFlowTheme.of(context).primary,
                                       borderRadius: BorderRadius.circular(2),
@@ -786,7 +772,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                   Text(
                                     'What Families Say',
                                     style: GoogleFonts.inter(
-                                      fontSize: 24,
+                                      fontSize: 22 * fontScaleFactor, // Use font scale
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xFF1F2937),
                                     ),
@@ -797,7 +783,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                               Text(
                                 'Real experiences from families who trust us with their loved ones',
                                 style: GoogleFonts.inter(
-                                  fontSize: 16,
+                                  fontSize: 15 * fontScaleFactor, // Use font scale
                                   color: Color(0xFF6B7280),
                                   height: 1.4,
                                 ),
@@ -808,14 +794,18 @@ class _DashboardWidgetState extends State<DashboardWidget>
                         ),
                         SizedBox(height: 24),
                         Container(
-                          height: 250, // Increased height to accommodate more text
+                          // UPDATED: Height increased for better fit on taller devices.
+                          height: screenHeight * 0.36,
                           child: PageView.builder(
                             controller: _testimonialController,
                             itemCount: testimonials.length,
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 16),
-                                child: _buildTestimonialCard(testimonials[index]),
+                                child: _buildTestimonialCard(
+                                    testimonials[index],
+                                    layoutScaleFactor,
+                                    fontScaleFactor),
                               );
                             },
                           ),
@@ -839,7 +829,8 @@ class _DashboardWidgetState extends State<DashboardWidget>
                     ),
                   ),
 
-                  SizedBox(height: 32),
+                  // Add sufficient bottom padding to prevent footer navigation overlap
+                  SizedBox(height: bottomNavHeight),
                 ],
               ),
             ),

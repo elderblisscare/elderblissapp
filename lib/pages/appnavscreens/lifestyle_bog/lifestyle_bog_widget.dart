@@ -1,7 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
-import '/components/custom_appbar/custom_appbar_widget.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
+
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
@@ -232,6 +231,21 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // --- RESPONSIVE SCALING LOGIC ---
+    final screenWidth = MediaQuery.of(context).size.width;
+    const double baseWidth = 375.0;
+
+    // Get accessibility text scale factor and clamp it to prevent UI breakage
+    final accessibilityTextScale = MediaQuery.textScalerOf(context).scale(1.0);
+    final clampedTextScale = accessibilityTextScale.clamp(1.0, 1.3); // Max 130% for accessibility
+
+    // Conservative font scale factor that considers accessibility settings
+    final double fontScaleFactor = ((screenWidth / baseWidth) * clampedTextScale).clamp(1.0, 1.15);
+    
+    // Calculate bottom navigation bar height to prevent content overlap
+    final double bottomNavHeight = MediaQuery.of(context).padding.bottom + 80;
+    // --- END OF RESPONSIVE SCALING LOGIC ---
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -350,7 +364,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                                                     Text(
                             'Active Living &\nWellness Journey',
                             style: GoogleFonts.inter(
-                              fontSize: MediaQuery.of(context).size.width > 400 ? 32 : 24,
+                              fontSize: 28 * fontScaleFactor, // Apply responsive scaling, optimized size
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                               height: 1.2,
@@ -362,9 +376,9 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                           Text(
                             'Embrace an enriching lifestyle with activities, social connections, and wellness practices designed for senior vitality',
                             style: GoogleFonts.inter(
-                              fontSize: 16,
+                              fontSize: 15 * fontScaleFactor, // Apply responsive scaling, reduced from 16 to 15
                               color: Colors.white.withOpacity(0.9),
-                              height: 1.5,
+                              height: 1.4, // Slightly tighter line height
                             ),
                           ),
                         ],
@@ -751,6 +765,9 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                   ],
                 ),
               ),
+              
+              // Add sufficient bottom padding to prevent footer navigation overlap
+              SizedBox(height: bottomNavHeight),
             ],
           ),
         ),

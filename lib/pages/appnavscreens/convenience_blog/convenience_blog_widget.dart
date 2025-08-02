@@ -1,5 +1,4 @@
-import '/components/custom_appbar/custom_appbar_widget.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
+
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
@@ -153,41 +152,74 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
     required String description,
     required IconData icon,
     required Color color,
+    required double layoutScale,
+    required double fontScale,
   }) {
     return Container(
-      padding: EdgeInsets.all(16),
+      height: 140 * layoutScale, // Fixed height for consistent card alignment
+      padding: EdgeInsets.all(14 * layoutScale), // Slightly increased padding for better balance
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(14 * layoutScale), // Slightly increased border radius
         border: Border.all(
           color: color.withOpacity(0.2),
           width: 1,
         ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center, // Center align for better visual balance
+        mainAxisAlignment: MainAxisAlignment.start, // Start from top but with consistent spacing
         children: [
-          Icon(
-            icon,
-            color: color,
-            size: 32,
-          ),
-          SizedBox(height: 12),
-          Text(
-            title,
-            style: GoogleFonts.inter(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF1F2937),
+          // Icon section - fixed space
+          Container(
+            height: 32 * layoutScale, // Fixed height for icon area
+            alignment: Alignment.center,
+            child: Icon(
+              icon,
+              color: color,
+              size: 26 * layoutScale, // Optimized icon size
             ),
           ),
-          SizedBox(height: 8),
-          Text(
-            description,
-            style: GoogleFonts.inter(
-              fontSize: 14,
-              color: Color(0xFF4B5563),
-              height: 1.4,
+          SizedBox(height: 10 * layoutScale), // Consistent spacing
+          
+          // Title section - flexible but controlled
+          Expanded(
+            flex: 2, // Give more space to title
+            child: Container(
+              alignment: Alignment.center,
+              child: Text(
+                title,
+                textAlign: TextAlign.center, // Center align title
+                style: GoogleFonts.inter(
+                  fontSize: 14 * fontScale, // Slightly reduced for better fit
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1F2937),
+                  height: 1.2, // Tight line height
+                ),
+                maxLines: 2, // Maximum 2 lines for title
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+          
+          SizedBox(height: 6 * layoutScale), // Small separator
+          
+          // Description section - flexible
+          Expanded(
+            flex: 3, // Give more space to description
+            child: Container(
+              alignment: Alignment.topCenter,
+              child: Text(
+                description,
+                textAlign: TextAlign.center, // Center align description
+                style: GoogleFonts.inter(
+                  fontSize: 11 * fontScale, // Optimized font size for better fit
+                  color: Color(0xFF4B5563),
+                  height: 1.3, // Controlled line height
+                ),
+                maxLines: 4, // Allow up to 4 lines for description
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
         ],
@@ -197,6 +229,24 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // --- RESPONSIVE SCALING LOGIC ---
+    final screenWidth = MediaQuery.of(context).size.width;
+    const double baseWidth = 375.0;
+
+    // Get accessibility text scale factor and clamp it to prevent UI breakage
+    final accessibilityTextScale = MediaQuery.textScalerOf(context).scale(1.0);
+    final clampedTextScale = accessibilityTextScale.clamp(1.0, 1.3); // Max 130% for accessibility
+
+    // Layout scale factor for padding and container sizes
+    final double layoutScaleFactor = (screenWidth / baseWidth).clamp(1.0, 1.2);
+
+    // Conservative font scale factor that considers accessibility settings
+    final double fontScaleFactor = ((screenWidth / baseWidth) * clampedTextScale).clamp(1.0, 1.15);
+    
+    // Calculate bottom navigation bar height to prevent content overlap
+    final double bottomNavHeight = MediaQuery.of(context).padding.bottom + 80;
+    // --- END OF RESPONSIVE SCALING LOGIC ---
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -320,33 +370,41 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       crossAxisCount: 2,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      childAspectRatio: MediaQuery.of(context).size.width > 400 ? 1.1 : 1.0,
+                      crossAxisSpacing: 16 * layoutScaleFactor, // Increased spacing for better visual separation
+                      mainAxisSpacing: 16 * layoutScaleFactor, // Increased spacing for better visual separation
+                      childAspectRatio: (screenWidth > 400) ? 1.0 : 0.9, // Adjusted for fixed height cards
                       children: [
                         _buildBenefitHighlight(
                           title: 'Time Saving',
                           description: 'Focus on what matters most while we handle daily tasks',
                           icon: Icons.schedule,
                           color: Color(0xFF8B5CF6),
+                          layoutScale: layoutScaleFactor,
+                          fontScale: fontScaleFactor,
                         ),
                         _buildBenefitHighlight(
                           title: 'Stress Relief',
                           description: 'Reduce anxiety about managing household responsibilities',
                           icon: Icons.spa,
                           color: Color(0xFF10B981),
+                          layoutScale: layoutScaleFactor,
+                          fontScale: fontScaleFactor,
                         ),
                         _buildBenefitHighlight(
                           title: 'Independence',
                           description: 'Maintain autonomy with supportive assistance',
                           icon: Icons.accessibility_new,
                           color: Color(0xFF3B82F6),
+                          layoutScale: layoutScaleFactor,
+                          fontScale: fontScaleFactor,
                         ),
                         _buildBenefitHighlight(
                           title: 'Safety',
                           description: 'Professional, trusted service providers',
                           icon: Icons.security,
                           color: Color(0xFFEF4444),
+                          layoutScale: layoutScaleFactor,
+                          fontScale: fontScaleFactor,
                         ),
                       ],
                     ),
@@ -474,8 +532,8 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                     // Process Flow
                     Container(
                       width: double.infinity,
-                      padding: EdgeInsets.all(24),
-                      margin: EdgeInsets.symmetric(vertical: 20),
+                      padding: EdgeInsets.all(24 * layoutScaleFactor), // Apply responsive padding
+                      margin: EdgeInsets.symmetric(vertical: 20 * layoutScaleFactor), // Apply responsive margin
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
@@ -499,20 +557,25 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                               Icon(
                                 Icons.timeline,
                                 color: Color(0xFF8B5CF6),
-                                size: 28,
+                                size: 28 * layoutScaleFactor, // Apply responsive scaling
                               ),
-                              SizedBox(width: 12),
-                              Text(
-                                'How Our Services Work',
-                                style: GoogleFonts.inter(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF1F2937),
+                              SizedBox(width: 12 * layoutScaleFactor), // Apply responsive spacing
+                              Expanded( // Important: Prevent overflow by making text flexible
+                                child: Text(
+                                  'How Our Services Work',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 20 * fontScaleFactor, // Apply responsive font scaling, reduced from 22 to 20
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF1F2937),
+                                    height: 1.2, // Tighter line height for better control
+                                  ),
+                                  maxLines: 2, // Allow text to wrap to prevent overflow
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(height: 20 * layoutScaleFactor), // Apply responsive spacing
                           _buildProcessStep('1', 'Initial Consultation', 'We assess your specific needs and preferences'),
                           _buildProcessStep('2', 'Service Planning', 'Create a customized service schedule that works for you'),
                           _buildProcessStep('3', 'Professional Matching', 'Connect you with trusted, verified service providers'),
@@ -669,6 +732,9 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                   ],
                 ),
               ),
+              
+              // Add sufficient bottom padding to prevent footer navigation overlap
+              SizedBox(height: bottomNavHeight),
             ],
                                           ),
                                     ),

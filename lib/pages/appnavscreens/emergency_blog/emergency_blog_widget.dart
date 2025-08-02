@@ -1,5 +1,4 @@
-import '/components/custom_appbar/custom_appbar_widget.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
+
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
@@ -44,13 +43,15 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
     required String description,
     required IconData icon,
     bool isUrgent = false,
+    required double layoutScale,
+    required double fontScale,
   }) {
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
-      padding: EdgeInsets.all(20),
+      margin: EdgeInsets.only(bottom: 16 * layoutScale),
+      padding: EdgeInsets.all(20 * layoutScale),
       decoration: BoxDecoration(
         color: isUrgent ? Color(0xFFFEF2F2) : Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16 * layoutScale),
         border: Border.all(
           color: isUrgent ? Color(0xFFDC2626) : Color(0xFFE5E7EB),
           width: isUrgent ? 2 : 1,
@@ -58,8 +59,8 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: Offset(0, 4),
+            blurRadius: 10 * layoutScale,
+            offset: Offset(0, 4 * layoutScale),
           ),
         ],
       ),
@@ -67,24 +68,24 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 50,
-            height: 50,
+            width: 50 * layoutScale,
+            height: 50 * layoutScale,
             decoration: BoxDecoration(
               color: isUrgent ? Color(0xFFDC2626) : Color(0xFF3B82F6),
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(25 * layoutScale),
             ),
             child: Center(
               child: Text(
                 stepNumber,
                 style: GoogleFonts.inter(
-                  fontSize: 18,
+                  fontSize: 16 * fontScale, // Reduced from 18 to 16
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
             ),
           ),
-          SizedBox(width: 16),
+          SizedBox(width: 16 * layoutScale),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,14 +95,14 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                     Icon(
                       icon,
                       color: isUrgent ? Color(0xFFDC2626) : Color(0xFF374151),
-                      size: 20,
+                      size: 20 * layoutScale,
                     ),
-                    SizedBox(width: 8),
+                    SizedBox(width: 8 * layoutScale),
                     Expanded(
                       child: Text(
                         title,
                         style: GoogleFonts.inter(
-                          fontSize: 18,
+                          fontSize: 16 * fontScale, // Reduced from 18 to 16
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF1F2937),
                         ),
@@ -109,11 +110,11 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                     ),
                   ],
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 8 * layoutScale),
                 Text(
                   description,
                   style: GoogleFonts.inter(
-                    fontSize: 15,
+                    fontSize: 14 * fontScale, // Reduced from 15 to 14
                     color: Color(0xFF4B5563),
                     height: 1.5,
                   ),
@@ -133,13 +134,15 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
     required IconData icon,
     required Color primaryColor,
     required Color backgroundColor,
+    required double layoutScale,
+    required double fontScale,
   }) {
     return Container(
-      margin: EdgeInsets.only(bottom: 20),
-      padding: EdgeInsets.all(24),
+      margin: EdgeInsets.only(bottom: 20 * layoutScale), // Apply responsive margin
+      padding: EdgeInsets.all(24 * layoutScale), // Apply responsive padding
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16 * layoutScale), // Apply responsive border radius
         border: Border.all(
           color: primaryColor.withOpacity(0.2),
           width: 1,
@@ -151,49 +154,54 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(12),
+                padding: EdgeInsets.all(12 * layoutScale), // Apply responsive padding
                 decoration: BoxDecoration(
                   color: primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12 * layoutScale), // Apply responsive border radius
                 ),
                 child: Icon(
                   icon,
                   color: primaryColor,
-                  size: 24,
+                  size: 24 * layoutScale, // Apply responsive icon size
                 ),
               ),
-              SizedBox(width: 16),
+              SizedBox(width: 16 * layoutScale), // Apply responsive spacing
               Expanded(
                 child: Text(
                   title,
                   style: GoogleFonts.inter(
-                    fontSize: 20,
+                    fontSize: 18 * fontScale, // Apply responsive font size, reduced from 20 to 18
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF1F2937),
+                    height: 1.2, // Tighter line height for better control
                   ),
+                  maxLines: 2, // Prevent overflow
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 16),
+          SizedBox(height: 16 * layoutScale), // Apply responsive spacing
           Text(
             description,
             style: GoogleFonts.inter(
-              fontSize: 16,
+              fontSize: 15 * fontScale, // Apply responsive font size, reduced from 16 to 15
               color: Color(0xFF4B5563),
-              height: 1.5,
+              height: 1.4, // Controlled line height
             ),
+            maxLines: 3, // Prevent overflow
+            overflow: TextOverflow.ellipsis,
           ),
-          SizedBox(height: 16),
+          SizedBox(height: 16 * layoutScale), // Apply responsive spacing
           ...features.map((feature) => Container(
-            margin: EdgeInsets.only(bottom: 8),
+            margin: EdgeInsets.only(bottom: 8 * layoutScale), // Apply responsive margin
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 6, right: 12),
-                  width: 6,
-                  height: 6,
+                  margin: EdgeInsets.only(top: 6 * layoutScale, right: 12 * layoutScale), // Apply responsive margin
+                  width: 6 * layoutScale, // Apply responsive size
+                  height: 6 * layoutScale, // Apply responsive size
                   decoration: BoxDecoration(
                     color: primaryColor,
                     shape: BoxShape.circle,
@@ -203,7 +211,7 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                   child: Text(
                     feature,
                     style: GoogleFonts.inter(
-                      fontSize: 15,
+                      fontSize: 14 * fontScale, // Apply responsive font size, reduced from 15 to 14
                       color: Color(0xFF374151),
                       height: 1.4,
                     ),
@@ -222,13 +230,15 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
     required String label,
     required IconData icon,
     required Color color,
+    required double layoutScale,
+    required double fontScale,
   }) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(16 * layoutScale),
         decoration: BoxDecoration(
           color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16 * layoutScale),
           border: Border.all(
             color: color.withOpacity(0.2),
             width: 1,
@@ -239,23 +249,23 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
             Icon(
               icon,
               color: color,
-              size: 32,
+              size: 32 * layoutScale,
             ),
-            SizedBox(height: 8),
+            SizedBox(height: 8 * layoutScale),
             Text(
               value,
               style: GoogleFonts.inter(
-                fontSize: 24,
+                fontSize: 22 * fontScale, // Reduced from 24 to 22
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF1F2937),
               ),
             ),
-            SizedBox(height: 4),
+            SizedBox(height: 4 * layoutScale),
             Text(
               label,
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
-                fontSize: 12,
+                fontSize: 11 * fontScale, // Reduced from 12 to 11
                 color: Color(0xFF6B7280),
                 fontWeight: FontWeight.w500,
               ),
@@ -268,6 +278,24 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // --- RESPONSIVE SCALING LOGIC ---
+    final screenWidth = MediaQuery.of(context).size.width;
+    const double baseWidth = 375.0;
+
+    // Get accessibility text scale factor and clamp it to prevent UI breakage
+    final accessibilityTextScale = MediaQuery.textScalerOf(context).scale(1.0);
+    final clampedTextScale = accessibilityTextScale.clamp(1.0, 1.3); // Max 130% for accessibility
+
+    // Layout scale factor for padding and container sizes
+    final double layoutScaleFactor = (screenWidth / baseWidth).clamp(1.0, 1.2);
+
+    // Conservative font scale factor that considers accessibility settings
+    final double fontScaleFactor = ((screenWidth / baseWidth) * clampedTextScale).clamp(1.0, 1.15);
+    
+    // Calculate bottom navigation bar height to prevent content overlap
+    final double bottomNavHeight = MediaQuery.of(context).padding.bottom + 80;
+    // --- END OF RESPONSIVE SCALING LOGIC ---
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -350,7 +378,7 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                             Text(
                               '24/7 Available',
                               style: GoogleFonts.inter(
-                                fontSize: 12,
+                                fontSize: 11 * fontScaleFactor, // Apply responsive scaling
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
                               ),
@@ -376,7 +404,7 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                             child: Text(
                               'Emergency Care',
                               style: GoogleFonts.inter(
-                                fontSize: 14,
+                                fontSize: 13 * fontScaleFactor, // Apply responsive scaling
                                             fontWeight: FontWeight.w600,
                                 color: Colors.white,
                               ),
@@ -386,7 +414,7 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                                   Text(
                             'Rapid Response\nEmergency Services',
                             style: GoogleFonts.inter(
-                              fontSize: MediaQuery.of(context).size.width > 400 ? 32 : 24,
+                              fontSize: 28 * fontScaleFactor, // Apply responsive scaling, optimized size
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                               height: 1.2,
@@ -398,7 +426,7 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                           Text(
                             'Professional emergency response designed specifically for seniors with immediate medical support and family coordination',
                             style: GoogleFonts.inter(
-                              fontSize: 16,
+                              fontSize: 15 * fontScaleFactor, // Apply responsive scaling, reduced from 16 to 15
                               color: Colors.white.withOpacity(0.9),
                               height: 1.5,
                             ),
@@ -425,20 +453,26 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                           label: 'Response Time',
                           icon: Icons.speed,
                           color: Color(0xFFDC2626),
+                          layoutScale: layoutScaleFactor,
+                          fontScale: fontScaleFactor,
                         ),
-                        SizedBox(width: 8),
+                        SizedBox(width: 8 * layoutScaleFactor),
                         _buildQuickStatCard(
                           value: '24/7',
                           label: 'Availability',
                           icon: Icons.access_time,
                           color: Color(0xFF059669),
+                          layoutScale: layoutScaleFactor,
+                          fontScale: fontScaleFactor,
                         ),
-                        SizedBox(width: 8),
+                        SizedBox(width: 8 * layoutScaleFactor),
                         _buildQuickStatCard(
                           value: '100%',
                           label: 'Coverage',
                           icon: Icons.shield,
                           color: Color(0xFF3B82F6),
+                          layoutScale: layoutScaleFactor,
+                          fontScale: fontScaleFactor,
                         ),
                       ],
                     ),
@@ -467,19 +501,20 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                               Icon(
                                 Icons.emergency_outlined,
                                 color: Color(0xFFDC2626),
-                                size: 28,
+                                size: 28 * layoutScaleFactor, // Apply responsive scaling
                               ),
-                              SizedBox(width: 12),
+                              SizedBox(width: 12 * layoutScaleFactor), // Apply responsive spacing
                                       Expanded(
                                 child: Text(
                                   'Emergency Response Protocol',
                                   style: GoogleFonts.inter(
-                                    fontSize: 24,
+                                    fontSize: 22 * fontScaleFactor, // Apply responsive scaling, reduced from 24 to 22
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xFF1F2937),
+                                    height: 1.2, // Add line height control
                                   ),
-                                  overflow: TextOverflow.visible,
-                                  softWrap: true,
+                                  maxLines: 2, // Prevent overflow
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
@@ -488,9 +523,9 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                                       Text(
                             'Our comprehensive emergency response system is designed to provide immediate, professional assistance when seniors need it most.',
                             style: GoogleFonts.inter(
-                              fontSize: 16,
+                              fontSize: 15 * fontScaleFactor, // Apply responsive scaling, reduced from 16 to 15
                               color: Color(0xFF4B5563),
-                              height: 1.5,
+                              height: 1.4, // Slightly tighter line height
                             ),
                           ),
                         ],
@@ -506,6 +541,8 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                       description: 'Press emergency button or call our 24/7 helpline. Our system instantly identifies your location and medical profile.',
                       icon: Icons.notification_important,
                       isUrgent: true,
+                      layoutScale: layoutScaleFactor,
+                      fontScale: fontScaleFactor,
                     ),
 
                     _buildEmergencyStepCard(
@@ -513,6 +550,8 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                       title: 'Rapid Assessment',
                       description: 'Trained emergency coordinators assess the situation and dispatch appropriate medical response within minutes.',
                       icon: Icons.assessment,
+                      layoutScale: layoutScaleFactor,
+                      fontScale: fontScaleFactor,
                     ),
 
                     _buildEmergencyStepCard(
@@ -520,6 +559,8 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                       title: 'Medical Response',
                       description: 'Emergency medical professionals arrive with your complete medical history and provide immediate care.',
                       icon: Icons.local_hospital,
+                      layoutScale: layoutScaleFactor,
+                      fontScale: fontScaleFactor,
                     ),
 
                     _buildEmergencyStepCard(
@@ -527,6 +568,8 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                       title: 'Family Coordination',
                       description: 'Automatic notification to designated family members with real-time updates on situation and care provided.',
                       icon: Icons.family_restroom,
+                      layoutScale: layoutScaleFactor,
+                      fontScale: fontScaleFactor,
                     ),
 
                     SizedBox(height: 32),
@@ -535,10 +578,13 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                                       Text(
                       'Comprehensive Emergency Services',
                       style: GoogleFonts.inter(
-                        fontSize: 28,
+                        fontSize: 26 * fontScaleFactor, // Apply responsive scaling, reduced from 28 to 26
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF1F2937),
+                        height: 1.2, // Add line height control
                       ),
+                      maxLines: 2, // Prevent overflow
+                      overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: 20),
 
@@ -554,6 +600,8 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                       icon: Icons.support_agent,
                       primaryColor: Color(0xFFDC2626),
                       backgroundColor: Color(0xFFFEF2F2),
+                      layoutScale: layoutScaleFactor,
+                      fontScale: fontScaleFactor,
                     ),
 
                     _buildServiceCard(
@@ -568,6 +616,8 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                       icon: Icons.medical_services,
                       primaryColor: Color(0xFF059669),
                       backgroundColor: Color(0xFFF0FDF4),
+                      layoutScale: layoutScaleFactor,
+                      fontScale: fontScaleFactor,
                     ),
 
                     _buildServiceCard(
@@ -582,6 +632,8 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                       icon: Icons.shield,
                       primaryColor: Color(0xFF3B82F6),
                       backgroundColor: Color(0xFFF0F9FF),
+                      layoutScale: layoutScaleFactor,
+                      fontScale: fontScaleFactor,
                     ),
 
                     // Critical Information Alert
@@ -612,23 +664,24 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                                 child: Text(
                                   'Critical Emergency Information',
                                   style: GoogleFonts.inter(
-                                    fontSize: 20,
+                                    fontSize: 18 * fontScaleFactor, // Apply responsive scaling, reduced from 20 to 18
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xFFDC2626),
+                                    height: 1.2, // Add line height control
                                   ),
-                                  overflow: TextOverflow.visible,
-                                  softWrap: true,
+                                  maxLines: 2, // Prevent overflow
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height: 16),
+                          SizedBox(height: 16 * layoutScaleFactor), // Apply responsive spacing
                                       Text(
                             'For life-threatening emergencies, always call 911 first. Our emergency services complement but do not replace official emergency services. We provide specialized senior care coordination and family communication.',
                             style: GoogleFonts.inter(
-                              fontSize: 16,
+                              fontSize: 15 * fontScaleFactor, // Apply responsive scaling, reduced from 16 to 15
                               color: Color(0xFF7F1D1D),
-                              height: 1.5,
+                              height: 1.4, // Slightly tighter line height
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -682,12 +735,13 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                                 child: Text(
                                   'Emergency Preparedness Takeaways',
                                   style: GoogleFonts.inter(
-                                    fontSize: 22,
+                                    fontSize: 20 * fontScaleFactor, // Apply responsive scaling, reduced from 22 to 20
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
+                                    height: 1.2, // Add line height control
                                   ),
-                                  overflow: TextOverflow.visible,
-                                  softWrap: true,
+                                  maxLines: 2, // Prevent overflow
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
@@ -728,7 +782,7 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                           Text(
                             'Ready for Emergency Protection?',
                             style: GoogleFonts.inter(
-                              fontSize: 24,
+                              fontSize: 22 * fontScaleFactor, // Apply responsive scaling
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF1F2937),
                             ),
@@ -738,9 +792,9 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                           Text(
                             'Connect with our emergency care specialists to set up your 24/7 protection plan.',
                             style: GoogleFonts.inter(
-                              fontSize: 16,
+                              fontSize: 15 * fontScaleFactor, // Apply responsive scaling, reduced from 16 to 15
                               color: Color(0xFF6B7280),
-                              height: 1.5,
+                              height: 1.4, // Slightly tighter line height
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -767,7 +821,7 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                               iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0),
                               color: Color(0xFFDC2626),
                               textStyle: GoogleFonts.inter(
-                                fontSize: 18,
+                                fontSize: 17 * fontScaleFactor, // Apply responsive scaling, reduced from 18 to 17
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
                                 letterSpacing: 0.0,
@@ -784,6 +838,9 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                   ],
                 ),
                 ),
+
+                // Bottom padding to prevent footer navigation overlap
+                SizedBox(height: bottomNavHeight),
               ],
           ),
         ),
@@ -810,9 +867,9 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
             child: Text(
               text,
               style: GoogleFonts.inter(
-                fontSize: 16,
+                fontSize: 15, // Reduced from 16 to 15 for better scaling
                 color: Colors.white,
-                height: 1.5,
+                height: 1.4, // Slightly tighter line height
               ),
             ),
           ),

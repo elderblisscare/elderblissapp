@@ -1,5 +1,4 @@
-import '/components/custom_appbar/custom_appbar_widget.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
+
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
@@ -43,13 +42,15 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
     required String subtitle,
     required IconData icon,
     required Color color,
+    required double layoutScale,
+    required double fontScale,
   }) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(16 * layoutScale),
         decoration: BoxDecoration(
           color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16 * layoutScale),
           border: Border.all(
             color: color.withOpacity(0.2),
             width: 1,
@@ -61,22 +62,22 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
             Icon(
               icon,
               color: color,
-              size: 32,
+              size: 32 * layoutScale,
             ),
-            SizedBox(height: 12),
+            SizedBox(height: 12 * layoutScale),
             Text(
               title,
               style: GoogleFonts.inter(
-                fontSize: 24,
+                fontSize: 22 * fontScale, // Reduced from 24 to 22
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF1F2937),
               ),
             ),
-            SizedBox(height: 4),
+            SizedBox(height: 4 * layoutScale),
             Text(
               subtitle,
               style: GoogleFonts.inter(
-                fontSize: 14,
+                fontSize: 13 * fontScale, // Reduced from 14 to 13
                 color: Color(0xFF6B7280),
                 fontWeight: FontWeight.w500,
               ),
@@ -93,7 +94,6 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
     required List<String> points,
     required IconData icon,
     required Color accentColor,
-    bool isReversed = false,
   }) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 16),
@@ -244,6 +244,24 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // --- RESPONSIVE SCALING LOGIC ---
+    final screenWidth = MediaQuery.of(context).size.width;
+    const double baseWidth = 375.0;
+
+    // Get accessibility text scale factor and clamp it to prevent UI breakage
+    final accessibilityTextScale = MediaQuery.textScalerOf(context).scale(1.0);
+    final clampedTextScale = accessibilityTextScale.clamp(1.0, 1.3); // Max 130% for accessibility
+
+    // Layout scale factor for padding and container sizes
+    final double layoutScaleFactor = (screenWidth / baseWidth).clamp(1.0, 1.2);
+
+    // Conservative font scale factor that considers accessibility settings
+    final double fontScaleFactor = ((screenWidth / baseWidth) * clampedTextScale).clamp(1.0, 1.15);
+    
+    // Calculate bottom navigation bar height to prevent content overlap
+    final double bottomNavHeight = MediaQuery.of(context).padding.bottom + 80;
+    // --- END OF RESPONSIVE SCALING LOGIC ---
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -331,7 +349,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                                   Text(
                             'Smart Health Tracking\nfor Senior Care',
                             style: GoogleFonts.inter(
-                              fontSize: MediaQuery.of(context).size.width > 400 ? 32 : 24,
+                              fontSize: 28 * fontScaleFactor, // Apply responsive scaling, optimized size
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                               height: 1.2,
@@ -343,9 +361,9 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                                   Text(
                             'Empowering seniors with technology-driven health monitoring for better well-being and peace of mind',
                             style: GoogleFonts.inter(
-                              fontSize: 16,
+                              fontSize: 15 * fontScaleFactor, // Apply responsive scaling, reduced from 16 to 15
                               color: Colors.white.withOpacity(0.9),
-                              height: 1.5,
+                              height: 1.4, // Slightly tighter line height
                             ),
                           ),
                         ],
@@ -370,13 +388,17 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                           subtitle: 'Health Monitoring',
                           icon: Icons.health_and_safety,
                           color: Color(0xFF059669),
+                          layoutScale: layoutScaleFactor,
+                          fontScale: fontScaleFactor,
                         ),
-                        SizedBox(width: 12),
+                        SizedBox(width: 12 * layoutScaleFactor),
                         _buildStatCard(
                           title: '95%',
                           subtitle: 'Early Detection Rate',
                           icon: Icons.trending_up,
                           color: Color(0xFF3B82F6),
+                          layoutScale: layoutScaleFactor,
+                          fontScale: fontScaleFactor,
                         ),
                       ],
                     ),
@@ -617,6 +639,9 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                   ],
                 ),
                 ),
+                
+                // Add sufficient bottom padding to prevent footer navigation overlap
+                SizedBox(height: bottomNavHeight),
               ],
           ),
         ),

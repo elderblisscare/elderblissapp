@@ -75,7 +75,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: Colors.white, // Single white background
         body: SafeArea(
           top: true,
           child: SingleChildScrollView(
@@ -161,8 +161,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                       Container(
                         width: MediaQuery.sizeOf(context).width * 1.0,
                         decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
+                          color: Colors.white, // Consistent white background
                         ),
                         child: Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
@@ -181,8 +180,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                     width:
                                         MediaQuery.sizeOf(context).width * 1.0,
                                     decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
+                                      color: Colors.white, // Consistent white background
                                       borderRadius: BorderRadius.circular(20.0),
                                       border: Border.all(
                                         color: FlutterFlowTheme.of(context).alternate,
@@ -296,8 +294,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                     width:
                                         MediaQuery.sizeOf(context).width * 1.0,
                                     decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
+                                      color: Colors.white, // Consistent white background
                                       borderRadius: BorderRadius.circular(20.0),
                                       border: Border.all(
                                         color: FlutterFlowTheme.of(context).alternate,
@@ -411,8 +408,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                     width:
                                         MediaQuery.sizeOf(context).width * 1.0,
                                     decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
+                                      color: Colors.white, // Consistent white background
                                       borderRadius: BorderRadius.circular(20.0),
                                       border: Border.all(
                                         color: FlutterFlowTheme.of(context).alternate,
@@ -526,8 +522,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                     width:
                                         MediaQuery.sizeOf(context).width * 1.0,
                                     decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
+                                      color: Colors.white, // Consistent white background
                                       borderRadius: BorderRadius.circular(20.0),
                                       border: Border.all(
                                         color: FlutterFlowTheme.of(context).alternate,
@@ -641,8 +636,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                     width:
                                         MediaQuery.sizeOf(context).width * 1.0,
                                     decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
+                                      color: Colors.white, // Consistent white background
                                       borderRadius: BorderRadius.circular(20.0),
                                       border: Border.all(
                                         color: FlutterFlowTheme.of(context).alternate,

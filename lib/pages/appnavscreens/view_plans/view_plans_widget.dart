@@ -142,6 +142,25 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // --- RESPONSIVE SCALING LOGIC ---
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    const double baseWidth = 375.0;
+
+    // Get accessibility text scale factor and clamp it to prevent UI breakage
+    final accessibilityTextScale = MediaQuery.textScalerOf(context).scale(1.0);
+    final clampedTextScale = accessibilityTextScale.clamp(1.0, 1.3); // Max 130% for accessibility
+
+    // Layout scale factor for padding and container sizes
+    final double layoutScaleFactor = (screenWidth / baseWidth).clamp(1.0, 1.2);
+
+    // Conservative font scale factor that considers accessibility settings
+    final double fontScaleFactor = ((screenWidth / baseWidth) * clampedTextScale).clamp(1.0, 1.15);
+    
+    // Calculate bottom navigation bar height to prevent content overlap
+    final double bottomNavHeight = MediaQuery.of(context).padding.bottom + 80;
+    // --- END OF RESPONSIVE SCALING LOGIC ---
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -184,16 +203,18 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                           style: FlutterFlowTheme.of(context).headlineLarge.override(
                             fontFamily: GoogleFonts.sora().fontFamily,
                             color: Colors.white,
+                            fontSize: 28 * fontScaleFactor, // Apply responsive font scaling
                             letterSpacing: 0.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 8.0),
+                        SizedBox(height: 8.0 * layoutScaleFactor),
                         Text(
                           'Select the perfect plan tailored for your healthcare needs',
                           style: FlutterFlowTheme.of(context).bodyLarge.override(
                             fontFamily: GoogleFonts.inter().fontFamily,
                             color: Color(0xFFE0E0E0),
+                            fontSize: 16 * fontScaleFactor, // Apply responsive font scaling
                             letterSpacing: 0.0,
                           ),
                         ),
@@ -211,11 +232,11 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                     padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
                     child: Column(
                       children: [
-                        ...plans.map((plan) => _buildPlanCard(context, plan)).toList()
+                        ...plans.map((plan) => _buildPlanCard(context, plan, layoutScaleFactor, fontScaleFactor)).toList()
                             .divide(SizedBox(height: 20.0)),
                         const SizedBox(height: 40.0), // Spacing before the consultation card
-                        _buildConsultationCard(context), // Add the new consultation card
-                        const SizedBox(height: 60.0), // Added more height at the end of the page
+                        _buildConsultationCard(context, layoutScaleFactor, fontScaleFactor), // Add the new consultation card
+                        SizedBox(height: bottomNavHeight + 20), // Extra bottom padding to prevent footer navigation overflow
                       ],
                     ),
                   ),
@@ -229,7 +250,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
   }
 
   // Reusable Widget for a Plan Card - Enhanced design
-  Widget _buildPlanCard(BuildContext context, Plan plan) {
+  Widget _buildPlanCard(BuildContext context, Plan plan, double layoutScale, double fontScale) {
     final bool isFeatured = plan.isFeatured;
     return Material(
       color: Colors.transparent,
@@ -275,6 +296,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                         'RECOMMENDED',
                         style: FlutterFlowTheme.of(context).labelSmall.override(
                               fontFamily: GoogleFonts.inter().fontFamily,
+                              fontSize: 11 * fontScale, // Apply responsive font scaling
                               color: Colors.white,
                               letterSpacing: 0.5,
                               fontWeight: FontWeight.bold,
@@ -288,6 +310,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                 plan.name,
                 style: FlutterFlowTheme.of(context).headlineMedium.override(
                       fontFamily: GoogleFonts.sora().fontFamily,
+                      fontSize: 24 * fontScale, // Apply responsive font scaling
                       letterSpacing: 0.0,
                       fontWeight: FontWeight.w700,
                       color: isFeatured
@@ -295,11 +318,12 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                           : FlutterFlowTheme.of(context).primaryText,
                     ),
               ),
-              const SizedBox(height: 8.0),
+              SizedBox(height: 8.0 * layoutScale),
               Text(
                 plan.tagline,
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                       fontFamily: GoogleFonts.inter().fontFamily,
+                      fontSize: 14 * fontScale, // Apply responsive font scaling
                       letterSpacing: 0.0,
                       color: FlutterFlowTheme.of(context).secondaryText,
                       lineHeight: 1.4,
@@ -315,20 +339,26 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                     plan.price,
                     style: FlutterFlowTheme.of(context).displaySmall.override(
                           fontFamily: GoogleFonts.sora().fontFamily,
+                          fontSize: 32 * fontScale, // Apply responsive font scaling
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w800,
                           color: FlutterFlowTheme.of(context).primary,
                         ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 4.0, left: 4.0),
-                    child: Text(
-                      plan.billingCycle,
-                      style: FlutterFlowTheme.of(context).labelLarge.override(
-                            fontFamily: GoogleFonts.inter().fontFamily,
-                            letterSpacing: 0.0,
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                          ),
+                  Flexible(
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 4.0 * layoutScale, left: 4.0 * layoutScale),
+                      child: Text(
+                        plan.billingCycle,
+                        style: FlutterFlowTheme.of(context).labelLarge.override(
+                              fontFamily: GoogleFonts.inter().fontFamily,
+                              fontSize: 11 * fontScale, // Reduced font size to prevent overflow
+                              letterSpacing: 0.0,
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                            ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2, // Allow text to wrap to 2 lines if needed
+                      ),
                     ),
                   ),
                 ],
@@ -340,12 +370,12 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: plan.features.map((feature) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 6.0),
+                    padding: EdgeInsets.symmetric(vertical: 6.0 * layoutScale),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          padding: const EdgeInsets.all(2.0),
+                          padding: EdgeInsets.all(2.0 * layoutScale),
                           decoration: BoxDecoration(
                             color: FlutterFlowTheme.of(context).primary.withOpacity(0.1),
                             shape: BoxShape.circle,
@@ -353,15 +383,16 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                           child: Icon(
                             Icons.check_circle_rounded,
                             color: FlutterFlowTheme.of(context).primary,
-                            size: 18.0,
+                            size: 18.0 * layoutScale,
                           ),
                         ),
-                        const SizedBox(width: 12.0),
+                        SizedBox(width: 12.0 * layoutScale),
                         Expanded(
                           child: Text(
                             feature,
                             style: FlutterFlowTheme.of(context).bodyLarge.override(
                                   fontFamily: GoogleFonts.inter().fontFamily,
+                                  fontSize: 15 * fontScale, // Apply responsive font scaling
                                   letterSpacing: 0.0,
                                   color: FlutterFlowTheme.of(context).primaryText,
                                   lineHeight: 1.4,
@@ -421,7 +452,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
   }
 
   // New Widget for the "Still Not Sure?" consultation card
-  Widget _buildConsultationCard(BuildContext context) {
+  Widget _buildConsultationCard(BuildContext context, double layoutScale, double fontScale) {
     return Material(
       elevation: 6.0,
       shape: RoundedRectangleBorder(

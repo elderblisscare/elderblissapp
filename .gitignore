@@ -15,7 +15,9 @@ android/gradlew.bat
 android/gradle/
 android/local.properties
 android/key.properties
-
+# Keystore files
+*.jks
+keystore.properties
 # iOS
 ios/Flutter/.last_build_id
 ios/Flutter/*.podspec

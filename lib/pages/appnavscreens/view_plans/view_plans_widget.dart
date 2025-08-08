@@ -1,25 +1,28 @@
+import 'package:google_fonts/google_fonts.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // <-- 1. NEW IMPORT FOR WHATSAPP ICON
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'view_plans_model.dart';
 export 'view_plans_model.dart';
 
-// Define a data model for your plans for better organization and reusability
 class Plan {
   final String name;
   final String tagline;
   final String price;
-  final String billingCycle;
+  final String pricePeriod;
+  final String billingTerm;
   final List<String> features;
-  final bool isFeatured; // Optional: to highlight a specific plan
+  final bool isFeatured;
 
   Plan({
     required this.name,
     required this.tagline,
     required this.price,
-    required this.billingCycle,
+    required this.pricePeriod,
+    required this.billingTerm,
     required this.features,
     this.isFeatured = false,
   });
@@ -40,13 +43,13 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // Define your plans using the Plan data model
   final List<Plan> plans = [
     Plan(
       name: 'Bliss 911',
       tagline: 'Emergency Care plan for Active Elders',
       price: '₹499',
-      billingCycle: '/Month (Billed Annually)',
+      pricePeriod: '/Month',
+      billingTerm: '(Billed Annually)',
       features: [
         '24/7 Emergency Coordination',
         'Doctor Tele-Consultation',
@@ -63,7 +66,8 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
       name: 'Bliss Lifestyle',
       tagline: 'Everyday Wellness & Support for Graceful Aging',
       price: '₹2100',
-      billingCycle: '/Month (Billed Annually)',
+      pricePeriod: '/Month',
+      billingTerm: '(Billed Annually)',
       features: [
         '24/7 Emergency Response',
         'Unlimited Doctor Tele-Consultation',
@@ -80,13 +84,14 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
         'Travel Helpdesk',
         'Digital Medical Records',
       ],
-      isFeatured: true, // Example of highlighting a plan
+      isFeatured: true,
     ),
     Plan(
       name: 'Bliss Social',
       tagline: 'Companionship, Conversation & Care',
       price: '₹5000',
-      billingCycle: '/Month (Billed Annually)',
+      pricePeriod: '/Month',
+      billingTerm: '(Billed Annually)',
       features: [
         '24/7 Emergency Response',
         'Dedicated Elderbliss Guardian',
@@ -105,7 +110,8 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
       name: 'Bliss Healthplus',
       tagline: 'Proactive Health Support for Safer Aging',
       price: '₹5500',
-      billingCycle: '/Month (Billed Annually)',
+      pricePeriod: '/Month',
+      billingTerm: '(Billed Annually)',
       features: [
         '24/7 Emergency Response',
         'Unlimited Doctor Tele-Consultation',
@@ -144,41 +150,32 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
   Widget build(BuildContext context) {
     // --- RESPONSIVE SCALING LOGIC ---
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
     const double baseWidth = 375.0;
 
-    // Get accessibility text scale factor and clamp it to prevent UI breakage
     final accessibilityTextScale = MediaQuery.textScalerOf(context).scale(1.0);
-    final clampedTextScale = accessibilityTextScale.clamp(1.0, 1.3); // Max 130% for accessibility
+    final clampedTextScale = accessibilityTextScale.clamp(1.0, 1.3);
 
-    // Layout scale factor for padding and container sizes
     final double layoutScaleFactor = (screenWidth / baseWidth).clamp(1.0, 1.2);
 
-    // Conservative font scale factor that considers accessibility settings
     final double fontScaleFactor = ((screenWidth / baseWidth) * clampedTextScale).clamp(1.0, 1.15);
     
-    // Calculate bottom navigation bar height to prevent content overlap
     final double bottomNavHeight = MediaQuery.of(context).padding.bottom + 80;
     // --- END OF RESPONSIVE SCALING LOGIC ---
 
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: SafeArea(
           top: true,
           child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Gradient Header Section - Similar to Services page
+                // Gradient Header Section
                 Container(
-                  width: MediaQuery.sizeOf(context).width * 1.0,
+                  width: double.infinity,
                   height: 180.0,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -192,31 +189,28 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                     ),
                   ),
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 24.0, 24.0),
+                    padding: EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 24.0),
                     child: Column(
-                      mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Choose Your Plan',
                           style: FlutterFlowTheme.of(context).headlineLarge.override(
-                            fontFamily: GoogleFonts.sora().fontFamily,
-                            color: Colors.white,
-                            fontSize: 28 * fontScaleFactor, // Apply responsive font scaling
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+                                fontFamily: GoogleFonts.sora().fontFamily,
+                                color: Colors.white,
+                                fontSize: 28 * fontScaleFactor,
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
                         SizedBox(height: 8.0 * layoutScaleFactor),
                         Text(
                           'Select the perfect plan tailored for your healthcare needs',
                           style: FlutterFlowTheme.of(context).bodyLarge.override(
-                            fontFamily: GoogleFonts.inter().fontFamily,
-                            color: Color(0xFFE0E0E0),
-                            fontSize: 16 * fontScaleFactor, // Apply responsive font scaling
-                            letterSpacing: 0.0,
-                          ),
+                                fontFamily: GoogleFonts.inter().fontFamily,
+                                color: Color(0xFFE0E0E0),
+                                fontSize: 16 * fontScaleFactor,
+                              ),
                         ),
                       ],
                     ),
@@ -224,7 +218,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                 ),
                 // Plans List
                 Container(
-                  width: MediaQuery.sizeOf(context).width * 1.0,
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).secondaryBackground,
                   ),
@@ -234,9 +228,9 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                       children: [
                         ...plans.map((plan) => _buildPlanCard(context, plan, layoutScaleFactor, fontScaleFactor)).toList()
                             .divide(SizedBox(height: 20.0)),
-                        const SizedBox(height: 40.0), // Spacing before the consultation card
-                        _buildConsultationCard(context, layoutScaleFactor, fontScaleFactor), // Add the new consultation card
-                        SizedBox(height: bottomNavHeight + 20), // Extra bottom padding to prevent footer navigation overflow
+                        const SizedBox(height: 40.0),
+                        _buildConsultationCard(context, layoutScaleFactor, fontScaleFactor),
+                        SizedBox(height: bottomNavHeight + 20),
                       ],
                     ),
                   ),
@@ -249,199 +243,189 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
     );
   }
 
-  // Reusable Widget for a Plan Card - Enhanced design
   Widget _buildPlanCard(BuildContext context, Plan plan, double layoutScale, double fontScale) {
     final bool isFeatured = plan.isFeatured;
+    final theme = FlutterFlowTheme.of(context);
+
     return Material(
       color: Colors.transparent,
       elevation: isFeatured ? 8.0 : 4.0,
+      shadowColor: isFeatured ? Color(0xFFC71F38).withOpacity(0.6) : Color(0xFFFF5E5E).withOpacity(0.5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24.0),
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: isFeatured
-              ? Color(0xFFFFF7ED) // Bright background for featured plan - used previously in LifestyleBog
-              : FlutterFlowTheme.of(context).secondaryBackground,
+          color: isFeatured ? Color(0xFFFFF7ED) : theme.secondaryBackground,
           borderRadius: BorderRadius.circular(24.0),
-          border: isFeatured
-              ? Border.all(
-                  color: FlutterFlowTheme.of(context).primary,
-                  width: 2.0,
-                )
-              : Border.all(
-                  color: FlutterFlowTheme.of(context).alternate,
-                  width: 1.0,
-                ),
-          // Removed gradient for featured plan to use solid bright color
-          // gradient: isFeatured ? LinearGradient(...) : null,
+          border: Border.all(
+            color: isFeatured ? Color(0xFFC71F38) : theme.alternate,
+            width: isFeatured ? 2.0 : 1.0,
+          ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(28.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Plan Name and Tagline
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  if (isFeatured)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).primary,
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: Text(
-                        'RECOMMENDED',
-                        style: FlutterFlowTheme.of(context).labelSmall.override(
-                              fontFamily: GoogleFonts.inter().fontFamily,
-                              fontSize: 11 * fontScale, // Apply responsive font scaling
-                              color: Colors.white,
-                              letterSpacing: 0.5,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                    ),
-                ],
-              ),
-              if (isFeatured) const SizedBox(height: 12.0),
-              Text(
-                plan.name,
-                style: FlutterFlowTheme.of(context).headlineMedium.override(
-                      fontFamily: GoogleFonts.sora().fontFamily,
-                      fontSize: 24 * fontScale, // Apply responsive font scaling
-                      letterSpacing: 0.0,
-                      fontWeight: FontWeight.w700,
-                      color: isFeatured
-                          ? FlutterFlowTheme.of(context).primary
-                          : FlutterFlowTheme.of(context).primaryText,
-                    ),
-              ),
-              SizedBox(height: 8.0 * layoutScale),
-              Text(
-                plan.tagline,
-                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: GoogleFonts.inter().fontFamily,
-                      fontSize: 14 * fontScale, // Apply responsive font scaling
-                      letterSpacing: 0.0,
-                      color: FlutterFlowTheme.of(context).secondaryText,
-                      lineHeight: 1.4,
-                    ),
-              ),
-              const SizedBox(height: 24.0),
-
-              // Price and Billing Cycle
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    plan.price,
-                    style: FlutterFlowTheme.of(context).displaySmall.override(
-                          fontFamily: GoogleFonts.sora().fontFamily,
-                          fontSize: 32 * fontScale, // Apply responsive font scaling
-                          letterSpacing: 0.0,
-                          fontWeight: FontWeight.w800,
-                          color: FlutterFlowTheme.of(context).primary,
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(28.0, 24.0, 28.0, 24.0),
+                decoration: BoxDecoration(
+                  color: isFeatured ? Color(0xFFC71F38) : Color(0xFFFF5E5E),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (isFeatured)
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(20.0),
                         ),
-                  ),
-                  Flexible(
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 4.0 * layoutScale, left: 4.0 * layoutScale),
-                      child: Text(
-                        plan.billingCycle,
-                        style: FlutterFlowTheme.of(context).labelLarge.override(
-                              fontFamily: GoogleFonts.inter().fontFamily,
-                              fontSize: 11 * fontScale, // Reduced font size to prevent overflow
-                              letterSpacing: 0.0,
-                              color: FlutterFlowTheme.of(context).secondaryText,
-                            ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2, // Allow text to wrap to 2 lines if needed
+                        child: Text(
+                          'RECOMMENDED',
+                          style: theme.labelSmall.override(
+                                fontFamily: GoogleFonts.inter().fontFamily,
+                                fontSize: 11 * fontScale,
+                                color: Colors.white,
+                                letterSpacing: 0.5,
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
                       ),
+                    if (isFeatured) const SizedBox(height: 12.0),
+                    Text(
+                      plan.name,
+                      style: theme.headlineMedium.override(
+                            fontFamily: GoogleFonts.sora().fontFamily,
+                            fontSize: 24 * fontScale,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24.0),
-
-              // Features List with improved design
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: plan.features.map((feature) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(vertical: 6.0 * layoutScale),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    SizedBox(height: 8.0 * layoutScale),
+                    Text(
+                      plan.tagline,
+                      style: theme.bodyMedium.override(
+                            fontFamily: GoogleFonts.inter().fontFamily,
+                            fontSize: 14 * fontScale,
+                            color: Colors.white.withOpacity(0.9),
+                            lineHeight: 1.4,
+                          ),
+                    ),
+                    const SizedBox(height: 24.0),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Container(
-                          padding: EdgeInsets.all(2.0 * layoutScale),
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).primary.withOpacity(0.1),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.check_circle_rounded,
-                            color: FlutterFlowTheme.of(context).primary,
-                            size: 18.0 * layoutScale,
-                          ),
+                        Text(
+                          plan.price,
+                          style: theme.displaySmall.override(
+                                fontFamily: GoogleFonts.sora().fontFamily,
+                                fontSize: 32 * fontScale,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                              ),
                         ),
-                        SizedBox(width: 12.0 * layoutScale),
-                        Expanded(
-                          child: Text(
-                            feature,
-                            style: FlutterFlowTheme.of(context).bodyLarge.override(
-                                  fontFamily: GoogleFonts.inter().fontFamily,
-                                  fontSize: 15 * fontScale, // Apply responsive font scaling
-                                  letterSpacing: 0.0,
-                                  color: FlutterFlowTheme.of(context).primaryText,
-                                  lineHeight: 1.4,
+                        Flexible(
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 4.0 * layoutScale, left: 8.0 * layoutScale),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  plan.pricePeriod,
+                                  style: theme.bodyMedium.override(
+                                        fontFamily: GoogleFonts.inter().fontFamily,
+                                        fontSize: 14 * fontScale,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        lineHeight: 1.2,
+                                      ),
                                 ),
+                                Text(
+                                  plan.billingTerm,
+                                  style: theme.labelSmall.override(
+                                        fontFamily: GoogleFonts.inter().fontFamily,
+                                        fontSize: 12 * fontScale,
+                                        color: Colors.white.withOpacity(0.7),
+                                      ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
                     ),
-                  );
-                }).toList(),
+                  ],
+                ),
               ),
-              const SizedBox(height: 32.0),
-
-              // Select Plan Button - Enhanced design and WhatsApp redirection
-              FFButtonWidget(
-                onPressed: () async {
-                  try {
-                    logFirebaseEvent('VIEW_PLANS_SELECT_PLAN_BTN_ON_TAP');
-                  } catch (e) {
-                    // Continue even if logging fails
-                    print('Firebase logging error: $e');
-                  }
-                  await launchURL('https://wa.me/message/BFIUAWXCKN3BM1');
-                },
-                text: 'Select ${plan.name} Plan',
-                options: FFButtonOptions(
-                  width: double.infinity,
-                  height: 56.0,
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                  color: isFeatured
-                      ? FlutterFlowTheme.of(context).primary
-                      : FlutterFlowTheme.of(context).secondaryBackground,
-                  textStyle: FlutterFlowTheme.of(context).titleMedium.override(
-                        fontFamily: GoogleFonts.inter().fontFamily,
-                        color: isFeatured
-                            ? FlutterFlowTheme.of(context).info
-                            : FlutterFlowTheme.of(context).primary,
-                        letterSpacing: 0.0,
-                        fontWeight: FontWeight.w600,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(28.0, 28.0, 28.0, 32.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: plan.features.map((feature) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(vertical: 6.0 * layoutScale),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(2.0 * layoutScale),
+                                decoration: BoxDecoration(
+                                  color: theme.primary.withOpacity(0.1),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.check_circle_rounded,
+                                  color: theme.primary,
+                                  size: 18.0 * layoutScale,
+                                ),
+                              ),
+                              SizedBox(width: 12.0 * layoutScale),
+                              Expanded(
+                                child: Text(
+                                  feature,
+                                  style: theme.bodyLarge.override(
+                                        fontFamily: GoogleFonts.inter().fontFamily,
+                                        fontSize: 15 * fontScale,
+                                        lineHeight: 1.4,
+                                      ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 32.0),
+                    FFButtonWidget(
+                      onPressed: () async {
+                        await launchURL('https://wa.me/message/BFIUAWXCKN3BM1');
+                      },
+                      text: 'Select ${plan.name} Plan',
+                      options: FFButtonOptions(
+                        width: double.infinity,
+                        height: 56.0,
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        iconPadding: EdgeInsets.zero,
+                        color: isFeatured ? Color(0xFFC71F38) : Color(0xFFFF5E5E),
+                        textStyle: theme.titleMedium.override(
+                              fontFamily: GoogleFonts.inter().fontFamily,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                        elevation: 4.0,
+                        borderRadius: BorderRadius.circular(28.0),
+                        borderSide: BorderSide.none,
                       ),
-                  elevation: isFeatured ? 6.0 : 2.0,
-                  borderRadius: BorderRadius.circular(28.0),
-                  borderSide: isFeatured
-                      ? BorderSide.none
-                      : BorderSide(
-                          color: FlutterFlowTheme.of(context).primary,
-                          width: 2.0,
-                        ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -451,8 +435,8 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
     );
   }
 
-  // New Widget for the "Still Not Sure?" consultation card
   Widget _buildConsultationCard(BuildContext context, double layoutScale, double fontScale) {
+    final theme = FlutterFlowTheme.of(context);
     return Material(
       elevation: 6.0,
       shape: RoundedRectangleBorder(
@@ -463,15 +447,15 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              FlutterFlowTheme.of(context).primary.withOpacity(0.08),
-              FlutterFlowTheme.of(context).secondary.withOpacity(0.05),
+              theme.primary.withOpacity(0.08),
+              theme.secondary.withOpacity(0.05),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(24.0),
           border: Border.all(
-            color: FlutterFlowTheme.of(context).primary.withOpacity(0.2),
+            color: theme.primary.withOpacity(0.2),
             width: 1.5,
           ),
         ),
@@ -485,19 +469,22 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                   Container(
                     padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).primary.withOpacity(0.15),
+                      color: theme.primary.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: Icon(
+                      Icons.support_agent_rounded,
+                      color: theme.primary,
+                      size: 28.0,
                     ),
                   ),
                   const SizedBox(width: 16.0),
                   Expanded(
                     child: Text(
                       'Still Not Sure?',
-                      style: FlutterFlowTheme.of(context).headlineMedium.override(
+                      style: theme.headlineMedium.override(
                             fontFamily: GoogleFonts.sora().fontFamily,
-                            letterSpacing: 0.0,
                             fontWeight: FontWeight.w700,
-                            color: FlutterFlowTheme.of(context).primaryText,
                           ),
                     ),
                   ),
@@ -506,22 +493,21 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
               const SizedBox(height: 16.0),
               Text(
                 'Get a free consultation to find the perfect plan for your needs. Our experts are here to guide you through your healthcare journey!',
-                style: FlutterFlowTheme.of(context).bodyLarge.override(
+                style: theme.bodyLarge.override(
                       fontFamily: GoogleFonts.inter().fontFamily,
-                      letterSpacing: 0.0,
-                      color: FlutterFlowTheme.of(context).secondaryText,
+                      color: theme.secondaryText,
                       lineHeight: 1.5,
                     ),
               ),
               const SizedBox(height: 24.0),
               FFButtonWidget(
                 onPressed: () async {
-                  logFirebaseEvent('VIEW_PLANS_CONSULTATION_BTN_ON_TAP');
                   await launchURL('https://wa.me/message/BFIUAWXCKN3BM1');
                 },
                 text: 'Get Free Consultation',
-                icon: Icon(
-                  Icons.chat_bubble_outline,
+                // 2. UPDATED ICON
+                icon: FaIcon(
+                  FontAwesomeIcons.whatsapp,
                   color: FlutterFlowTheme.of(context).info,
                   size: 20.0,
                 ),
@@ -529,12 +515,11 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                   width: double.infinity,
                   height: 56.0,
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0),
-                  color: FlutterFlowTheme.of(context).primary, // Changed to app's primary color
-                  textStyle: FlutterFlowTheme.of(context).titleMedium.override(
+                  iconPadding: EdgeInsets.only(right: 8.0),
+                  color: theme.primary,
+                  textStyle: theme.titleMedium.override(
                         fontFamily: GoogleFonts.inter().fontFamily,
-                        color: FlutterFlowTheme.of(context).info,
-                        letterSpacing: 0.0,
+                        color: theme.info,
                         fontWeight: FontWeight.w600,
                       ),
                   elevation: 4.0,

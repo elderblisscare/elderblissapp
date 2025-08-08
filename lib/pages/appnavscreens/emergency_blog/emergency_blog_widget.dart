@@ -1,4 +1,4 @@
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart'; 
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
@@ -810,7 +810,7 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                             },
                             text: 'Emergency Contact Support',
                             icon: Icon(
-                              Icons.chat_bubble_outline,
+                              FontAwesomeIcons.whatsapp,
                               color: Colors.white,
                               size: 20.0,
                             ),

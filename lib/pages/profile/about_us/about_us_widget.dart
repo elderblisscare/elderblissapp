@@ -1,10 +1,10 @@
-import '/components/custom_appbar/custom_appbar_widget.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:url_launcher/url_launcher.dart'; // Ensure this is imported for launchUrl
+import 'package:url_launcher/url_launcher.dart';
 import 'about_us_model.dart';
 export 'about_us_model.dart';
 
@@ -27,8 +27,6 @@ class _AboutUsWidgetState extends State<AboutUsWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => AboutUsModel());
-
-    // Log screen view for analytics
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'AboutUs'});
   }
 
@@ -41,39 +39,35 @@ class _AboutUsWidgetState extends State<AboutUsWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // Dismiss keyboard when tapping outside text fields
-        FocusScope.of(context).unfocus();
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: SafeArea(
           top: true,
-          child: SingleChildScrollView( // Moved SingleChildScrollView here
+          child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                // HEADER SECTION - UPDATED TO MATCH CONTACT US PAGE
+                // HEADER SECTION
                 Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      begin: Alignment.topLeft, // Matched ContactusWidget
-                      end: Alignment.bottomRight, // Matched ContactusWidget
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                       colors: [
                         FlutterFlowTheme.of(context).primary,
-                        FlutterFlowTheme.of(context).primary.withOpacity(0.8), // Consistent gradient
+                        FlutterFlowTheme.of(context).primary.withOpacity(0.8),
                       ],
                     ),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(24, 20, 24, 32), // Matched ContactusWidget padding
+                    padding: EdgeInsets.fromLTRB(24, 20, 24, 32),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row( // For back button - Matched ContactusWidget
+                        Row(
                           children: [
                             Container(
                               decoration: BoxDecoration(
@@ -86,8 +80,7 @@ class _AboutUsWidgetState extends State<AboutUsWidget> {
                               ),
                               child: IconButton(
                                 onPressed: () async {
-                                  logFirebaseEvent('ABOUT_US_PAGE_arrow_back_ICN_ON_TAP');
-                                  context.pop(); // Use pop to go back
+                                  context.pop();
                                 },
                                 icon: Icon(
                                   Icons.arrow_back,
@@ -98,290 +91,274 @@ class _AboutUsWidgetState extends State<AboutUsWidget> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 24), // Space after back button - Matched ContactusWidget
+                        SizedBox(height: 24),
                         Text(
-                          'About Us', // Title
-                          style: GoogleFonts.inter( // Using GoogleFonts.inter as in ContactusWidget
-                            fontSize: 32, // Matched ContactusWidget font size
+                          'About Us',
+                          style: GoogleFonts.inter(
+                            fontSize: 32,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
-                            letterSpacing: -0.5, // Matched ContactusWidget letter spacing
+                            letterSpacing: -0.5,
                           ),
                         ),
-                        SizedBox(height: 8), // Space after title - Matched ContactusWidget
+                        SizedBox(height: 8),
                         Text(
-                          'Learn about our mission to enhance elder care and our core values.', // Updated subtitle
-                          style: GoogleFonts.inter( // Using GoogleFonts.inter as in ContactusWidget
-                            fontSize: 16, // Matched ContactusWidget font size
-                            color: Colors.white.withOpacity(0.9), // Matched opacity
-                            height: 1.5, // Matched line height
+                          'Learn about our mission to enhance elder care and our core values.',
+                          style: GoogleFonts.inter(
+                            fontSize: 16,
+                            color: Colors.white.withOpacity(0.9),
+                            height: 1.5,
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                // END HEADER SECTION
 
                 // Main Content Section
-                Container(
-                  width: MediaQuery.sizeOf(context).width * 1.0,
-                  decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
-                    child: Column(
-                      children: [
-                        // Stats Section - Retains Icons
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 32.0),
-                          child: Material(
-                            color: Colors.transparent,
-                            elevation: 4.0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+                  child: Column(
+                    children: [
+                      // --- UPDATED STATS SECTION CARD ---
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 24.0),
+                        decoration: BoxDecoration(
+                          color: FlutterFlowTheme.of(context).primary.withOpacity(0.05),
+                          borderRadius: BorderRadius.circular(20.0),
+                          border: Border.all(
+                            color: FlutterFlowTheme.of(context).primary.withOpacity(0.15),
+                            width: 1.0,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: FlutterFlowTheme.of(context).primary.withOpacity(0.08),
+                              blurRadius: 15,
+                              offset: Offset(0, 5),
                             ),
-                            child: Container(
-                              width: MediaQuery.sizeOf(context).width * 1.0,
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 24.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              _buildStatItem(context, '1000+', 'Families Served', icon: Icon(Icons.people_outline, color: FlutterFlowTheme.of(context).primary, size: 28.0)),
+                              Container(height: 40.0, width: 1.0, color: FlutterFlowTheme.of(context).alternate),
+                              _buildStatItem(context, '24/7', 'Support Available', icon: Icon(Icons.headset_mic_outlined, color: FlutterFlowTheme.of(context).primary, size: 28.0)),
+                              Container(height: 40.0, width: 1.0, color: FlutterFlowTheme.of(context).alternate),
+                              _buildStatItem(
+                                context,
+                                '5+',
+                                'Years Experience',
+                                // Custom icon widget for the 5-star rating
+                                icon: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: List.generate(5, (index) => Icon(
+                                    Icons.star_border_outlined,
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    size: 18.0,
+                                  )),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      // --- OUR VISION SECTION CARD ---
+                      Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(bottom: 24.0),
+                        padding: const EdgeInsets.all(24.0),
+                        decoration: BoxDecoration(
+                          color: FlutterFlowTheme.of(context).primary.withOpacity(0.05),
+                          borderRadius: BorderRadius.circular(20.0),
+                          border: Border.all(
+                            color: FlutterFlowTheme.of(context).primary.withOpacity(0.15),
+                            width: 1.0,
+                          ),
+                           boxShadow: [
+                            BoxShadow(
+                              color: FlutterFlowTheme.of(context).primary.withOpacity(0.08),
+                              blurRadius: 15,
+                              offset: Offset(0, 5),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Our Vision',
+                              style: FlutterFlowTheme.of(context).headlineMedium.override(
+                                    fontFamily: GoogleFonts.sora().fontFamily,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
+                            const SizedBox(height: 16.0),
+                            Text(
+                              'ElderBliss envisions creating a vibrant community for seniors, dedicated to enhancing your lifestyle and meeting all your health needs. Our mission is to provide a safe haven for elders and a comprehensive solution for all your requirements. We aim to create a supportive environment that values respect, dignity, happiness, and fulfillment in the golden years.',
+                              style: FlutterFlowTheme.of(context).bodyLarge.override(
+                                    fontFamily: GoogleFonts.inter().fontFamily,
+                                    letterSpacing: 0.0,
+                                    lineHeight: 1.6,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // --- WHAT INSPIRES US SECTION CARD (WITH NESTED CARD) ---
+                      Container(
+                         width: double.infinity,
+                         margin: const EdgeInsets.only(bottom: 24.0),
+                         padding: const EdgeInsets.all(24.0),
+                         decoration: BoxDecoration(
+                          color: FlutterFlowTheme.of(context).primary.withOpacity(0.05),
+                          borderRadius: BorderRadius.circular(20.0),
+                          border: Border.all(
+                            color: FlutterFlowTheme.of(context).primary.withOpacity(0.15),
+                            width: 1.0,
+                          ),
+                           boxShadow: [
+                            BoxShadow(
+                              color: FlutterFlowTheme.of(context).primary.withOpacity(0.08),
+                              blurRadius: 15,
+                              offset: Offset(0, 5),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'What Inspires Us',
+                              style: FlutterFlowTheme.of(context).headlineMedium.override(
+                                    fontFamily: GoogleFonts.sora().fontFamily,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
+                            const SizedBox(height: 16.0),
+                            Text(
+                              'At ElderBliss, we are driven by the belief that every person deserves to live a life filled with joy, dignity, and meaningful connections. Our values are at the heart of everything we do.',
+                              style: FlutterFlowTheme.of(context).bodyLarge.override(
+                                    fontFamily: GoogleFonts.inter().fontFamily,
+                                    letterSpacing: 0.0,
+                                    lineHeight: 1.6,
+                                  ),
+                            ),
+                            const SizedBox(height: 24.0),
+                            Container(
+                              padding: const EdgeInsets.all(20.0),
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context).secondaryBackground,
-                                borderRadius: BorderRadius.circular(20.0),
+                                borderRadius: BorderRadius.circular(16.0),
                                 border: Border.all(
-                                  color: FlutterFlowTheme.of(context).alternate,
+                                  color: FlutterFlowTheme.of(context).primary.withOpacity(0.1),
                                   width: 1.0,
-                                ),
+                                )
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(24.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    _buildStatItem(context, '1000+', 'Families Served', Icons.people),
-                                    Container(
-                                      height: 40.0,
-                                      width: 1.0,
-                                      color: FlutterFlowTheme.of(context).alternate,
-                                    ),
-                                    _buildStatItem(context, '24/7', 'Support Available', Icons.access_time),
-                                    Container(
-                                      height: 40.0,
-                                      width: 1.0,
-                                      color: FlutterFlowTheme.of(context).alternate,
-                                    ),
-                                    _buildStatItem(context, '5+', 'Years Experience', Icons.star),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        // Our Vision Section - Icons removed, text overflow fixed
-                        Material(
-                          color: Colors.transparent,
-                          elevation: 4.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: Container(
-                            width: MediaQuery.sizeOf(context).width * 1.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context).secondaryBackground,
-                              borderRadius: BorderRadius.circular(20.0),
-                              border: Border.all(
-                                color: FlutterFlowTheme.of(context).alternate,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(24.0),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Our Vision',
-                                    style: FlutterFlowTheme.of(context).headlineMedium.override(
-                                          fontFamily: GoogleFonts.sora().fontFamily,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w600,
-                                          color: FlutterFlowTheme.of(context).primaryText,
-                                        ),
-                                  ),
-                                  const SizedBox(height: 20.0),
-                                  Text(
-                                    'ElderBliss envisions creating a vibrant community for seniors, dedicated to enhancing your lifestyle and meeting all your health needs. Our mission is to provide a safe haven for elders and a comprehensive solution for all your requirements. We aim to create a supportive environment that values respect, dignity, happiness, and fulfillment in the golden years. Discover compassion and a wide range of premium services, all conveniently accessible at your fingertips.',
-                                    style: FlutterFlowTheme.of(context).bodyLarge.override(
-                                          fontFamily: GoogleFonts.inter().fontFamily,
-                                          letterSpacing: 0.0,
-                                          lineHeight: 1.6,
-                                          color: FlutterFlowTheme.of(context).secondaryText,
-                                        ),
-                                    softWrap: true,
-                                    overflow: TextOverflow.visible,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(height: 24.0),
-
-                        // What Inspires Us Section - Icons removed, text overflow fixed
-                        Material(
-                          color: Colors.transparent,
-                          elevation: 4.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: Container(
-                            width: MediaQuery.sizeOf(context).width * 1.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context).secondaryBackground,
-                              borderRadius: BorderRadius.circular(20.0),
-                              border: Border.all(
-                                color: FlutterFlowTheme.of(context).alternate,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(24.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'What Inspires Us',
-                                    style: FlutterFlowTheme.of(context).headlineMedium.override(
-                                              fontFamily: GoogleFonts.sora().fontFamily,
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w600,
-                                              color: FlutterFlowTheme.of(context).primaryText,
-                                            ),
-                                  ),
-                                  const SizedBox(height: 20.0),
-                                  Text(
-                                    'At ElderBliss, we are driven by the belief that every person deserves to live a life filled with joy, dignity, and meaningful connections. Our values are at the heart of everything we do, guiding us to deliver an exceptional experience for our Seniors.',
-                                    style: FlutterFlowTheme.of(context).bodyLarge.override(
-                                          fontFamily: GoogleFonts.inter().fontFamily,
-                                          letterSpacing: 0.0,
-                                          lineHeight: 1.6,
-                                          color: FlutterFlowTheme.of(context).secondaryText,
-                                        ),
-                                    softWrap: true,
-                                    overflow: TextOverflow.visible,
-                                  ),
-                                  const SizedBox(height: 32.0),
-                                  // Values Section - Ensure individual value items handle overflow
                                   _buildValueItem(context, Icons.favorite_border, 'Understanding',
                                       'We approach each Elder with kindness and empathy, ensuring they feel valued and understood.'),
                                   _buildValueItem(context, Icons.handshake_outlined, 'Respect',
-                                      'We honor the unique life experiences and contributions of our Seniors, creating an atmosphere where everyone feels appreciated and respected.'),
+                                      'We honor the unique life experiences and contributions of our Seniors, creating an atmosphere where everyone feels appreciated.'),
                                   _buildValueItem(context, Icons.people_outline, 'Tribe',
                                       'We nurture a sense of belonging through lively social events, meaningful relationships, and a support system that feels like family.'),
                                   _buildValueItem(context, Icons.star_border, 'Distinction',
-                                      'We maintain the highest standards in all aspects of our service, from personalized care plans to the top-notch quality of our facilities.'),
+                                      'We maintain the highest standards in all aspects of our service, from personalized care plans to top-notch facilities.', hasPadding: false),
                                 ],
                               ),
                             ),
-                          ),
+                          ],
                         ),
+                      ),
 
-                        const SizedBox(height: 24.0),
-
-                        // Contact Section - Icon unchanged
-                        Material(
-                          color: Colors.transparent,
-                          elevation: 4.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
+                      // --- CONTACT SECTION CARD ---
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 24.0),
+                        decoration: BoxDecoration(
+                           gradient: LinearGradient(
+                            colors: [
+                              FlutterFlowTheme.of(context).primary,
+                              FlutterFlowTheme.of(context).secondary
+                            ],
+                            stops: [0.0, 1.0],
+                            begin: AlignmentDirectional(-1.0, 0.0),
+                            end: AlignmentDirectional(1.0, 0.0),
                           ),
-                          child: Container(
-                            width: MediaQuery.sizeOf(context).width * 1.0,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  FlutterFlowTheme.of(context).primary,
-                                  FlutterFlowTheme.of(context).secondary
-                                ],
-                                stops: [0.0, 1.0],
-                                begin: AlignmentDirectional(-1.0, 0.0),
-                                end: AlignmentDirectional(1.0, 0.0),
-                              ),
-                              borderRadius: BorderRadius.circular(20.0),
+                          borderRadius: BorderRadius.circular(20.0),
+                           boxShadow: [
+                            BoxShadow(
+                              color: FlutterFlowTheme.of(context).primary.withOpacity(0.3),
+                              blurRadius: 20,
+                              offset: Offset(0, 8),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(32.0),
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.chat_bubble_outline,
-                                    color: Colors.white,
-                                    size: 40.0,
-                                  ),
-                                  const SizedBox(height: 16.0),
-                                  Text(
-                                    'Get in Touch',
-                                    style: FlutterFlowTheme.of(context).headlineMedium.override(
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(32.0),
+                          child: Column(
+                            children: [
+                              Icon(
+                                FontAwesomeIcons.whatsapp,
+                                color: Colors.white,
+                                size: 40.0,
+                              ),
+                              const SizedBox(height: 16.0),
+                              Text(
+                                'Get in Touch',
+                                style: FlutterFlowTheme.of(context).headlineMedium.override(
                                       fontFamily: GoogleFonts.sora().fontFamily,
                                       color: Colors.white,
                                       letterSpacing: 0.0,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                  ),
-                                  const SizedBox(height: 8.0),
-                                  Text(
-                                    'Ready to learn more about our services? Contact us today!',
-                                    textAlign: TextAlign.center,
-                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              ),
+                              const SizedBox(height: 8.0),
+                              Text(
+                                'Ready to learn more about our services? Contact us today!',
+                                textAlign: TextAlign.center,
+                                style: FlutterFlowTheme.of(context).bodyMedium.override(
                                       fontFamily: GoogleFonts.inter().fontFamily,
                                       color: Color(0xFFE0E0E0),
                                       letterSpacing: 0.0,
                                     ),
-                                    softWrap: true,
-                                    overflow: TextOverflow.visible,
-                                  ),
-                                  const SizedBox(height: 24.0),
-                                  FFButtonWidget(
-                                    onPressed: () async {
-                                      logFirebaseEvent('ABOUT_US_CONTACT_US_BTN_ON_TAP');
-                                      // CORRECTED: Using Uri.parse and LaunchMode.externalApplication
-                                      await launchUrl(Uri.parse('https://wa.me/message/BFIUAWXCKN3BM1'),
-                                          mode: LaunchMode.externalApplication);
-                                    },
-                                    text: 'Contact Us on WhatsApp',
-                                    icon: Icon(
-                                      Icons.message,
-                                      size: 20.0,
-                                    ),
-                                    options: FFButtonOptions(
-                                      width: MediaQuery.sizeOf(context).width * 1.0,
-                                      height: 50.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                                      iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0),
-                                      color: Colors.white,
-                                      textStyle: FlutterFlowTheme.of(context).titleMedium.override(
+                              ),
+                              const SizedBox(height: 24.0),
+                              FFButtonWidget(
+                                onPressed: () async {
+                                  await launchUrl(Uri.parse('https://wa.me/message/BFIUAWXCKN3BM1'),
+                                      mode: LaunchMode.externalApplication);
+                                },
+                                text: 'Contact Us on WhatsApp',
+                                icon: FaIcon(
+                                  FontAwesomeIcons.whatsapp,
+                                  size: 20.0,
+                                ),
+                                options: FFButtonOptions(
+                                  width: double.infinity,
+                                  height: 50.0,
+                                  color: Colors.white,
+                                  textStyle: FlutterFlowTheme.of(context).titleMedium.override(
                                         fontFamily: GoogleFonts.inter().fontFamily,
                                         color: FlutterFlowTheme.of(context).primary,
-                                        letterSpacing: 0.0,
                                         fontWeight: FontWeight.w600,
                                       ),
-                                      elevation: 3.0,
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(25.0),
-                                    ),
-                                  ),
-                                ],
+                                  elevation: 3.0,
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ),
-                        const SizedBox(height: 40.0),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: 20.0),
+                    ],
                   ),
                 ),
               ],
@@ -392,47 +369,39 @@ class _AboutUsWidgetState extends State<AboutUsWidget> {
     );
   }
 
-  // Helper method to build statistics items
-  Widget _buildStatItem(BuildContext context, String number, String label, IconData icon) {
+  // Helper method for stats. Now accepts a Widget for the icon.
+  Widget _buildStatItem(BuildContext context, String number, String label, {required Widget icon}) {
     return Expanded(
       child: Column(
         children: [
-          Icon(
-            icon,
-            color: FlutterFlowTheme.of(context).primary,
-            size: 24.0,
-          ),
+          icon, // Use the provided icon widget directly
           const SizedBox(height: 8.0),
           Text(
             number,
             style: FlutterFlowTheme.of(context).headlineSmall.override(
-              fontFamily: GoogleFonts.sora().fontFamily,
-              letterSpacing: 0.0,
-              fontWeight: FontWeight.bold,
-              color: FlutterFlowTheme.of(context).primary,
-            ),
+                  fontFamily: GoogleFonts.sora().fontFamily,
+                  letterSpacing: 0.0,
+                  fontWeight: FontWeight.bold,
+                ),
           ),
           const SizedBox(height: 4.0),
           Text(
             label,
             textAlign: TextAlign.center,
             style: FlutterFlowTheme.of(context).bodySmall.override(
-              fontFamily: GoogleFonts.inter().fontFamily,
-              letterSpacing: 0.0,
-              color: FlutterFlowTheme.of(context).secondaryText,
-            ),
-            softWrap: true,
-            overflow: TextOverflow.visible,
+                  fontFamily: GoogleFonts.inter().fontFamily,
+                  letterSpacing: 0.0,
+                ),
           ),
         ],
       ),
     );
   }
 
-  // Helper method to build individual value items with icons
-  Widget _buildValueItem(BuildContext context, IconData icon, String title, String description) {
+  // Helper method for value items.
+  Widget _buildValueItem(BuildContext context, IconData icon, String title, String description, {bool hasPadding = true}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 24.0),
+      padding: EdgeInsets.only(bottom: hasPadding ? 24.0 : 0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -459,10 +428,7 @@ class _AboutUsWidgetState extends State<AboutUsWidget> {
                         fontFamily: GoogleFonts.sora().fontFamily,
                         letterSpacing: 0.0,
                         fontWeight: FontWeight.w600,
-                        color: FlutterFlowTheme.of(context).primaryText,
                       ),
-                  softWrap: true,
-                  overflow: TextOverflow.visible,
                 ),
                 const SizedBox(height: 8.0),
                 Text(
@@ -471,10 +437,7 @@ class _AboutUsWidgetState extends State<AboutUsWidget> {
                         fontFamily: GoogleFonts.inter().fontFamily,
                         letterSpacing: 0.0,
                         lineHeight: 1.5,
-                        color: FlutterFlowTheme.of(context).secondaryText,
                       ),
-                  softWrap: true,
-                  overflow: TextOverflow.visible,
                 ),
               ],
             ),

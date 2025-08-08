@@ -1,5 +1,5 @@
-
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart'; 
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
@@ -88,6 +88,8 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
     );
   }
 
+  // --- UPDATED WIDGET ---
+  // This widget is now designed to be a self-contained, themed card.
   Widget _buildFeatureSection({
     required String title,
     required String content,
@@ -96,7 +98,24 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
     required Color accentColor,
   }) {
     return Container(
+      // This is the main card container
       margin: EdgeInsets.symmetric(vertical: 16),
+      padding: EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: accentColor.withOpacity(0.05), // Soft, tinted background
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: accentColor.withOpacity(0.15), // Themed border
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: accentColor.withOpacity(0.08), // Themed shadow
+            blurRadius: 15,
+            offset: Offset(0, 5),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -127,7 +146,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
               ),
             ],
           ),
-          SizedBox(height: 16),
+          SizedBox(height: 20),
           Text(
             content,
             style: GoogleFonts.inter(
@@ -136,21 +155,22 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
               height: 1.6,
             ),
           ),
-          SizedBox(height: 16),
+          SizedBox(height: 20),
+          // This is the "nested card" for the bullet points
           Container(
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Color(0xFFF8FAFC),
+              color: Colors.white, // White background for contrast
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: accentColor.withOpacity(0.2),
+                color: accentColor.withOpacity(0.1), // Faint border
                 width: 1,
               ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: points.map((point) => Container(
-                margin: EdgeInsets.only(bottom: 8),
+                margin: EdgeInsets.only(bottom: 12),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -272,7 +292,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
         backgroundColor: Color(0xFFF8FAFC),
         body: SingleChildScrollView(
           child: Column(
-              children: [
+            children: [
               // Hero Section
               Container(
                 width: double.infinity,
@@ -312,8 +332,8 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                         ),
                         child: IconButton(
                           onPressed: () {
-                        context.pushNamed(DashboardWidget.routeName);
-                      },
+                          context.pushNamed(DashboardWidget.routeName);
+                        },
                           icon: Icon(
                             Icons.arrow_back_ios,
                             color: Colors.white,
@@ -337,16 +357,16 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
-                                    'Healthcare',
+                                  'Healthcare',
                               style: GoogleFonts.inter(
-                                fontSize: 14,
-                                            fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
                                 color: Colors.white,
-                                          ),
-                                    ),
                                   ),
+                                ),
+                              ),
                           SizedBox(height: 12),
-                                  Text(
+                              Text(
                             'Smart Health Tracking\nfor Senior Care',
                             style: GoogleFonts.inter(
                               fontSize: 28 * fontScaleFactor, // Apply responsive scaling, optimized size
@@ -358,7 +378,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                             softWrap: true,
                           ),
                           SizedBox(height: 12),
-                                  Text(
+                              Text(
                             'Empowering seniors with technology-driven health monitoring for better well-being and peace of mind',
                             style: GoogleFonts.inter(
                               fontSize: 15 * fontScaleFactor, // Apply responsive scaling, reduced from 16 to 15
@@ -405,17 +425,21 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
 
                     SizedBox(height: 32),
 
-                    // Introduction Section
+                    // --- UPDATED INTRODUCTION SECTION CARD ---
                     Container(
                       padding: EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Color(0xFFF0FDF4), // A very light green, derived from #059669
                         borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: Color(0xFF059669).withOpacity(0.2),
+                          width: 1,
+                        ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            blurRadius: 10,
-                            offset: Offset(0, 4),
+                            color: Color(0xFF059669).withOpacity(0.1),
+                            blurRadius: 15,
+                            offset: Offset(0, 5),
                           ),
                         ],
                       ),
@@ -443,9 +467,9 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                       ),
                     ),
 
-                    SizedBox(height: 32),
+                    SizedBox(height: 16), // Adjusted spacing to look better with new cards
 
-                    // Feature Sections
+                    // Feature Sections - These will now use the new card design
                     _buildFeatureSection(
                       title: 'Early Detection & Prevention',
                       content: 'Advanced monitoring systems can identify potential health issues before they become serious problems, enabling timely intervention and better outcomes.',
@@ -456,7 +480,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                         'Risk assessment based on historical data'
                       ],
                       icon: Icons.search,
-                      accentColor: Color(0xFF3B82F6),
+                      accentColor: Color(0xFF3B82F6), // Blue theme
                     ),
 
                     _buildFeatureSection(
@@ -469,7 +493,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                         'Healthcare provider integration'
                       ],
                       icon: Icons.favorite,
-                      accentColor: Color(0xFFEF4444),
+                      accentColor: Color(0xFFEF4444), // Red theme
                     ),
 
                     _buildFeatureSection(
@@ -482,10 +506,10 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                         'Emergency response system connectivity'
                       ],
                       icon: Icons.devices,
-                      accentColor: Color(0xFF8B5CF6),
+                      accentColor: Color(0xFF8B5CF6), // Purple theme
                     ),
 
-                    // Highlight Box
+                    // Highlight Box - No changes needed here
                     _buildHighlightBox(
                       title: 'Enhanced Independence',
                       content: 'Health tracking empowers seniors to take control of their well-being, make informed decisions, and maintain independence while staying connected to their healthcare team.',
@@ -496,7 +520,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
 
                     SizedBox(height: 32),
 
-                    // Key Takeaways Card
+                    // Key Takeaways Card - No changes needed here
                     Container(
                       width: double.infinity,
                       padding: EdgeInsets.all(24),
@@ -537,13 +561,13 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                               ),
                               SizedBox(width: 12),
                                   Text(
-                                'Key Takeaways',
-                                style: GoogleFonts.inter(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                                  'Key Takeaways',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
                           SizedBox(height: 20),
@@ -557,8 +581,8 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
 
                     SizedBox(height: 40),
 
-                     //Contact Us Button
-                    Container(
+                     //Contact Us Button - No changes needed here
+                     Container(
                       width:double.infinity,
                       padding:EdgeInsets.all(24),
                       decoration: BoxDecoration(
@@ -612,7 +636,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                             },
                             text:'Healthcare Consultation',
                             icon: Icon(
-                              Icons.chat_bubble_outline,
+                              FontAwesomeIcons.whatsapp,
                               color:Colors.white,
                               size:20.0,
                             ),

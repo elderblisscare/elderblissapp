@@ -59,6 +59,11 @@ class _DashboardWidgetState extends State<DashboardWidget>
       'name': 'Aditya Mota',
       'role': 'Greater Noida • Caregiver Services (Attendant)'
     },
+    {
+      'text': 'When my wife suddenly needed medical attention at home, ElderBlissCare responded immediately. Their team was quick, professional, and incredibly supportive during a very stressful time. I can’t thank them enough for being there when we needed it the most.',
+      'name': 'Douglas Paul',
+      'role': 'Noida • Emergency Doctor Visit'
+    },
   ];
 
   @override

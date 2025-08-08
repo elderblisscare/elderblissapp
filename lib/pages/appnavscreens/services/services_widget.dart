@@ -1,7 +1,8 @@
 import '/flutter_flow/flutter_flow_theme.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart'; 
+
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'services_model.dart';
@@ -54,10 +55,12 @@ class _ServicesWidgetState extends State<ServicesWidget> {
             child: Text(
               feature,
               style: FlutterFlowTheme.of(context).bodyMedium.override(
-                    font: GoogleFonts.inter(),
+                    fontFamily: GoogleFonts.inter().fontFamily,
                     color: FlutterFlowTheme.of(context).secondaryText,
                     letterSpacing: 0.0,
                     lineHeight: 1.4,
+                    useGoogleFonts: GoogleFonts.asMap()
+                        .containsKey(GoogleFonts.inter().fontFamily),
                   ),
             ),
           ),
@@ -117,18 +120,13 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .headlineLarge
                                     .override(
-                                      font: GoogleFonts.sora(
-                                        fontWeight: FontWeight.bold,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .headlineLarge
-                                            .fontStyle,
-                                      ),
+                                      fontFamily: GoogleFonts.sora().fontFamily,
                                       color: Colors.white,
                                       letterSpacing: 0.0,
                                       fontWeight: FontWeight.bold,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .headlineLarge
-                                          .fontStyle,
+                                      useGoogleFonts: GoogleFonts.asMap()
+                                          .containsKey(
+                                              GoogleFonts.sora().fontFamily),
                                     ),
                               ),
                               Text(
@@ -136,22 +134,13 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .bodyLarge
                                     .override(
-                                      font: GoogleFonts.inter(
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodyLarge
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyLarge
-                                            .fontStyle,
-                                      ),
+                                      fontFamily:
+                                          GoogleFonts.inter().fontFamily,
                                       color: Color(0xFFE0E0E0),
                                       letterSpacing: 0.0,
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyLarge
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyLarge
-                                          .fontStyle,
+                                      useGoogleFonts: GoogleFonts.asMap()
+                                          .containsKey(
+                                              GoogleFonts.inter().fontFamily),
                                     ),
                               ),
                             ],
@@ -177,13 +166,16 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Container(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 1.0,
+                                    width: MediaQuery.sizeOf(context).width *
+                                        1.0,
                                     decoration: BoxDecoration(
-                                      color: Colors.white, // Consistent white background
-                                      borderRadius: BorderRadius.circular(20.0),
+                                      color: Colors
+                                          .white, // Consistent white background
+                                      borderRadius:
+                                          BorderRadius.circular(20.0),
                                       border: Border.all(
-                                        color: FlutterFlowTheme.of(context).alternate,
+                                        color: FlutterFlowTheme.of(context)
+                                            .alternate,
                                         width: 1.0,
                                       ),
                                     ),
@@ -192,7 +184,8 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                           24.0, 24.0, 24.0, 24.0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisSize: MainAxisSize.max,
@@ -201,50 +194,83 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                                 width: 60.0,
                                                 height: 60.0,
                                                 decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(context)
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
                                                       .primary
                                                       .withOpacity(0.1),
-                                                  borderRadius: BorderRadius.circular(16.0),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          16.0),
                                                 ),
                                                 child: Icon(
                                                   Icons.emergency,
-                                                  color: FlutterFlowTheme.of(context).primary,
+                                                  color:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .primary,
                                                   size: 32.0,
                                                 ),
                                               ),
                                               SizedBox(width: 16.0),
                                               Expanded(
                                                 child: Column(
-                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       'Emergency Services',
-                                                      style: FlutterFlowTheme.of(context)
-                                                          .headlineSmall
-                                                          .override(
-                                                            font: GoogleFonts.sora(
-                                                              fontWeight: FontWeight.w600,
-                                                            ),
-                                                            color: FlutterFlowTheme.of(context)
-                                                                .primaryText,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight: FontWeight.w600,
-                                                          ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .headlineSmall
+                                                              .override(
+                                                                fontFamily:
+                                                                    GoogleFonts.sora()
+                                                                        .fontFamily,
+                                                                color: FlutterFlowTheme
+                                                                        .of(context)
+                                                                    .primaryText,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                useGoogleFonts:
+                                                                    GoogleFonts
+                                                                            .asMap()
+                                                                        .containsKey(
+                                                                            GoogleFonts.sora()
+                                                                                .fontFamily),
+                                                              ),
                                                     ),
                                                     SizedBox(height: 8.0),
                                                     Text(
                                                       '24/7 Support & Emergency Response',
-                                                      style: FlutterFlowTheme.of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            font: GoogleFonts.inter(),
-                                                            color: FlutterFlowTheme.of(context)
-                                                                .primary,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight: FontWeight.w500,
-                                                          ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    GoogleFonts.inter()
+                                                                        .fontFamily,
+                                                                color: FlutterFlowTheme
+                                                                        .of(context)
+                                                                    .primary,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                useGoogleFonts:
+                                                                    GoogleFonts
+                                                                            .asMap()
+                                                                        .containsKey(
+                                                                            GoogleFonts.inter()
+                                                                                .fontFamily),
+                                                              ),
                                                     ),
                                                   ],
                                                 ),
@@ -254,27 +280,42 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                           SizedBox(height: 20.0),
                                           Text(
                                             'Comprehensive emergency healthcare support including:',
-                                            style: FlutterFlowTheme.of(context)
+                                            style: FlutterFlowTheme.of(
+                                                    context)
                                                 .bodyMedium
                                                 .override(
-                                                  font: GoogleFonts.inter(
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                  color: FlutterFlowTheme.of(context)
+                                                  fontFamily:
+                                                      GoogleFonts.inter()
+                                                          .fontFamily,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
                                                       .primaryText,
                                                   letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w500,
+                                                  useGoogleFonts: GoogleFonts
+                                                          .asMap()
+                                                      .containsKey(
+                                                          GoogleFonts.inter()
+                                                              .fontFamily),
                                                 ),
                                           ),
                                           SizedBox(height: 12.0),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              _buildServiceFeature(context, '24×7 emergency support helpline'),
-                                              _buildServiceFeature(context, 'Emergency Doctor on call'),
-                                              _buildServiceFeature(context, 'Paramedic Support during Emergency'),
-                                              _buildServiceFeature(context, 'Family Emergency Response Plan Setup'),
-                                              _buildServiceFeature(context, 'Support during Hospitalization'),
+                                              _buildServiceFeature(context,
+                                                  '24×7 emergency support helpline'),
+                                              _buildServiceFeature(context,
+                                                  'Emergency Doctor on call'),
+                                              _buildServiceFeature(
+                                                  context,
+                                                  'Paramedic Support during Emergency'),
+                                              _buildServiceFeature(
+                                                  context,
+                                                  'Family Emergency Response Plan Setup'),
+                                              _buildServiceFeature(context,
+                                                  'Support during Hospitalization'),
                                             ],
                                           ),
                                         ],
@@ -291,13 +332,16 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Container(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 1.0,
+                                    width: MediaQuery.sizeOf(context).width *
+                                        1.0,
                                     decoration: BoxDecoration(
-                                      color: Colors.white, // Consistent white background
-                                      borderRadius: BorderRadius.circular(20.0),
+                                      color: Colors
+                                          .white, // Consistent white background
+                                      borderRadius:
+                                          BorderRadius.circular(20.0),
                                       border: Border.all(
-                                        color: FlutterFlowTheme.of(context).alternate,
+                                        color: FlutterFlowTheme.of(context)
+                                            .alternate,
                                         width: 1.0,
                                       ),
                                     ),
@@ -306,7 +350,8 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                           24.0, 24.0, 24.0, 24.0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisSize: MainAxisSize.max,
@@ -315,50 +360,83 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                                 width: 60.0,
                                                 height: 60.0,
                                                 decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(context)
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
                                                       .primary
                                                       .withOpacity(0.1),
-                                                  borderRadius: BorderRadius.circular(16.0),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          16.0),
                                                 ),
                                                 child: Icon(
                                                   Icons.home_filled,
-                                                  color: FlutterFlowTheme.of(context).primary,
+                                                  color:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .primary,
                                                   size: 32.0,
                                                 ),
                                               ),
                                               SizedBox(width: 16.0),
                                               Expanded(
                                                 child: Column(
-                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       'Medical Setup at Home',
-                                                      style: FlutterFlowTheme.of(context)
-                                                          .headlineSmall
-                                                          .override(
-                                                            font: GoogleFonts.sora(
-                                                              fontWeight: FontWeight.w600,
-                                                            ),
-                                                            color: FlutterFlowTheme.of(context)
-                                                                .primaryText,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight: FontWeight.w600,
-                                                          ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .headlineSmall
+                                                              .override(
+                                                                fontFamily:
+                                                                    GoogleFonts.sora()
+                                                                        .fontFamily,
+                                                                color: FlutterFlowTheme
+                                                                        .of(context)
+                                                                    .primaryText,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                useGoogleFonts:
+                                                                    GoogleFonts
+                                                                            .asMap()
+                                                                        .containsKey(
+                                                                            GoogleFonts.sora()
+                                                                                .fontFamily),
+                                                              ),
                                                     ),
                                                     SizedBox(height: 8.0),
                                                     Text(
                                                       'Complete ICU & Critical Care Setup',
-                                                      style: FlutterFlowTheme.of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            font: GoogleFonts.inter(),
-                                                            color: FlutterFlowTheme.of(context)
-                                                                .primary,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight: FontWeight.w500,
-                                                          ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    GoogleFonts.inter()
+                                                                        .fontFamily,
+                                                                color: FlutterFlowTheme
+                                                                        .of(context)
+                                                                    .primary,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                useGoogleFonts:
+                                                                    GoogleFonts
+                                                                            .asMap()
+                                                                        .containsKey(
+                                                                            GoogleFonts.inter()
+                                                                                .fontFamily),
+                                                              ),
                                                     ),
                                                   ],
                                                 ),
@@ -368,27 +446,40 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                           SizedBox(height: 20.0),
                                           Text(
                                             'Professional medical setup for home-based care including:',
-                                            style: FlutterFlowTheme.of(context)
+                                            style: FlutterFlowTheme.of(
+                                                    context)
                                                 .bodyMedium
                                                 .override(
-                                                  font: GoogleFonts.inter(
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                  color: FlutterFlowTheme.of(context)
+                                                  fontFamily:
+                                                      GoogleFonts.inter()
+                                                          .fontFamily,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
                                                       .primaryText,
                                                   letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w500,
+                                                  useGoogleFonts: GoogleFonts
+                                                          .asMap()
+                                                      .containsKey(
+                                                          GoogleFonts.inter()
+                                                              .fontFamily),
                                                 ),
                                           ),
                                           SizedBox(height: 12.0),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              _buildServiceFeature(context, 'Complete ICU setup at home'),
-                                              _buildServiceFeature(context, 'Critical Care Doctors'),
-                                              _buildServiceFeature(context, 'Nursing Supervisor support'),
-                                              _buildServiceFeature(context, 'Trained Nursing Attendants'),
-                                              _buildServiceFeature(context, 'General Duty Assistants'),
+                                              _buildServiceFeature(context,
+                                                  'Complete ICU setup at home'),
+                                              _buildServiceFeature(context,
+                                                  'Critical Care Doctors'),
+                                              _buildServiceFeature(context,
+                                                  'Nursing Supervisor support'),
+                                              _buildServiceFeature(context,
+                                                  'Trained Nursing Attendants'),
+                                              _buildServiceFeature(context,
+                                                  'General Duty Assistants'),
                                             ],
                                           ),
                                         ],
@@ -405,13 +496,16 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Container(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 1.0,
+                                    width: MediaQuery.sizeOf(context).width *
+                                        1.0,
                                     decoration: BoxDecoration(
-                                      color: Colors.white, // Consistent white background
-                                      borderRadius: BorderRadius.circular(20.0),
+                                      color: Colors
+                                          .white, // Consistent white background
+                                      borderRadius:
+                                          BorderRadius.circular(20.0),
                                       border: Border.all(
-                                        color: FlutterFlowTheme.of(context).alternate,
+                                        color: FlutterFlowTheme.of(context)
+                                            .alternate,
                                         width: 1.0,
                                       ),
                                     ),
@@ -420,7 +514,8 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                           24.0, 24.0, 24.0, 24.0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisSize: MainAxisSize.max,
@@ -429,50 +524,83 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                                 width: 60.0,
                                                 height: 60.0,
                                                 decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(context)
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
                                                       .primary
                                                       .withOpacity(0.1),
-                                                  borderRadius: BorderRadius.circular(16.0),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          16.0),
                                                 ),
                                                 child: Icon(
                                                   Icons.science,
-                                                  color: FlutterFlowTheme.of(context).primary,
+                                                  color:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .primary,
                                                   size: 32.0,
                                                 ),
                                               ),
                                               SizedBox(width: 16.0),
                                               Expanded(
                                                 child: Column(
-                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       'Medical Equipment',
-                                                      style: FlutterFlowTheme.of(context)
-                                                          .headlineSmall
-                                                          .override(
-                                                            font: GoogleFonts.sora(
-                                                              fontWeight: FontWeight.w600,
-                                                            ),
-                                                            color: FlutterFlowTheme.of(context)
-                                                                .primaryText,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight: FontWeight.w600,
-                                                          ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .headlineSmall
+                                                              .override(
+                                                                fontFamily:
+                                                                    GoogleFonts.sora()
+                                                                        .fontFamily,
+                                                                color: FlutterFlowTheme
+                                                                        .of(context)
+                                                                    .primaryText,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                useGoogleFonts:
+                                                                    GoogleFonts
+                                                                            .asMap()
+                                                                        .containsKey(
+                                                                            GoogleFonts.sora()
+                                                                                .fontFamily),
+                                                              ),
                                                     ),
                                                     SizedBox(height: 8.0),
                                                     Text(
                                                       'Advanced Medical Technology',
-                                                      style: FlutterFlowTheme.of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            font: GoogleFonts.inter(),
-                                                            color: FlutterFlowTheme.of(context)
-                                                                .primary,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight: FontWeight.w500,
-                                                          ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    GoogleFonts.inter()
+                                                                        .fontFamily,
+                                                                color: FlutterFlowTheme
+                                                                        .of(context)
+                                                                    .primary,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                useGoogleFonts:
+                                                                    GoogleFonts
+                                                                            .asMap()
+                                                                        .containsKey(
+                                                                            GoogleFonts.inter()
+                                                                                .fontFamily),
+                                                              ),
                                                     ),
                                                   ],
                                                 ),
@@ -482,27 +610,40 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                           SizedBox(height: 20.0),
                                           Text(
                                             'State-of-the-art medical equipment for comprehensive care:',
-                                            style: FlutterFlowTheme.of(context)
+                                            style: FlutterFlowTheme.of(
+                                                    context)
                                                 .bodyMedium
                                                 .override(
-                                                  font: GoogleFonts.inter(
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                  color: FlutterFlowTheme.of(context)
+                                                  fontFamily:
+                                                      GoogleFonts.inter()
+                                                          .fontFamily,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
                                                       .primaryText,
                                                   letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w500,
+                                                  useGoogleFonts: GoogleFonts
+                                                          .asMap()
+                                                      .containsKey(
+                                                          GoogleFonts.inter()
+                                                              .fontFamily),
                                                 ),
                                           ),
                                           SizedBox(height: 12.0),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              _buildServiceFeature(context, 'Patient Monitor & ECG Machine'),
-                                              _buildServiceFeature(context, 'Ventilator & Crash Cart'),
-                                              _buildServiceFeature(context, 'IV Equipment & Catheters'),
-                                              _buildServiceFeature(context, 'Nasogastric suction systems'),
-                                              _buildServiceFeature(context, 'Pleureva & Emergency equipment'),
+                                              _buildServiceFeature(context,
+                                                  'Patient Monitor & ECG Machine'),
+                                              _buildServiceFeature(
+                                                  context, 'Ventilator & Crash Cart'),
+                                              _buildServiceFeature(context,
+                                                  'IV Equipment & Catheters'),
+                                              _buildServiceFeature(context,
+                                                  'Nasogastric suction systems'),
+                                              _buildServiceFeature(context,
+                                                  'Pleureva & Emergency equipment'),
                                             ],
                                           ),
                                         ],
@@ -519,13 +660,16 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Container(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 1.0,
+                                    width: MediaQuery.sizeOf(context).width *
+                                        1.0,
                                     decoration: BoxDecoration(
-                                      color: Colors.white, // Consistent white background
-                                      borderRadius: BorderRadius.circular(20.0),
+                                      color: Colors
+                                          .white, // Consistent white background
+                                      borderRadius:
+                                          BorderRadius.circular(20.0),
                                       border: Border.all(
-                                        color: FlutterFlowTheme.of(context).alternate,
+                                        color: FlutterFlowTheme.of(context)
+                                            .alternate,
                                         width: 1.0,
                                       ),
                                     ),
@@ -534,7 +678,8 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                           24.0, 24.0, 24.0, 24.0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisSize: MainAxisSize.max,
@@ -543,50 +688,83 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                                 width: 60.0,
                                                 height: 60.0,
                                                 decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(context)
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
                                                       .primary
                                                       .withOpacity(0.1),
-                                                  borderRadius: BorderRadius.circular(16.0),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          16.0),
                                                 ),
                                                 child: Icon(
                                                   Icons.favorite,
-                                                  color: FlutterFlowTheme.of(context).primary,
+                                                  color:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .primary,
                                                   size: 32.0,
                                                 ),
                                               ),
                                               SizedBox(width: 16.0),
                                               Expanded(
                                                 child: Column(
-                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       'Homecare Services',
-                                                      style: FlutterFlowTheme.of(context)
-                                                          .headlineSmall
-                                                          .override(
-                                                            font: GoogleFonts.sora(
-                                                              fontWeight: FontWeight.w600,
-                                                            ),
-                                                            color: FlutterFlowTheme.of(context)
-                                                                .primaryText,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight: FontWeight.w600,
-                                                          ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .headlineSmall
+                                                              .override(
+                                                                fontFamily:
+                                                                    GoogleFonts.sora()
+                                                                        .fontFamily,
+                                                                color: FlutterFlowTheme
+                                                                        .of(context)
+                                                                    .primaryText,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                useGoogleFonts:
+                                                                    GoogleFonts
+                                                                            .asMap()
+                                                                        .containsKey(
+                                                                            GoogleFonts.sora()
+                                                                                .fontFamily),
+                                                              ),
                                                     ),
                                                     SizedBox(height: 8.0),
                                                     Text(
                                                       'Professional Care at Home',
-                                                      style: FlutterFlowTheme.of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            font: GoogleFonts.inter(),
-                                                            color: FlutterFlowTheme.of(context)
-                                                                .primary,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight: FontWeight.w500,
-                                                          ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    GoogleFonts.inter()
+                                                                        .fontFamily,
+                                                                color: FlutterFlowTheme
+                                                                        .of(context)
+                                                                    .primary,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                useGoogleFonts:
+                                                                    GoogleFonts
+                                                                            .asMap()
+                                                                        .containsKey(
+                                                                            GoogleFonts.inter()
+                                                                                .fontFamily),
+                                                              ),
                                                     ),
                                                   ],
                                                 ),
@@ -596,27 +774,40 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                           SizedBox(height: 20.0),
                                           Text(
                                             'Comprehensive healthcare services delivered to your home:',
-                                            style: FlutterFlowTheme.of(context)
+                                            style: FlutterFlowTheme.of(
+                                                    context)
                                                 .bodyMedium
                                                 .override(
-                                                  font: GoogleFonts.inter(
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                  color: FlutterFlowTheme.of(context)
+                                                  fontFamily:
+                                                      GoogleFonts.inter()
+                                                          .fontFamily,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
                                                       .primaryText,
                                                   letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w500,
+                                                  useGoogleFonts: GoogleFonts
+                                                          .asMap()
+                                                      .containsKey(
+                                                          GoogleFonts.inter()
+                                                              .fontFamily),
                                                 ),
                                           ),
                                           SizedBox(height: 12.0),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              _buildServiceFeature(context, 'Doctor Home Visits'),
-                                              _buildServiceFeature(context, 'Physiotherapy at Home'),
-                                              _buildServiceFeature(context, 'Trained Eldercare Nurses'),
-                                              _buildServiceFeature(context, '24-Hour Nursing Care'),
-                                              _buildServiceFeature(context, 'Professional Attendants (GDA Staff)'),
+                                              _buildServiceFeature(
+                                                  context, 'Doctor Home Visits'),
+                                              _buildServiceFeature(context,
+                                                  'Physiotherapy at Home'),
+                                              _buildServiceFeature(context,
+                                                  'Trained Eldercare Nurses'),
+                                              _buildServiceFeature(
+                                                  context, '24-Hour Nursing Care'),
+                                              _buildServiceFeature(context,
+                                                  'Professional Attendants (GDA Staff)'),
                                             ],
                                           ),
                                         ],
@@ -633,13 +824,16 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Container(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 1.0,
+                                    width: MediaQuery.sizeOf(context).width *
+                                        1.0,
                                     decoration: BoxDecoration(
-                                      color: Colors.white, // Consistent white background
-                                      borderRadius: BorderRadius.circular(20.0),
+                                      color: Colors
+                                          .white, // Consistent white background
+                                      borderRadius:
+                                          BorderRadius.circular(20.0),
                                       border: Border.all(
-                                        color: FlutterFlowTheme.of(context).alternate,
+                                        color: FlutterFlowTheme.of(context)
+                                            .alternate,
                                         width: 1.0,
                                       ),
                                     ),
@@ -648,7 +842,8 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                           24.0, 24.0, 24.0, 24.0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisSize: MainAxisSize.max,
@@ -657,50 +852,83 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                                 width: 60.0,
                                                 height: 60.0,
                                                 decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(context)
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
                                                       .primary
                                                       .withOpacity(0.1),
-                                                  borderRadius: BorderRadius.circular(16.0),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          16.0),
                                                 ),
                                                 child: Icon(
                                                   Icons.shield,
-                                                  color: FlutterFlowTheme.of(context).primary,
+                                                  color:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .primary,
                                                   size: 32.0,
                                                 ),
                                               ),
                                               SizedBox(width: 16.0),
                                               Expanded(
                                                 child: Column(
-                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       'Safety Services',
-                                                      style: FlutterFlowTheme.of(context)
-                                                          .headlineSmall
-                                                          .override(
-                                                            font: GoogleFonts.sora(
-                                                              fontWeight: FontWeight.w600,
-                                                            ),
-                                                            color: FlutterFlowTheme.of(context)
-                                                                .primaryText,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight: FontWeight.w600,
-                                                          ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .headlineSmall
+                                                              .override(
+                                                                fontFamily:
+                                                                    GoogleFonts.sora()
+                                                                        .fontFamily,
+                                                                color: FlutterFlowTheme
+                                                                        .of(context)
+                                                                    .primaryText,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                useGoogleFonts:
+                                                                    GoogleFonts
+                                                                            .asMap()
+                                                                        .containsKey(
+                                                                            GoogleFonts.sora()
+                                                                                .fontFamily),
+                                                              ),
                                                     ),
                                                     SizedBox(height: 8.0),
                                                     Text(
                                                       'Home Security & Fall Prevention',
-                                                      style: FlutterFlowTheme.of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            font: GoogleFonts.inter(),
-                                                            color: FlutterFlowTheme.of(context)
-                                                                .primary,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight: FontWeight.w500,
-                                                          ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    GoogleFonts.inter()
+                                                                        .fontFamily,
+                                                                color: FlutterFlowTheme
+                                                                        .of(context)
+                                                                    .primary,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                useGoogleFonts:
+                                                                    GoogleFonts
+                                                                            .asMap()
+                                                                        .containsKey(
+                                                                            GoogleFonts.inter()
+                                                                                .fontFamily),
+                                                              ),
                                                     ),
                                                   ],
                                                 ),
@@ -710,27 +938,40 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                           SizedBox(height: 20.0),
                                           Text(
                                             'Comprehensive safety solutions for peace of mind:',
-                                            style: FlutterFlowTheme.of(context)
+                                            style: FlutterFlowTheme.of(
+                                                    context)
                                                 .bodyMedium
                                                 .override(
-                                                  font: GoogleFonts.inter(
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                  color: FlutterFlowTheme.of(context)
+                                                  fontFamily:
+                                                      GoogleFonts.inter()
+                                                          .fontFamily,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
                                                       .primaryText,
                                                   letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w500,
+                                                  useGoogleFonts: GoogleFonts
+                                                          .asMap()
+                                                      .containsKey(
+                                                          GoogleFonts.inter()
+                                                              .fontFamily),
                                                 ),
                                           ),
                                           SizedBox(height: 12.0),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              _buildServiceFeature(context, 'Home safety audits & fall prevention'),
-                                              _buildServiceFeature(context, 'KYC verification of house help'),
-                                              _buildServiceFeature(context, 'Smart safety technology integration'),
-                                              _buildServiceFeature(context, 'Fall detector recommendations'),
-                                              _buildServiceFeature(context, 'Security system consultation'),
+                                              _buildServiceFeature(context,
+                                                  'Home safety audits & fall prevention'),
+                                              _buildServiceFeature(context,
+                                                  'KYC verification of house help'),
+                                              _buildServiceFeature(context,
+                                                  'Smart safety technology integration'),
+                                              _buildServiceFeature(context,
+                                                  'Fall detector recommendations'),
+                                              _buildServiceFeature(context,
+                                                  'Security system consultation'),
                                             ],
                                           ),
                                         ],
@@ -762,91 +1003,105 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                             boxShadow: [
                               BoxShadow(
                                 blurRadius: 15.0,
-                                color: FlutterFlowTheme.of(context).primary.withOpacity(0.2),
+                                color: FlutterFlowTheme.of(context)
+                                    .primary
+                                    .withOpacity(0.2),
                                 offset: Offset(0.0, 5.0),
                               )
                             ],
                           ),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              24.0, 32.0, 24.0, 32.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Icon(
-                                Icons.chat_bubble_outline,
-                                color: Colors.white,
-                                size: 48.0,
-                              ),
-                              SizedBox(height: 16.0),
-                              Text(
-                                'Need Help?',
-                                style: FlutterFlowTheme.of(context)
-                                    .headlineMedium
-                                    .override(
-                                      font: GoogleFonts.sora(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      color: Colors.white,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                              ),
-                              SizedBox(height: 8.0),
-                              Text(
-                                'Get in touch with our experts to discuss your healthcare needs',
-                                textAlign: TextAlign.center,
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      font: GoogleFonts.inter(),
-                                      color: Color(0xFFE0E0E0),
-                                      letterSpacing: 0.0,
-                                    ),
-                              ),
-                              SizedBox(height: 24.0),
-                              FFButtonWidget(
-                                onPressed: () async {
-                                  logFirebaseEvent(
-                                      'SERVICES_CONTACT_US_BTN_ON_TAP');
-                                  logFirebaseEvent('Button_launch_u_r_l');
-                                  await launchURL(
-                                      'https://wa.me/message/BFIUAWXCKN3BM1');
-                                },
-                                text: 'Contact Us on WhatsApp',
-                                icon: Icon(
-                                  Icons.message,
-                                  size: 20.0,
-                                ),
-                                options: FFButtonOptions(
-                                  width: MediaQuery.sizeOf(context).width * 1.0,
-                                  height: 56.0,
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 0.0, 16.0, 0.0),
-                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 8.0, 0.0),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                24.0, 32.0, 24.0, 32.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Icon(
+                                   FontAwesomeIcons.whatsapp,
                                   color: Colors.white,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .titleMedium
-                                      .override(
-                                        font: GoogleFonts.inter(
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        color: FlutterFlowTheme.of(context).primary,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                  elevation: 3.0,
-                                  borderSide: BorderSide(
-                                    color: Colors.transparent,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(28.0),
+                                  size: 48.0,
                                 ),
-                              ),
-                            ],
+                                SizedBox(height: 16.0),
+                                Text(
+                                  'Need Help?',
+                                  style: FlutterFlowTheme.of(context)
+                                      .headlineMedium
+                                      .override(
+                                        fontFamily:
+                                            GoogleFonts.sora().fontFamily,
+                                        color: Colors.white,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FontWeight.bold,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(GoogleFonts.sora()
+                                                .fontFamily),
+                                      ),
+                                ),
+                                SizedBox(height: 8.0),
+                                Text(
+                                  'Get in touch with our experts to discuss your healthcare needs',
+                                  textAlign: TextAlign.center,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily:
+                                            GoogleFonts.inter().fontFamily,
+                                        color: Color(0xFFE0E0E0),
+                                        letterSpacing: 0.0,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(GoogleFonts.inter()
+                                                .fontFamily),
+                                      ),
+                                ),
+                                SizedBox(height: 24.0),
+                                FFButtonWidget(
+                                  onPressed: () async {
+                                    logFirebaseEvent(
+                                        'SERVICES_CONTACT_US_BTN_ON_TAP');
+                                    logFirebaseEvent('Button_launch_u_r_l');
+                                    await launchURL(
+                                        'https://wa.me/message/BFIUAWXCKN3BM1');
+                                  },
+                                  text: 'Contact Us on WhatsApp',
+                                  icon: Icon(
+                                   FontAwesomeIcons.whatsapp,// The icon has been changed here
+                                    size: 20.0,
+                                  ),
+                                  options: FFButtonOptions(
+                                    width: MediaQuery.sizeOf(context).width *
+                                        1.0,
+                                    height: 56.0,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 0.0, 16.0, 0.0),
+                                    iconPadding:
+                                        EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 8.0, 0.0),
+                                    color: Colors.white,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleMedium
+                                        .override(
+                                          fontFamily:
+                                              GoogleFonts.inter().fontFamily,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.w600,
+                                          useGoogleFonts: GoogleFonts.asMap()
+                                              .containsKey(
+                                                  GoogleFonts.inter()
+                                                      .fontFamily),
+                                        ),
+                                    elevation: 3.0,
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(28.0),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
                         ),
                       ),
                       Divider(

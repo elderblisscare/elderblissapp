@@ -1,8 +1,8 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart'; 
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'emergency_blog_model.dart';
 export 'emergency_blog_model.dart';
@@ -45,10 +45,20 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
     bool isUrgent = false,
     required double layoutScale,
     required double fontScale,
+    required bool isVeryNarrowScreen,
   }) {
+    // Dynamic sizing for Galaxy Fold optimization
+    final double basePadding = isVeryNarrowScreen ? 16.0 : 20.0;
+    final double baseCircleSize = isVeryNarrowScreen ? 40.0 : 50.0;
+    final double baseSpacing = isVeryNarrowScreen ? 12.0 : 16.0;
+    final double baseTitleFontSize = isVeryNarrowScreen ? 15.0 : 16.0;
+    final double baseDescriptionFontSize = isVeryNarrowScreen ? 13.0 : 14.0;
+    final double baseStepNumberFontSize = isVeryNarrowScreen ? 14.0 : 16.0;
+    final double baseIconSize = isVeryNarrowScreen ? 18.0 : 20.0;
+
     return Container(
-      margin: EdgeInsets.only(bottom: 16 * layoutScale),
-      padding: EdgeInsets.all(20 * layoutScale),
+      margin: EdgeInsets.only(bottom: baseSpacing * layoutScale),
+      padding: EdgeInsets.all(basePadding * layoutScale),
       decoration: BoxDecoration(
         color: isUrgent ? Color(0xFFFEF2F2) : Colors.white,
         borderRadius: BorderRadius.circular(16 * layoutScale),
@@ -58,7 +68,7 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withAlpha((0.05 * 255).round()),
             blurRadius: 10 * layoutScale,
             offset: Offset(0, 4 * layoutScale),
           ),
@@ -68,24 +78,24 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 50 * layoutScale,
-            height: 50 * layoutScale,
+            width: baseCircleSize * layoutScale,
+            height: baseCircleSize * layoutScale,
             decoration: BoxDecoration(
               color: isUrgent ? Color(0xFFDC2626) : Color(0xFF3B82F6),
-              borderRadius: BorderRadius.circular(25 * layoutScale),
+              borderRadius: BorderRadius.circular((baseCircleSize / 2) * layoutScale),
             ),
             child: Center(
               child: Text(
                 stepNumber,
                 style: GoogleFonts.inter(
-                  fontSize: 16 * fontScale, // Reduced from 18 to 16
+                  fontSize: baseStepNumberFontSize * fontScale,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
             ),
           ),
-          SizedBox(width: 16 * layoutScale),
+          SizedBox(width: (isVeryNarrowScreen ? 12 : 16) * layoutScale),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,14 +105,14 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                     Icon(
                       icon,
                       color: isUrgent ? Color(0xFFDC2626) : Color(0xFF374151),
-                      size: 20 * layoutScale,
+                      size: baseIconSize * layoutScale,
                     ),
                     SizedBox(width: 8 * layoutScale),
                     Expanded(
                       child: Text(
                         title,
                         style: GoogleFonts.inter(
-                          fontSize: 16 * fontScale, // Reduced from 18 to 16
+                          fontSize: baseTitleFontSize * fontScale,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF1F2937),
                         ),
@@ -114,7 +124,7 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                 Text(
                   description,
                   style: GoogleFonts.inter(
-                    fontSize: 14 * fontScale, // Reduced from 15 to 14
+                    fontSize: baseDescriptionFontSize * fontScale,
                     color: Color(0xFF4B5563),
                     height: 1.5,
                   ),
@@ -136,15 +146,26 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
     required Color backgroundColor,
     required double layoutScale,
     required double fontScale,
+    required bool isVeryNarrowScreen,
   }) {
+    // Dynamic sizing for Galaxy Fold optimization
+    final double basePadding = isVeryNarrowScreen ? 18.0 : 24.0;
+    final double baseMargin = isVeryNarrowScreen ? 16.0 : 20.0;
+    final double baseIconPadding = isVeryNarrowScreen ? 10.0 : 12.0;
+    final double baseIconSize = isVeryNarrowScreen ? 20.0 : 24.0;
+    final double baseTitleFontSize = isVeryNarrowScreen ? 16.0 : 18.0;
+    final double baseDescriptionFontSize = isVeryNarrowScreen ? 14.0 : 15.0;
+    final double baseFeatureFontSize = isVeryNarrowScreen ? 13.0 : 14.0;
+    final double baseSpacing = isVeryNarrowScreen ? 12.0 : 16.0;
+
     return Container(
-      margin: EdgeInsets.only(bottom: 20 * layoutScale), // Apply responsive margin
-      padding: EdgeInsets.all(24 * layoutScale), // Apply responsive padding
+      margin: EdgeInsets.only(bottom: baseMargin * layoutScale),
+      padding: EdgeInsets.all(basePadding * layoutScale),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(16 * layoutScale), // Apply responsive border radius
+        borderRadius: BorderRadius.circular(16 * layoutScale),
         border: Border.all(
-          color: primaryColor.withOpacity(0.2),
+          color: primaryColor.withAlpha((0.2 * 255).round()),
           width: 1,
         ),
       ),
@@ -154,54 +175,57 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(12 * layoutScale), // Apply responsive padding
+                padding: EdgeInsets.all(baseIconPadding * layoutScale),
                 decoration: BoxDecoration(
-                  color: primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12 * layoutScale), // Apply responsive border radius
+                  color: primaryColor.withAlpha((0.1 * 255).round()),
+                  borderRadius: BorderRadius.circular(12 * layoutScale),
                 ),
                 child: Icon(
                   icon,
                   color: primaryColor,
-                  size: 24 * layoutScale, // Apply responsive icon size
+                  size: baseIconSize * layoutScale,
                 ),
               ),
-              SizedBox(width: 16 * layoutScale), // Apply responsive spacing
+              SizedBox(width: baseSpacing * layoutScale),
               Expanded(
                 child: Text(
                   title,
                   style: GoogleFonts.inter(
-                    fontSize: 18 * fontScale, // Apply responsive font size, reduced from 20 to 18
+                    fontSize: baseTitleFontSize * fontScale,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF1F2937),
-                    height: 1.2, // Tighter line height for better control
+                    height: 1.2,
                   ),
-                  maxLines: 2, // Prevent overflow
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 16 * layoutScale), // Apply responsive spacing
+          SizedBox(height: baseSpacing * layoutScale),
           Text(
             description,
             style: GoogleFonts.inter(
-              fontSize: 15 * fontScale, // Apply responsive font size, reduced from 16 to 15
+              fontSize: baseDescriptionFontSize * fontScale,
               color: Color(0xFF4B5563),
-              height: 1.4, // Controlled line height
+              height: 1.4,
             ),
-            maxLines: 3, // Prevent overflow
+            maxLines: isVeryNarrowScreen ? 4 : 3, // Allow more lines on narrow screens
             overflow: TextOverflow.ellipsis,
           ),
-          SizedBox(height: 16 * layoutScale), // Apply responsive spacing
+          SizedBox(height: baseSpacing * layoutScale),
           ...features.map((feature) => Container(
-            margin: EdgeInsets.only(bottom: 8 * layoutScale), // Apply responsive margin
+            margin: EdgeInsets.only(bottom: (isVeryNarrowScreen ? 6 : 8) * layoutScale),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 6 * layoutScale, right: 12 * layoutScale), // Apply responsive margin
-                  width: 6 * layoutScale, // Apply responsive size
-                  height: 6 * layoutScale, // Apply responsive size
+                  margin: EdgeInsets.only(
+                    top: 6 * layoutScale, 
+                    right: (isVeryNarrowScreen ? 10 : 12) * layoutScale,
+                  ),
+                  width: 6 * layoutScale,
+                  height: 6 * layoutScale,
                   decoration: BoxDecoration(
                     color: primaryColor,
                     shape: BoxShape.circle,
@@ -211,7 +235,7 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                   child: Text(
                     feature,
                     style: GoogleFonts.inter(
-                      fontSize: 14 * fontScale, // Apply responsive font size, reduced from 15 to 14
+                      fontSize: baseFeatureFontSize * fontScale,
                       color: Color(0xFF374151),
                       height: 1.4,
                     ),
@@ -225,6 +249,7 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
     );
   }
 
+  // OPTIMIZED WIDGET FOR GALAXY FOLD AND ALL DEVICES
   Widget _buildQuickStatCard({
     required String value,
     required String label,
@@ -232,42 +257,67 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
     required Color color,
     required double layoutScale,
     required double fontScale,
+    required bool isVeryNarrowScreen,
   }) {
+    // Dynamic sizing based on screen type
+    final double baseLabelFontSize = isVeryNarrowScreen ? 10.0 : 11.0;
+    final double baseValueFontSize = isVeryNarrowScreen ? 18.0 : 22.0;
+    final double baseIconSize = isVeryNarrowScreen ? 24.0 : 32.0;
+    final double baseVerticalPadding = isVeryNarrowScreen ? 12.0 : 16.0;
+    final double baseHorizontalPadding = isVeryNarrowScreen ? 4.0 : 8.0;
+    final double baseBorderRadius = isVeryNarrowScreen ? 12.0 : 16.0;
+    
+    // Calculate label container height dynamically
+    final double labelContainerHeight = (baseLabelFontSize * fontScale * 1.4 * 2) + 6;
+
     return Expanded(
       child: Container(
-        padding: EdgeInsets.all(16 * layoutScale),
+        padding: EdgeInsets.symmetric(
+          vertical: baseVerticalPadding * layoutScale, 
+          horizontal: baseHorizontalPadding * layoutScale,
+        ),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(16 * layoutScale),
+          color: color.withAlpha((0.1 * 255).round()),
+          borderRadius: BorderRadius.circular(baseBorderRadius * layoutScale),
           border: Border.all(
-            color: color.withOpacity(0.2),
+            color: color.withAlpha((0.2 * 255).round()),
             width: 1,
           ),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               icon,
               color: color,
-              size: 32 * layoutScale,
+              size: baseIconSize * layoutScale,
             ),
-            SizedBox(height: 8 * layoutScale),
+            SizedBox(height: (isVeryNarrowScreen ? 6 : 8) * layoutScale),
             Text(
               value,
               style: GoogleFonts.inter(
-                fontSize: 22 * fontScale, // Reduced from 24 to 22
+                fontSize: baseValueFontSize * fontScale,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF1F2937),
               ),
-            ),
-            SizedBox(height: 4 * layoutScale),
-            Text(
-              label,
               textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
-                fontSize: 11 * fontScale, // Reduced from 12 to 11
-                color: Color(0xFF6B7280),
-                fontWeight: FontWeight.w500,
+            ),
+            SizedBox(height: (isVeryNarrowScreen ? 3 : 4) * layoutScale),
+            // ENHANCED FIX FOR ALL SCREEN SIZES
+            Container(
+              height: labelContainerHeight,
+              alignment: Alignment.topCenter,
+              child: Text(
+                label,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.inter(
+                  fontSize: baseLabelFontSize * fontScale,
+                  color: Color(0xFF6B7280),
+                  fontWeight: FontWeight.w500,
+                  height: 1.4,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
@@ -278,7 +328,7 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // --- RESPONSIVE SCALING LOGIC ---
+    // --- GALAXY FOLD RESPONSIVE SCALING LOGIC ---
     final screenWidth = MediaQuery.of(context).size.width;
     const double baseWidth = 375.0;
 
@@ -286,13 +336,18 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
     final accessibilityTextScale = MediaQuery.textScalerOf(context).scale(1.0);
     final clampedTextScale = accessibilityTextScale.clamp(1.0, 1.3); // Max 130% for accessibility
 
-    // Layout scale factor for padding and container sizes
-    final double layoutScaleFactor = (screenWidth / baseWidth).clamp(1.0, 1.2);
-
-    // Conservative font scale factor that considers accessibility settings
-    final double fontScaleFactor = ((screenWidth / baseWidth) * clampedTextScale).clamp(1.0, 1.15);
+    // Galaxy Fold optimization: Detect very narrow screens (≤ 340px ≈ 2.64 inches)
+    final bool isVeryNarrowScreen = screenWidth <= 340;
     
-    // Calculate bottom navigation bar height to prevent content overlap
+    // Adjust scaling factors for Galaxy Fold and similar devices
+    final double layoutScaleFactor = isVeryNarrowScreen 
+        ? (screenWidth / 320.0).clamp(0.85, 1.0) // Use 320px as base for narrow screens
+        : (screenWidth / baseWidth).clamp(1.0, 1.2);
+        
+    final double fontScaleFactor = isVeryNarrowScreen
+        ? ((screenWidth / 320.0) * clampedTextScale).clamp(0.9, 1.1) // Ensure readable text on narrow screens
+        : ((screenWidth / baseWidth) * clampedTextScale).clamp(1.0, 1.15);
+    
     final double bottomNavHeight = MediaQuery.of(context).padding.bottom + 80;
     // --- END OF RESPONSIVE SCALING LOGIC ---
 
@@ -306,21 +361,21 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
         backgroundColor: Color(0xFFF8FAFC),
         body: SingleChildScrollView(
           child: Column(
-              children: [
-              // Hero Section
+            children: [
+              // Hero Section - Optimized for Galaxy Fold
               Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.5,
+                height: isVeryNarrowScreen 
+                    ? MediaQuery.of(context).size.height * 0.45 // Slightly shorter on narrow screens
+                    : MediaQuery.of(context).size.height * 0.5,
                 child: Stack(
                   children: [
-                    // Background Image
                     Positioned.fill(
                       child: Image.asset(
                         'assets/images/IMG_4787.JPG',
                         fit: BoxFit.cover,
                       ),
                     ),
-                    // Gradient Overlay
                     Positioned.fill(
                       child: Container(
                         decoration: BoxDecoration(
@@ -328,40 +383,41 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              Colors.black.withOpacity(0.4),
-                              Colors.black.withOpacity(0.7),
+                              Colors.black.withAlpha((0.4 * 255).round()),
+                              Colors.black.withAlpha((0.7 * 255).round()),
                             ],
                           ),
                         ),
                       ),
                     ),
-                    // Back Button
                     Positioned(
                       top: MediaQuery.of(context).padding.top + 16,
                       left: 16,
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.3),
+                          color: Colors.black.withAlpha((0.3 * 255).round()),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: IconButton(
                           onPressed: () {
-                        context.pushNamed(DashboardWidget.routeName);
-                      },
+                            context.pushNamed(DashboardWidget.routeName);
+                          },
                           icon: Icon(
                             Icons.arrow_back_ios,
                             color: Colors.white,
-                            size: 20,
+                            size: isVeryNarrowScreen ? 18 : 20,
                           ),
                         ),
                       ),
                     ),
-                    // Emergency Badge
                     Positioned(
                       top: MediaQuery.of(context).padding.top + 16,
                       right: 16,
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isVeryNarrowScreen ? 8 : 12, 
+                          vertical: isVeryNarrowScreen ? 4 : 6,
+                        ),
                         decoration: BoxDecoration(
                           color: Color(0xFFDC2626),
                           borderRadius: BorderRadius.circular(20),
@@ -372,13 +428,13 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                             Icon(
                               Icons.emergency,
                               color: Colors.white,
-                              size: 16,
+                              size: isVeryNarrowScreen ? 14 : 16,
                             ),
-                            SizedBox(width: 4),
+                            SizedBox(width: isVeryNarrowScreen ? 3 : 4),
                             Text(
-                              '24/7 Available',
+                              isVeryNarrowScreen ? '24/7' : '24/7 Available',
                               style: GoogleFonts.inter(
-                                fontSize: 11 * fontScaleFactor, // Apply responsive scaling
+                                fontSize: (isVeryNarrowScreen ? 10 : 11) * fontScaleFactor,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
                               ),
@@ -387,7 +443,6 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                         ),
                       ),
                     ),
-                    // Content
                     Positioned(
                       bottom: 40,
                       left: 24,
@@ -404,17 +459,17 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                             child: Text(
                               'Emergency Care',
                               style: GoogleFonts.inter(
-                                fontSize: 13 * fontScaleFactor, // Apply responsive scaling
-                                            fontWeight: FontWeight.w600,
+                                fontSize: 13 * fontScaleFactor,
+                                fontWeight: FontWeight.w600,
                                 color: Colors.white,
                               ),
                             ),
                           ),
                           SizedBox(height: 12),
-                                  Text(
+                          Text(
                             'Rapid Response\nEmergency Services',
                             style: GoogleFonts.inter(
-                              fontSize: 28 * fontScaleFactor, // Apply responsive scaling, optimized size
+                              fontSize: (isVeryNarrowScreen ? 24 : 28) * fontScaleFactor,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                               height: 1.2,
@@ -422,12 +477,14 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                             overflow: TextOverflow.visible,
                             softWrap: true,
                           ),
-                          SizedBox(height: 12),
+                          SizedBox(height: isVeryNarrowScreen ? 8 : 12),
                           Text(
-                            'Professional emergency response designed specifically for seniors with immediate medical support and family coordination',
+                            isVeryNarrowScreen 
+                                ? 'Emergency response for seniors with medical support and family coordination'
+                                : 'Professional emergency response designed specifically for seniors with immediate medical support and family coordination',
                             style: GoogleFonts.inter(
-                              fontSize: 15 * fontScaleFactor, // Apply responsive scaling, reduced from 16 to 15
-                              color: Colors.white.withOpacity(0.9),
+                              fontSize: (isVeryNarrowScreen ? 13 : 15) * fontScaleFactor,
+                              color: Colors.white.withAlpha((0.9 * 255).round()),
                               height: 1.5,
                             ),
                           ),
@@ -438,56 +495,61 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                 ),
               ),
 
-              // Content Section
+              // Content Section - Optimized for Galaxy Fold
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(24),
+                padding: EdgeInsets.all(isVeryNarrowScreen ? 16 : 24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                                        // Quick Stats
-                    Row(
-                      children: [
-                        _buildQuickStatCard(
-                          value: '<3min',
-                          label: 'Response Time',
-                          icon: Icons.speed,
-                          color: Color(0xFFDC2626),
-                          layoutScale: layoutScaleFactor,
-                          fontScale: fontScaleFactor,
-                        ),
-                        SizedBox(width: 8 * layoutScaleFactor),
-                        _buildQuickStatCard(
-                          value: '24/7',
-                          label: 'Availability',
-                          icon: Icons.access_time,
-                          color: Color(0xFF059669),
-                          layoutScale: layoutScaleFactor,
-                          fontScale: fontScaleFactor,
-                        ),
-                        SizedBox(width: 8 * layoutScaleFactor),
-                        _buildQuickStatCard(
-                          value: '100%',
-                          label: 'Coverage',
-                          icon: Icons.shield,
-                          color: Color(0xFF3B82F6),
-                          layoutScale: layoutScaleFactor,
-                          fontScale: fontScaleFactor,
-                        ),
-                      ],
+                    // Quick Stats - Optimized for Galaxy Fold
+                    IntrinsicHeight(
+                      child: Row(
+                        children: [
+                          _buildQuickStatCard(
+                            value: '<3min',
+                            label: 'Response Time',
+                            icon: Icons.speed,
+                            color: Color(0xFFDC2626),
+                            layoutScale: layoutScaleFactor,
+                            fontScale: fontScaleFactor,
+                            isVeryNarrowScreen: isVeryNarrowScreen,
+                          ),
+                          SizedBox(width: (isVeryNarrowScreen ? 4 : 8) * layoutScaleFactor),
+                          _buildQuickStatCard(
+                            value: '24/7',
+                            label: 'Availability',
+                            icon: Icons.access_time,
+                            color: Color(0xFF059669),
+                            layoutScale: layoutScaleFactor,
+                            fontScale: fontScaleFactor,
+                            isVeryNarrowScreen: isVeryNarrowScreen,
+                          ),
+                          SizedBox(width: (isVeryNarrowScreen ? 4 : 8) * layoutScaleFactor),
+                          _buildQuickStatCard(
+                            value: '100%',
+                            label: 'Coverage',
+                            icon: Icons.shield,
+                            color: Color(0xFF3B82F6),
+                            layoutScale: layoutScaleFactor,
+                            fontScale: fontScaleFactor,
+                            isVeryNarrowScreen: isVeryNarrowScreen,
+                          ),
+                        ],
+                      ),
                     ),
 
                     SizedBox(height: 32),
 
                     // Emergency Protocol Section
                     Container(
-                      padding: EdgeInsets.all(24),
+                      padding: EdgeInsets.all(isVeryNarrowScreen ? 18 : 24),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
+                            color: Colors.black.withAlpha((0.05 * 255).round()),
                             blurRadius: 10,
                             offset: Offset(0, 4),
                           ),
@@ -501,31 +563,31 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                               Icon(
                                 Icons.emergency_outlined,
                                 color: Color(0xFFDC2626),
-                                size: 28 * layoutScaleFactor, // Apply responsive scaling
+                                size: (isVeryNarrowScreen ? 24 : 28) * layoutScaleFactor,
                               ),
-                              SizedBox(width: 12 * layoutScaleFactor), // Apply responsive spacing
-                                      Expanded(
+                              SizedBox(width: 12 * layoutScaleFactor),
+                              Expanded(
                                 child: Text(
                                   'Emergency Response Protocol',
                                   style: GoogleFonts.inter(
-                                    fontSize: 22 * fontScaleFactor, // Apply responsive scaling, reduced from 24 to 22
+                                    fontSize: (isVeryNarrowScreen ? 20 : 22) * fontScaleFactor,
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xFF1F2937),
-                                    height: 1.2, // Add line height control
+                                    height: 1.2,
                                   ),
-                                  maxLines: 2, // Prevent overflow
+                                  maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height: 20),
-                                      Text(
+                          SizedBox(height: isVeryNarrowScreen ? 16 : 20),
+                          Text(
                             'Our comprehensive emergency response system is designed to provide immediate, professional assistance when seniors need it most.',
                             style: GoogleFonts.inter(
-                              fontSize: 15 * fontScaleFactor, // Apply responsive scaling, reduced from 16 to 15
+                              fontSize: (isVeryNarrowScreen ? 14 : 15) * fontScaleFactor,
                               color: Color(0xFF4B5563),
-                              height: 1.4, // Slightly tighter line height
+                              height: 1.4,
                             ),
                           ),
                         ],
@@ -543,8 +605,8 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                       isUrgent: true,
                       layoutScale: layoutScaleFactor,
                       fontScale: fontScaleFactor,
+                      isVeryNarrowScreen: isVeryNarrowScreen,
                     ),
-
                     _buildEmergencyStepCard(
                       stepNumber: '2',
                       title: 'Rapid Assessment',
@@ -552,8 +614,8 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                       icon: Icons.assessment,
                       layoutScale: layoutScaleFactor,
                       fontScale: fontScaleFactor,
+                      isVeryNarrowScreen: isVeryNarrowScreen,
                     ),
-
                     _buildEmergencyStepCard(
                       stepNumber: '3',
                       title: 'Medical Response',
@@ -561,8 +623,8 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                       icon: Icons.local_hospital,
                       layoutScale: layoutScaleFactor,
                       fontScale: fontScaleFactor,
+                      isVeryNarrowScreen: isVeryNarrowScreen,
                     ),
-
                     _buildEmergencyStepCard(
                       stepNumber: '4',
                       title: 'Family Coordination',
@@ -570,23 +632,24 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                       icon: Icons.family_restroom,
                       layoutScale: layoutScaleFactor,
                       fontScale: fontScaleFactor,
+                      isVeryNarrowScreen: isVeryNarrowScreen,
                     ),
 
                     SizedBox(height: 32),
 
                     // Services Section
-                                      Text(
+                    Text(
                       'Comprehensive Emergency Services',
                       style: GoogleFonts.inter(
-                        fontSize: 26 * fontScaleFactor, // Apply responsive scaling, reduced from 28 to 26
+                        fontSize: (isVeryNarrowScreen ? 22 : 26) * fontScaleFactor,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF1F2937),
-                        height: 1.2, // Add line height control
+                        height: 1.2,
                       ),
-                      maxLines: 2, // Prevent overflow
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: isVeryNarrowScreen ? 16 : 20),
 
                     _buildServiceCard(
                       title: '24/7 Emergency Helpline',
@@ -602,8 +665,8 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                       backgroundColor: Color(0xFFFEF2F2),
                       layoutScale: layoutScaleFactor,
                       fontScale: fontScaleFactor,
+                      isVeryNarrowScreen: isVeryNarrowScreen,
                     ),
-
                     _buildServiceCard(
                       title: 'Medical Emergency Response',
                       description: 'Specialized medical teams trained in senior care emergency protocols.',
@@ -618,8 +681,8 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                       backgroundColor: Color(0xFFF0FDF4),
                       layoutScale: layoutScaleFactor,
                       fontScale: fontScaleFactor,
+                      isVeryNarrowScreen: isVeryNarrowScreen,
                     ),
-
                     _buildServiceCard(
                       title: 'Crisis Prevention & Management',
                       description: 'Proactive monitoring and prevention strategies to minimize emergency situations.',
@@ -634,13 +697,14 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                       backgroundColor: Color(0xFFF0F9FF),
                       layoutScale: layoutScaleFactor,
                       fontScale: fontScaleFactor,
+                      isVeryNarrowScreen: isVeryNarrowScreen,
                     ),
 
                     // Critical Information Alert
                     Container(
                       width: double.infinity,
-                      padding: EdgeInsets.all(24),
-                      margin: EdgeInsets.symmetric(vertical: 20),
+                      padding: EdgeInsets.all(isVeryNarrowScreen ? 18 : 24),
+                      margin: EdgeInsets.symmetric(vertical: isVeryNarrowScreen ? 16 : 20),
                       decoration: BoxDecoration(
                         color: Color(0xFFFEF2F2),
                         borderRadius: BorderRadius.circular(16),
@@ -657,31 +721,31 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                               Icon(
                                 Icons.priority_high,
                                 color: Color(0xFFDC2626),
-                                size: 28,
+                                size: isVeryNarrowScreen ? 24 : 28,
                               ),
                               SizedBox(width: 12),
                               Expanded(
                                 child: Text(
                                   'Critical Emergency Information',
                                   style: GoogleFonts.inter(
-                                    fontSize: 18 * fontScaleFactor, // Apply responsive scaling, reduced from 20 to 18
+                                    fontSize: (isVeryNarrowScreen ? 16 : 18) * fontScaleFactor,
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xFFDC2626),
-                                    height: 1.2, // Add line height control
+                                    height: 1.2,
                                   ),
-                                  maxLines: 2, // Prevent overflow
+                                  maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height: 16 * layoutScaleFactor), // Apply responsive spacing
-                                      Text(
+                          SizedBox(height: (isVeryNarrowScreen ? 12 : 16) * layoutScaleFactor),
+                          Text(
                             'For life-threatening emergencies, always call 911 first. Our emergency services complement but do not replace official emergency services. We provide specialized senior care coordination and family communication.',
                             style: GoogleFonts.inter(
-                              fontSize: 15 * fontScaleFactor, // Apply responsive scaling, reduced from 16 to 15
+                              fontSize: (isVeryNarrowScreen ? 14 : 15) * fontScaleFactor,
                               color: Color(0xFF7F1D1D),
-                              height: 1.4, // Slightly tighter line height
+                              height: 1.4,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -690,11 +754,11 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                     ),
 
                     SizedBox(height: 32),
-
+                    
                     // Key Takeaways Card
                     Container(
                       width: double.infinity,
-                      padding: EdgeInsets.all(24),
+                      padding: EdgeInsets.all(isVeryNarrowScreen ? 18 : 24),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
@@ -707,7 +771,7 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Color(0xFFDC2626).withOpacity(0.3),
+                            color: Color(0xFFDC2626).withAlpha((0.3 * 255).round()),
                             blurRadius: 20,
                             offset: Offset(0, 8),
                           ),
@@ -719,53 +783,54 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                           Row(
                             children: [
                               Container(
-                                padding: EdgeInsets.all(8),
+                                padding: EdgeInsets.all(isVeryNarrowScreen ? 6 : 8),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
+                                  color: Colors.white.withAlpha((0.2 * 255).round()),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Icon(
                                   Icons.security,
                                   color: Colors.white,
-                                  size: 24,
+                                  size: isVeryNarrowScreen ? 20 : 24,
                                 ),
                               ),
                               SizedBox(width: 12),
                               Expanded(
                                 child: Text(
-                                  'Emergency Preparedness Takeaways',
+                                  'Emergency Preparedness',
                                   style: GoogleFonts.inter(
-                                    fontSize: 20 * fontScaleFactor, // Apply responsive scaling, reduced from 22 to 20
+                                    fontSize: (isVeryNarrowScreen ? 18 : 20) * fontScaleFactor,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
-                                    height: 1.2, // Add line height control
+                                    height: 1.2,
                                   ),
-                                  maxLines: 2, // Prevent overflow
+                                  maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height: 20),
-                          _buildTakeawayPoint('Every second counts - immediate response can save lives'),
-                          _buildTakeawayPoint('Professional coordination reduces emergency complications'),
-                          _buildTakeawayPoint('Family communication provides peace of mind during crises'),
-                          _buildTakeawayPoint('Prevention and monitoring minimize emergency situations'),
+                          SizedBox(height: isVeryNarrowScreen ? 16 : 20),
+                          _buildTakeawayPoint('Every second counts - immediate response can save lives', isVeryNarrowScreen: isVeryNarrowScreen),
+                          _buildTakeawayPoint('Professional coordination reduces emergency complications', isVeryNarrowScreen: isVeryNarrowScreen),
+                          _buildTakeawayPoint('Family communication provides peace of mind during crises', isVeryNarrowScreen: isVeryNarrowScreen),
+                          _buildTakeawayPoint('Prevention and monitoring minimize emergency situations', isVeryNarrowScreen: isVeryNarrowScreen),
                         ],
                       ),
                     ),
 
                     SizedBox(height: 40),
-// Contact Us Button
+
+                    // Contact Us Button
                     Container(
                       width: double.infinity,
-                      padding: EdgeInsets.all(24),
+                      padding: EdgeInsets.all(isVeryNarrowScreen ? 18 : 24),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
+                            color: Colors.black.withAlpha((0.05 * 255).round()),
                             blurRadius: 15,
                             offset: Offset(0, 8),
                           ),
@@ -776,29 +841,29 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                           Icon(
                             Icons.emergency,
                             color: Color(0xFFDC2626),
-                            size: 48,
+                            size: isVeryNarrowScreen ? 40 : 48,
                           ),
-                          SizedBox(height: 16),
+                          SizedBox(height: isVeryNarrowScreen ? 12 : 16),
                           Text(
                             'Ready for Emergency Protection?',
                             style: GoogleFonts.inter(
-                              fontSize: 22 * fontScaleFactor, // Apply responsive scaling
+                              fontSize: (isVeryNarrowScreen ? 20 : 22) * fontScaleFactor,
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF1F2937),
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(height: 8),
+                          SizedBox(height: isVeryNarrowScreen ? 6 : 8),
                           Text(
                             'Connect with our emergency care specialists to set up your 24/7 protection plan.',
                             style: GoogleFonts.inter(
-                              fontSize: 15 * fontScaleFactor, // Apply responsive scaling, reduced from 16 to 15
+                              fontSize: (isVeryNarrowScreen ? 14 : 15) * fontScaleFactor,
                               color: Color(0xFF6B7280),
-                              height: 1.4, // Slightly tighter line height
+                              height: 1.4,
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(height: 24),
+                          SizedBox(height: isVeryNarrowScreen ? 18 : 24),
                           FFButtonWidget(
                             onPressed: () async {
                               try {
@@ -808,7 +873,7 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                               }
                               await launchURL('https://wa.me/message/BFIUAWXCKN3BM1');
                             },
-                            text: 'Emergency Contact Support',
+                            text: isVeryNarrowScreen ? 'Emergency Support' : 'Emergency Contact Support',
                             icon: Icon(
                               FontAwesomeIcons.whatsapp,
                               color: Colors.white,
@@ -816,46 +881,50 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
                             ),
                             options: FFButtonOptions(
                               width: double.infinity,
-                              height: 56.0,
-                              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0),
+                              height: (isVeryNarrowScreen ? 50.0 : 56.0) * layoutScaleFactor,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: (isVeryNarrowScreen ? 20.0 : 24.0) * layoutScaleFactor,
+                              ),
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, (isVeryNarrowScreen ? 6.0 : 8.0) * layoutScaleFactor, 0.0),
                               color: Color(0xFFDC2626),
                               textStyle: GoogleFonts.inter(
-                                fontSize: 17 * fontScaleFactor, // Apply responsive scaling, reduced from 18 to 17
+                                fontSize: (isVeryNarrowScreen ? 15 : 17) * fontScaleFactor,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
                                 letterSpacing: 0.0,
                               ),
                               elevation: 4.0,
-                              borderRadius: BorderRadius.circular(28.0),
+                              borderRadius: BorderRadius.circular(28.0 * layoutScaleFactor),
                               borderSide: BorderSide.none,
                             ),
                           ),
                         ],
                       ),
                     ),
-                   
                   ],
                 ),
-                ),
+              ),
 
-                // Bottom padding to prevent footer navigation overlap
-                SizedBox(height: bottomNavHeight),
-              ],
+              SizedBox(height: bottomNavHeight),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildTakeawayPoint(String text) {
+  // Optimized for Galaxy Fold and all devices
+  Widget _buildTakeawayPoint(String text, {required bool isVeryNarrowScreen}) {
     return Container(
-      margin: EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: isVeryNarrowScreen ? 10 : 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.only(top: 6, right: 12),
+            margin: EdgeInsets.only(
+              top: 6, 
+              right: isVeryNarrowScreen ? 10 : 12,
+            ),
             width: 6,
             height: 6,
             decoration: BoxDecoration(
@@ -867,9 +936,9 @@ class _EmergencyBlogWidgetState extends State<EmergencyBlogWidget> {
             child: Text(
               text,
               style: GoogleFonts.inter(
-                fontSize: 15, // Reduced from 16 to 15 for better scaling
+                fontSize: isVeryNarrowScreen ? 14 : 15,
                 color: Colors.white,
-                height: 1.4, // Slightly tighter line height
+                height: 1.4,
               ),
             ),
           ),

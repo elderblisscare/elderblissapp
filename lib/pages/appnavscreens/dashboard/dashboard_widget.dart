@@ -381,6 +381,9 @@ class _DashboardWidgetState extends State<DashboardWidget>
     // Conservative font scale factor that considers accessibility settings
     final double fontScaleFactor = ((screenWidth / baseWidth) * clampedTextScale).clamp(1.0, 1.15);
     
+    // Galaxy Fold optimization: Detect very narrow screens (≤ 340px ≈ 2.64 inches)
+    final bool isVeryNarrowScreen = screenWidth <= 340;
+    
     // Calculate bottom navigation bar height to prevent content overlap
     final double bottomNavHeight = MediaQuery.of(context).padding.bottom + 80; // Safe area + nav bar height
     // --- END OF RESPONSIVE SCALING LOGIC ---
@@ -392,7 +395,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Color(0xFFF8FAFC),
+        backgroundColor: Colors.white,
         body: FadeTransition(
           opacity: _fadeAnimation,
           child: SafeArea(
@@ -465,37 +468,64 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                       Text(
                                         'ElderBlissCare',
                                         style: GoogleFonts.inter(
-                                          fontSize: 22 * fontScaleFactor, // Reduced from 26 to 22
+                                          fontSize: isVeryNarrowScreen 
+                                              ? 18 * fontScaleFactor  // Smaller font for Galaxy Fold
+                                              : 22 * fontScaleFactor, // Normal size for regular screens
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
                                           letterSpacing: -0.5,
                                         ),
                                       ),
                                       SizedBox(height: 4),
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: 'Welcome back, ',
-                                              style: GoogleFonts.inter(
-                                                fontSize: 16 * fontScaleFactor, // Use font scale
-                                                color: Colors.white.withOpacity(0.9),
-                                                fontWeight: FontWeight.w400,
+                                      // Galaxy Fold optimization: Stack name below welcome text for better visibility
+                                      isVeryNarrowScreen 
+                                          ? Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Welcome back,',
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 16 * fontScaleFactor,
+                                                    color: Colors.white.withOpacity(0.9),
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  currentUserDisplayName.isNotEmpty
+                                                      ? currentUserDisplayName
+                                                      : 'User',
+                                                  style: GoogleFonts.inter(
+                                                    fontSize: 16 * fontScaleFactor,
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          : RichText(
+                                              text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'Welcome back, ',
+                                                    style: GoogleFonts.inter(
+                                                      fontSize: 16 * fontScaleFactor, // Use font scale
+                                                      color: Colors.white.withOpacity(0.9),
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                  TextSpan(
+                                                    text: currentUserDisplayName.isNotEmpty
+                                                        ? currentUserDisplayName
+                                                        : 'User',
+                                                    style: GoogleFonts.inter(
+                                                      fontSize: 16 * fontScaleFactor, // Use font scale
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                            TextSpan(
-                                              text: currentUserDisplayName.isNotEmpty
-                                                  ? currentUserDisplayName
-                                                  : 'User',
-                                              style: GoogleFonts.inter(
-                                                fontSize: 16 * fontScaleFactor, // Use font scale
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
                                     ],
                                   ),
                                 ),
@@ -624,9 +654,9 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                       ),
                                       SizedBox(height: 2),
                                       Text(
-                                        screenWidth < 400
-                                            ? 'Tap for emergency help'
-                                            : 'Tap for immediate emergency help',
+                                        isVeryNarrowScreen
+                                            ? 'Emergency Help'
+                                            : 'Tap for Emergency Help',
                                         style: GoogleFonts.inter(
                                           fontSize: 11.0 * fontScaleFactor, // Reduced from 13 to 11
                                           color: Colors.white.withOpacity(0.9),
@@ -693,10 +723,12 @@ class _DashboardWidgetState extends State<DashboardWidget>
                         GridView.count(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          crossAxisCount: 2,
+                          crossAxisCount: isVeryNarrowScreen ? 1 : 2,
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16,
-                          childAspectRatio: screenWidth > 420 ? 0.8 : 0.85,
+                          childAspectRatio: isVeryNarrowScreen 
+                              ? 1.4  // Single column on Galaxy Fold - wider aspect ratio for better content visibility
+                              : (screenWidth > 420 ? 0.8 : 0.85), // Original logic for normal screens
                           children: [
                             _buildServiceCard(
                               title: 'Healthcare',
@@ -755,7 +787,15 @@ class _DashboardWidgetState extends State<DashboardWidget>
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(vertical: 32),
                     decoration: BoxDecoration(
-                      color: Color(0xFFF1F5F9),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 20,
+                          offset: Offset(0, -5),
+                          spreadRadius: 0,
+                        ),
+                      ],
                     ),
                     child: Column(
                       children: [
@@ -799,8 +839,10 @@ class _DashboardWidgetState extends State<DashboardWidget>
                         ),
                         SizedBox(height: 24),
                         Container(
-                          // UPDATED: Height increased for better fit on taller devices.
-                          height: screenHeight * 0.36,
+                          // Galaxy Fold optimization: Increased height for better visibility on narrow screens
+                          height: isVeryNarrowScreen 
+                              ? screenHeight * 0.45  // Larger height for Galaxy Fold devices
+                              : screenHeight * 0.36, // Original height for normal devices
                           child: PageView.builder(
                             controller: _testimonialController,
                             itemCount: testimonials.length,

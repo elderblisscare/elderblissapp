@@ -66,7 +66,7 @@
 		<string>INSendMessageIntent</string>
 	</array>
 	<key>PermissionGroupNotification</key>
-	<string>ElderBlissCare  needs to send you notifications about meal updates and other important messages.</string>
+	<string>ElderBlissCare  needs to send you notifications about meal updates and other important messages.</string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.elderblisscare.app.refresh</string>
@@ -94,5 +94,12 @@
 	<true/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
-</dict>
+
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>https</string>
+      <string>tel</string>
+      <string>mailto</string>
+    </array>
+    </dict>
 </plist>

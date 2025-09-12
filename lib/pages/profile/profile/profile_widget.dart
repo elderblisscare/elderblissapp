@@ -47,6 +47,27 @@ class _ProfileWidgetState extends State<ProfileWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // --- GALAXY FOLD RESPONSIVE SCALING LOGIC ---
+    final screenWidth = MediaQuery.of(context).size.width;
+    const double baseWidth = 375.0;
+
+    // Get accessibility text scale factor and clamp it to prevent UI breakage
+    final accessibilityTextScale = MediaQuery.textScalerOf(context).scale(1.0);
+    final clampedTextScale = accessibilityTextScale.clamp(1.0, 1.3); // Max 130% for accessibility
+
+    // Galaxy Fold optimization: Detect very narrow screens (≤ 340px ≈ 2.64 inches)
+    final bool isVeryNarrowScreen = screenWidth <= 340;
+    
+    // Adjust scaling factors for Galaxy Fold and similar devices
+    final double layoutScaleFactor = isVeryNarrowScreen 
+        ? (screenWidth / 320.0).clamp(0.85, 1.0) // Use 320px as base for narrow screens
+        : (screenWidth / baseWidth).clamp(1.0, 1.2);
+        
+    final double fontScaleFactor = isVeryNarrowScreen
+        ? ((screenWidth / 320.0) * clampedTextScale).clamp(0.9, 1.1) // Ensure readable text on narrow screens
+        : ((screenWidth / baseWidth) * clampedTextScale).clamp(1.0, 1.15);
+    // --- END OF RESPONSIVE SCALING LOGIC ---
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -61,11 +82,16 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
+                // Profile Header - Optimized for Galaxy Fold
                 Align(
                   alignment: AlignmentDirectional(0.0, 0.0),
                   child: Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 24.0, 0.0),
+                    padding: EdgeInsetsDirectional.fromSTEB(
+                      (isVeryNarrowScreen ? 16.0 : 24.0) * layoutScaleFactor,
+                      (isVeryNarrowScreen ? 16.0 : 24.0) * layoutScaleFactor,
+                      (isVeryNarrowScreen ? 16.0 : 24.0) * layoutScaleFactor,
+                      0.0
+                    ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -73,7 +99,11 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       children: [
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 24.0, 0.0, 6.0),
+                              0.0, 
+                              (isVeryNarrowScreen ? 16.0 : 24.0) * layoutScaleFactor, 
+                              0.0, 
+                              (isVeryNarrowScreen ? 4.0 : 6.0) * layoutScaleFactor
+                          ),
                           child: Text(
                             'Hi',
                             style: FlutterFlowTheme.of(context)
@@ -87,6 +117,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         .labelLarge
                                         .fontStyle,
                                   ),
+                                  fontSize: (isVeryNarrowScreen ? 14.0 : 16.0) * fontScaleFactor,
                                   letterSpacing: 0.0,
                                   fontWeight: FlutterFlowTheme.of(context)
                                       .labelLarge
@@ -111,6 +142,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         .displaySmall
                                         .fontStyle,
                                   ),
+                                  fontSize: (isVeryNarrowScreen ? 24.0 : 32.0) * fontScaleFactor,
                                   letterSpacing: 0.0,
                                   fontWeight: FlutterFlowTheme.of(context)
                                       .displaySmall
@@ -119,25 +151,36 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                       .displaySmall
                                       .fontStyle,
                                 ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 24.0, 0.0, 0.0),
+                              0.0, 
+                              (isVeryNarrowScreen ? 16.0 : 24.0) * layoutScaleFactor, 
+                              0.0, 
+                              0.0
+                          ),
                           child: Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
                               color: FlutterFlowTheme.of(context).primary,
-                              borderRadius: BorderRadius.circular(8.0),
+                              borderRadius: BorderRadius.circular(8.0 * layoutScaleFactor),
                               border: Border.all(
                                 color: FlutterFlowTheme.of(context).accent1,
                               ),
                             ),
                           ),
                         ),
+                        // Profile Menu - Optimized for Galaxy Fold
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 12.0, 0.0, 0.0),
+                              0.0, 
+                              (isVeryNarrowScreen ? 8.0 : 12.0) * layoutScaleFactor, 
+                              0.0, 
+                              0.0
+                          ),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             children: [
@@ -160,7 +203,11 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                   children: [
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 12.0, 0.0, 12.0),
+                                          0.0, 
+                                          (isVeryNarrowScreen ? 8.0 : 12.0) * layoutScaleFactor, 
+                                          0.0, 
+                                          (isVeryNarrowScreen ? 8.0 : 12.0) * layoutScaleFactor
+                                      ),
                                       child: InkWell(
                                         splashColor: Colors.transparent,
                                         focusColor: Colors.transparent,
@@ -178,8 +225,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
                                             Container(
-                                              width: 40.0,
-                                              height: 40.0,
+                                              width: (isVeryNarrowScreen ? 32.0 : 40.0) * layoutScaleFactor,
+                                              height: (isVeryNarrowScreen ? 32.0 : 40.0) * layoutScaleFactor,
                                               decoration: BoxDecoration(
                                                 color:
                                                     FlutterFlowTheme.of(context)
@@ -187,20 +234,24 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                 shape: BoxShape.circle,
                                               ),
                                               child: Padding(
-                                                padding: EdgeInsets.all(4.0),
+                                                padding: EdgeInsets.all((isVeryNarrowScreen ? 3.0 : 4.0) * layoutScaleFactor),
                                                 child: Icon(
                                                   Icons.person_outline_rounded,
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .primary,
-                                                  size: 20.0,
+                                                  size: (isVeryNarrowScreen ? 16.0 : 20.0) * layoutScaleFactor,
                                                 ),
                                               ),
                                             ),
                                             Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(
-                                                      18.0, 0.0, 0.0, 0.0),
+                                                      (isVeryNarrowScreen ? 12.0 : 18.0) * layoutScaleFactor, 
+                                                      0.0, 
+                                                      0.0, 
+                                                      0.0
+                                                  ),
                                               child: Text(
                                                 'Edit Profile',
                                                 style:
@@ -220,6 +271,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                                     .bodyLarge
                                                                     .fontStyle,
                                                           ),
+                                                          fontSize: (isVeryNarrowScreen ? 14.0 : 16.0) * fontScaleFactor,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FlutterFlowTheme.of(
@@ -264,13 +316,17 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                   children: [
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 12.0, 0.0, 12.0),
+                                          0.0, 
+                                          (isVeryNarrowScreen ? 8.0 : 12.0) * layoutScaleFactor, 
+                                          0.0, 
+                                          (isVeryNarrowScreen ? 8.0 : 12.0) * layoutScaleFactor
+                                      ),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           Container(
-                                            width: 40.0,
-                                            height: 40.0,
+                                            width: (isVeryNarrowScreen ? 32.0 : 40.0) * layoutScaleFactor,
+                                            height: (isVeryNarrowScreen ? 32.0 : 40.0) * layoutScaleFactor,
                                             decoration: BoxDecoration(
                                               color:
                                                   FlutterFlowTheme.of(context)
@@ -278,20 +334,24 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                               shape: BoxShape.circle,
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsets.all(4.0),
+                                              padding: EdgeInsets.all((isVeryNarrowScreen ? 3.0 : 4.0) * layoutScaleFactor),
                                               child: Icon(
                                                 Icons.people,
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .primary,
-                                                size: 20.0,
+                                                size: (isVeryNarrowScreen ? 16.0 : 20.0) * layoutScaleFactor,
                                               ),
                                             ),
                                           ),
                                           Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
-                                                    18.0, 0.0, 0.0, 0.0),
+                                                    (isVeryNarrowScreen ? 12.0 : 18.0) * layoutScaleFactor, 
+                                                    0.0, 
+                                                    0.0, 
+                                                    0.0
+                                                ),
                                             child: Text(
                                               'My Family',
                                               style:
@@ -310,6 +370,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                                   .bodyLarge
                                                                   .fontStyle,
                                                         ),
+                                                        fontSize: (isVeryNarrowScreen ? 14.0 : 16.0) * fontScaleFactor,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FlutterFlowTheme.of(
@@ -352,13 +413,17 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                   children: [
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 12.0, 0.0, 12.0),
+                                          0.0, 
+                                          (isVeryNarrowScreen ? 8.0 : 12.0) * layoutScaleFactor, 
+                                          0.0, 
+                                          (isVeryNarrowScreen ? 8.0 : 12.0) * layoutScaleFactor
+                                      ),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           Container(
-                                            width: 40.0,
-                                            height: 40.0,
+                                            width: (isVeryNarrowScreen ? 32.0 : 40.0) * layoutScaleFactor,
+                                            height: (isVeryNarrowScreen ? 32.0 : 40.0) * layoutScaleFactor,
                                             decoration: BoxDecoration(
                                               color:
                                                   FlutterFlowTheme.of(context)
@@ -366,20 +431,24 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                               shape: BoxShape.circle,
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsets.all(4.0),
+                                              padding: EdgeInsets.all((isVeryNarrowScreen ? 3.0 : 4.0) * layoutScaleFactor),
                                               child: Icon(
                                                 Icons.info_outlined,
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .primary,
-                                                size: 20.0,
+                                                size: (isVeryNarrowScreen ? 16.0 : 20.0) * layoutScaleFactor,
                                               ),
                                             ),
                                           ),
                                           Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
-                                                    18.0, 0.0, 0.0, 0.0),
+                                                    (isVeryNarrowScreen ? 12.0 : 18.0) * layoutScaleFactor, 
+                                                    0.0, 
+                                                    0.0, 
+                                                    0.0
+                                                ),
                                             child: Text(
                                               'About Us',
                                               style:
@@ -398,6 +467,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                                   .bodyLarge
                                                                   .fontStyle,
                                                         ),
+                                                        fontSize: (isVeryNarrowScreen ? 14.0 : 16.0) * fontScaleFactor,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FlutterFlowTheme.of(
@@ -440,13 +510,17 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                   children: [
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 12.0, 0.0, 12.0),
+                                          0.0, 
+                                          (isVeryNarrowScreen ? 8.0 : 12.0) * layoutScaleFactor, 
+                                          0.0, 
+                                          (isVeryNarrowScreen ? 8.0 : 12.0) * layoutScaleFactor
+                                      ),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           Container(
-                                            width: 40.0,
-                                            height: 40.0,
+                                            width: (isVeryNarrowScreen ? 32.0 : 40.0) * layoutScaleFactor,
+                                            height: (isVeryNarrowScreen ? 32.0 : 40.0) * layoutScaleFactor,
                                             decoration: BoxDecoration(
                                               color:
                                                   FlutterFlowTheme.of(context)
@@ -454,20 +528,24 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                               shape: BoxShape.circle,
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsets.all(4.0),
+                                              padding: EdgeInsets.all((isVeryNarrowScreen ? 3.0 : 4.0) * layoutScaleFactor),
                                               child: Icon(
                                                 Icons.mail_outlined,
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .primary,
-                                                size: 20.0,
+                                                size: (isVeryNarrowScreen ? 16.0 : 20.0) * layoutScaleFactor,
                                               ),
                                             ),
                                           ),
                                           Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
-                                                    18.0, 0.0, 0.0, 0.0),
+                                                    (isVeryNarrowScreen ? 12.0 : 18.0) * layoutScaleFactor, 
+                                                    0.0, 
+                                                    0.0, 
+                                                    0.0
+                                                ),
                                             child: Text(
                                               'Contact Us',
                                               style:
@@ -486,6 +564,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                                   .bodyLarge
                                                                   .fontStyle,
                                                         ),
+                                                        fontSize: (isVeryNarrowScreen ? 14.0 : 16.0) * fontScaleFactor,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FlutterFlowTheme.of(
@@ -513,7 +592,11 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                               ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 12.0, 0.0, 12.0),
+                                    0.0, 
+                                    (isVeryNarrowScreen ? 8.0 : 12.0) * layoutScaleFactor, 
+                                    0.0, 
+                                    (isVeryNarrowScreen ? 8.0 : 12.0) * layoutScaleFactor
+                                ),
                                 child: InkWell(
                                   splashColor: Colors.transparent,
                                   focusColor: Colors.transparent,
@@ -535,26 +618,30 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Container(
-                                        width: 40.0,
-                                        height: 40.0,
+                                        width: (isVeryNarrowScreen ? 32.0 : 40.0) * layoutScaleFactor,
+                                        height: (isVeryNarrowScreen ? 32.0 : 40.0) * layoutScaleFactor,
                                         decoration: BoxDecoration(
                                           color: FlutterFlowTheme.of(context)
                                               .accent1,
                                           shape: BoxShape.circle,
                                         ),
                                         child: Padding(
-                                          padding: EdgeInsets.all(4.0),
+                                          padding: EdgeInsets.all((isVeryNarrowScreen ? 3.0 : 4.0) * layoutScaleFactor),
                                           child: Icon(
                                             Icons.logout,
                                             color: FlutterFlowTheme.of(context)
                                                 .primary,
-                                            size: 18.0,
+                                            size: (isVeryNarrowScreen ? 14.0 : 18.0) * layoutScaleFactor,
                                           ),
                                         ),
                                       ),
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            18.0, 0.0, 0.0, 0.0),
+                                            (isVeryNarrowScreen ? 12.0 : 18.0) * layoutScaleFactor, 
+                                            0.0, 
+                                            0.0, 
+                                            0.0
+                                        ),
                                         child: Text(
                                           'Log out',
                                           style: FlutterFlowTheme.of(context)
@@ -572,6 +659,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                           .bodyLarge
                                                           .fontStyle,
                                                 ),
+                                                fontSize: (isVeryNarrowScreen ? 14.0 : 16.0) * fontScaleFactor,
                                                 letterSpacing: 0.0,
                                                 fontWeight:
                                                     FlutterFlowTheme.of(context)
@@ -591,7 +679,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             ],
                           ),
                         ),
-                      ].addToEnd(SizedBox(height: 44.0)),
+                      ].addToEnd(SizedBox(height: (isVeryNarrowScreen ? 32.0 : 44.0) * layoutScaleFactor)),
                     ),
                   ),
                 ),

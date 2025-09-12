@@ -65,7 +65,7 @@ class _SplashscreenaAuthenticatedWidgetState
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Image.asset(
-                'assets/images/IMG_4799.JPG',
+                'assets/images/MG_4799.JPG',
                 width: 200.0,
                 height: 200.0,
                 fit: BoxFit.cover,

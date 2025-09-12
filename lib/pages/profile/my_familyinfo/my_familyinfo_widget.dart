@@ -588,6 +588,27 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // --- GALAXY FOLD RESPONSIVE SCALING LOGIC ---
+    final screenWidth = MediaQuery.of(context).size.width;
+    const double baseWidth = 375.0;
+
+    // Get accessibility text scale factor and clamp it to prevent UI breakage
+    final accessibilityTextScale = MediaQuery.textScalerOf(context).scale(1.0);
+    final clampedTextScale = accessibilityTextScale.clamp(1.0, 1.3); // Max 130% for accessibility
+
+    // Galaxy Fold optimization: Detect very narrow screens (≤ 340px ≈ 2.64 inches)
+    final bool isVeryNarrowScreen = screenWidth <= 340;
+    
+    // Adjust scaling factors for Galaxy Fold and similar devices
+    final double layoutScaleFactor = isVeryNarrowScreen 
+        ? (screenWidth / 320.0).clamp(0.85, 1.0) // Use 320px as base for narrow screens
+        : (screenWidth / baseWidth).clamp(1.0, 1.2);
+        
+    final double fontScaleFactor = isVeryNarrowScreen
+        ? ((screenWidth / 320.0) * clampedTextScale).clamp(0.9, 1.1) // Ensure readable text on narrow screens
+        : ((screenWidth / baseWidth) * clampedTextScale).clamp(1.0, 1.15);
+    // --- END OF RESPONSIVE SCALING LOGIC ---
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -596,18 +617,19 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        // App Bar - Optimized for Galaxy Fold
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
           leading: FlutterFlowIconButton(
             borderColor: Colors.transparent,
-            borderRadius: 30.0,
+            borderRadius: (isVeryNarrowScreen ? 25.0 : 30.0) * layoutScaleFactor,
             borderWidth: 1.0,
-            buttonSize: 60.0,
+            buttonSize: (isVeryNarrowScreen ? 50.0 : 60.0) * layoutScaleFactor,
             icon: Icon(
               Icons.arrow_back_rounded,
               color: Colors.white,
-              size: 30.0,
+              size: (isVeryNarrowScreen ? 24.0 : 30.0) * layoutScaleFactor,
             ),
             onPressed: () async {
               logFirebaseEvent('MY_FAMILYINFO_arrow_back_rounded_ICN_ON_');
@@ -619,6 +641,7 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
             'My Family',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
               font: GoogleFonts.sora(fontWeight: FontWeight.w600),
+              fontSize: (isVeryNarrowScreen ? 18.0 : 22.0) * fontScaleFactor,
               color: Colors.white,
               letterSpacing: 0.0,
               fontWeight: FontWeight.w600,
@@ -626,16 +649,21 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
           ),
           actions: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
+              padding: EdgeInsetsDirectional.fromSTEB(
+                0.0, 
+                0.0, 
+                (isVeryNarrowScreen ? 12.0 : 16.0) * layoutScaleFactor, 
+                0.0
+              ),
               child: FlutterFlowIconButton(
                 borderColor: Colors.transparent,
-                borderRadius: 20.0,
+                borderRadius: (isVeryNarrowScreen ? 16.0 : 20.0) * layoutScaleFactor,
                 borderWidth: 1.0,
-                buttonSize: 40.0,
+                buttonSize: (isVeryNarrowScreen ? 32.0 : 40.0) * layoutScaleFactor,
                 icon: Icon(
                   Icons.add,
                   color: Colors.white,
-                  size: 24.0,
+                  size: (isVeryNarrowScreen ? 20.0 : 24.0) * layoutScaleFactor,
                 ),
                 onPressed: () => _showAddEditContactModal(),
               ),
@@ -655,9 +683,14 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Header Card
+                  // Header Card - Optimized for Galaxy Fold
                   Container(
-                    margin: EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 0.0),
+                    margin: EdgeInsetsDirectional.fromSTEB(
+                      (isVeryNarrowScreen ? 16.0 : 20.0) * layoutScaleFactor, 
+                      (isVeryNarrowScreen ? 16.0 : 20.0) * layoutScaleFactor, 
+                      (isVeryNarrowScreen ? 16.0 : 20.0) * layoutScaleFactor, 
+                      0.0
+                    ),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
@@ -668,48 +701,57 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
                         begin: AlignmentDirectional(-1.0, -1.0),
                         end: AlignmentDirectional(1.0, 1.0),
                       ),
-                      borderRadius: BorderRadius.circular(24.0),
+                      borderRadius: BorderRadius.circular(24.0 * layoutScaleFactor),
                       boxShadow: [
                         BoxShadow(
-                          blurRadius: 20.0,
+                          blurRadius: 20.0 * layoutScaleFactor,
                           color: FlutterFlowTheme.of(context).primary.withOpacity(0.3),
-                          offset: Offset(0.0, 8.0),
+                          offset: Offset(0.0, 8.0 * layoutScaleFactor),
                           spreadRadius: 0.0,
                         ),
                       ],
                     ),
                     child: Container(
-                      padding: EdgeInsetsDirectional.fromSTEB(24.0, 28.0, 24.0, 28.0),
+                      padding: EdgeInsetsDirectional.fromSTEB(
+                        (isVeryNarrowScreen ? 18.0 : 24.0) * layoutScaleFactor, 
+                        (isVeryNarrowScreen ? 20.0 : 28.0) * layoutScaleFactor, 
+                        (isVeryNarrowScreen ? 18.0 : 24.0) * layoutScaleFactor, 
+                        (isVeryNarrowScreen ? 20.0 : 28.0) * layoutScaleFactor
+                      ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Container(
-                            padding: EdgeInsetsDirectional.all(16.0),
+                            padding: EdgeInsetsDirectional.all((isVeryNarrowScreen ? 12.0 : 16.0) * layoutScaleFactor),
                             decoration: BoxDecoration(
                               color: Colors.white.withOpacity(0.15),
-                              borderRadius: BorderRadius.circular(20.0),
+                              borderRadius: BorderRadius.circular(20.0 * layoutScaleFactor),
                             ),
                             child: Icon(
                               Icons.family_restroom,
                               color: Colors.white,
-                              size: 32.0,
+                              size: (isVeryNarrowScreen ? 26.0 : 32.0) * layoutScaleFactor,
                             ),
                           ),
-                          SizedBox(height: 16.0),
+                          SizedBox(height: (isVeryNarrowScreen ? 12.0 : 16.0) * layoutScaleFactor),
                           Text(
                             'Emergency Contact',
                             style: FlutterFlowTheme.of(context).headlineSmall.override(
                               font: GoogleFonts.sora(fontWeight: FontWeight.w600),
+                              fontSize: (isVeryNarrowScreen ? 18.0 : 20.0) * fontScaleFactor,
                               color: Colors.white,
                               letterSpacing: 0.0,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          SizedBox(height: 8.0),
+                          SizedBox(height: (isVeryNarrowScreen ? 6.0 : 8.0) * layoutScaleFactor),
                           Text(
-                            'Manage your emergency contact information',
+                            isVeryNarrowScreen 
+                                ? 'Manage emergency contact info'
+                                : 'Manage your emergency contact information',
                             style: FlutterFlowTheme.of(context).bodyMedium.override(
                               font: GoogleFonts.inter(),
+                              fontSize: (isVeryNarrowScreen ? 13.0 : 14.0) * fontScaleFactor,
                               color: Colors.white.withOpacity(0.8),
                               letterSpacing: 0.0,
                             ),
@@ -720,9 +762,14 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
                     ),
                   ),
                   
-                  // Content
+                  // Content - Optimized for Galaxy Fold
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(20.0, 24.0, 20.0, 24.0),
+                    padding: EdgeInsetsDirectional.fromSTEB(
+                      (isVeryNarrowScreen ? 16.0 : 20.0) * layoutScaleFactor, 
+                      (isVeryNarrowScreen ? 18.0 : 24.0) * layoutScaleFactor, 
+                      (isVeryNarrowScreen ? 16.0 : 20.0) * layoutScaleFactor, 
+                      (isVeryNarrowScreen ? 18.0 : 24.0) * layoutScaleFactor
+                    ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -740,8 +787,8 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
                           },
                         ),
                         
-                        // Bottom spacing
-                        SizedBox(height: 32.0),
+                        // Bottom spacing - Optimized for Galaxy Fold
+                        SizedBox(height: (isVeryNarrowScreen ? 24.0 : 32.0) * layoutScaleFactor),
                       ],
                     ),
                   ),
@@ -755,27 +802,42 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
   }
 
   Widget _buildEmptyState() {
+    // Galaxy Fold responsive variables (recreated here since this is a separate method)
+    final screenWidth = MediaQuery.of(context).size.width;
+    final bool isVeryNarrowScreen = screenWidth <= 340;
+    final double layoutScaleFactor = isVeryNarrowScreen 
+        ? (screenWidth / 320.0).clamp(0.85, 1.0)
+        : (screenWidth / 375.0).clamp(1.0, 1.2);
+    final double fontScaleFactor = isVeryNarrowScreen
+        ? ((screenWidth / 320.0) * MediaQuery.textScalerOf(context).scale(1.0).clamp(1.0, 1.3)).clamp(0.9, 1.1)
+        : ((screenWidth / 375.0) * MediaQuery.textScalerOf(context).scale(1.0).clamp(1.0, 1.3)).clamp(1.0, 1.15);
+
     return Container(
       width: MediaQuery.sizeOf(context).width,
-      padding: EdgeInsetsDirectional.fromSTEB(24.0, 40.0, 24.0, 40.0),
+      padding: EdgeInsetsDirectional.fromSTEB(
+        (isVeryNarrowScreen ? 18.0 : 24.0) * layoutScaleFactor, 
+        (isVeryNarrowScreen ? 30.0 : 40.0) * layoutScaleFactor, 
+        (isVeryNarrowScreen ? 18.0 : 24.0) * layoutScaleFactor, 
+        (isVeryNarrowScreen ? 30.0 : 40.0) * layoutScaleFactor
+      ),
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
-        borderRadius: BorderRadius.circular(24.0),
+        borderRadius: BorderRadius.circular(24.0 * layoutScaleFactor),
         border: Border.all(
           color: FlutterFlowTheme.of(context).alternate.withOpacity(0.3),
           width: 1.0,
         ),
         boxShadow: [
           BoxShadow(
-            blurRadius: 24.0,
+            blurRadius: 24.0 * layoutScaleFactor,
             color: Colors.black.withOpacity(0.08),
-            offset: Offset(0.0, 8.0),
+            offset: Offset(0.0, 8.0 * layoutScaleFactor),
             spreadRadius: 0.0,
           ),
           BoxShadow(
-            blurRadius: 6.0,
+            blurRadius: 6.0 * layoutScaleFactor,
             color: Colors.black.withOpacity(0.04),
-            offset: Offset(0.0, 2.0),
+            offset: Offset(0.0, 2.0 * layoutScaleFactor),
             spreadRadius: 0.0,
           ),
         ],
@@ -784,47 +846,57 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: EdgeInsetsDirectional.all(20.0),
+            padding: EdgeInsetsDirectional.all((isVeryNarrowScreen ? 16.0 : 20.0) * layoutScaleFactor),
             decoration: BoxDecoration(
               color: FlutterFlowTheme.of(context).primary.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20.0),
+              borderRadius: BorderRadius.circular(20.0 * layoutScaleFactor),
             ),
             child: Icon(
               Icons.family_restroom,
               color: FlutterFlowTheme.of(context).primary,
-              size: 48.0,
+              size: (isVeryNarrowScreen ? 38.0 : 48.0) * layoutScaleFactor,
             ),
           ),
-          SizedBox(height: 24.0),
+          SizedBox(height: (isVeryNarrowScreen ? 18.0 : 24.0) * layoutScaleFactor),
           Text(
             'No Emergency Contact',
             style: FlutterFlowTheme.of(context).headlineSmall.override(
               font: GoogleFonts.sora(fontWeight: FontWeight.w600),
+              fontSize: (isVeryNarrowScreen ? 18.0 : 20.0) * fontScaleFactor,
               letterSpacing: 0.0,
               fontWeight: FontWeight.w600,
             ),
           ),
-          SizedBox(height: 12.0),
+          SizedBox(height: (isVeryNarrowScreen ? 8.0 : 12.0) * layoutScaleFactor),
           Text(
-            'Add an emergency contact to ensure your loved ones can be reached when needed.',
+            isVeryNarrowScreen 
+                ? 'Add emergency contact to ensure loved ones can be reached when needed.'
+                : 'Add an emergency contact to ensure your loved ones can be reached when needed.',
             style: FlutterFlowTheme.of(context).bodyMedium.override(
               font: GoogleFonts.inter(),
+              fontSize: (isVeryNarrowScreen ? 13.0 : 14.0) * fontScaleFactor,
               color: FlutterFlowTheme.of(context).secondaryText,
               letterSpacing: 0.0,
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 24.0),
+          SizedBox(height: (isVeryNarrowScreen ? 18.0 : 24.0) * layoutScaleFactor),
           FFButtonWidget(
             onPressed: () => _showAddEditContactModal(),
-            text: 'Add Emergency Contact',
+            text: isVeryNarrowScreen ? 'Add Contact' : 'Add Emergency Contact',
             options: FFButtonOptions(
-              height: 50.0,
-              padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+              height: (isVeryNarrowScreen ? 45.0 : 50.0) * layoutScaleFactor,
+              padding: EdgeInsetsDirectional.fromSTEB(
+                (isVeryNarrowScreen ? 18.0 : 24.0) * layoutScaleFactor, 
+                0.0, 
+                (isVeryNarrowScreen ? 18.0 : 24.0) * layoutScaleFactor, 
+                0.0
+              ),
               iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
               color: FlutterFlowTheme.of(context).primary,
               textStyle: FlutterFlowTheme.of(context).titleMedium.override(
                 font: GoogleFonts.inter(fontWeight: FontWeight.w600),
+                fontSize: (isVeryNarrowScreen ? 14.0 : 16.0) * fontScaleFactor,
                 color: Colors.white,
                 letterSpacing: 0.0,
                 fontWeight: FontWeight.w600,
@@ -834,7 +906,7 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
                 color: Colors.transparent,
                 width: 0.0,
               ),
-              borderRadius: BorderRadius.circular(16.0),
+              borderRadius: BorderRadius.circular(16.0 * layoutScaleFactor),
             ),
           ),
         ],
@@ -843,39 +915,54 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
   }
 
   Widget _buildContactCard() {
+    // Galaxy Fold responsive variables (recreated here since this is a separate method)
+    final screenWidth = MediaQuery.of(context).size.width;
+    final bool isVeryNarrowScreen = screenWidth <= 340;
+    final double layoutScaleFactor = isVeryNarrowScreen 
+        ? (screenWidth / 320.0).clamp(0.85, 1.0)
+        : (screenWidth / 375.0).clamp(1.0, 1.2);
+    final double fontScaleFactor = isVeryNarrowScreen
+        ? ((screenWidth / 320.0) * MediaQuery.textScalerOf(context).scale(1.0).clamp(1.0, 1.3)).clamp(0.9, 1.1)
+        : ((screenWidth / 375.0) * MediaQuery.textScalerOf(context).scale(1.0).clamp(1.0, 1.3)).clamp(1.0, 1.15);
+
     return Container(
       width: MediaQuery.sizeOf(context).width,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
-        borderRadius: BorderRadius.circular(24.0),
+        borderRadius: BorderRadius.circular(24.0 * layoutScaleFactor),
         border: Border.all(
           color: FlutterFlowTheme.of(context).alternate.withOpacity(0.3),
           width: 1.0,
         ),
         boxShadow: [
           BoxShadow(
-            blurRadius: 24.0,
+            blurRadius: 24.0 * layoutScaleFactor,
             color: Colors.black.withOpacity(0.08),
-            offset: Offset(0.0, 8.0),
+            offset: Offset(0.0, 8.0 * layoutScaleFactor),
             spreadRadius: 0.0,
           ),
           BoxShadow(
-            blurRadius: 6.0,
+            blurRadius: 6.0 * layoutScaleFactor,
             color: Colors.black.withOpacity(0.04),
-            offset: Offset(0.0, 2.0),
+            offset: Offset(0.0, 2.0 * layoutScaleFactor),
             spreadRadius: 0.0,
           ),
         ],
       ),
       child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 24.0, 24.0),
+        padding: EdgeInsetsDirectional.fromSTEB(
+          (isVeryNarrowScreen ? 18.0 : 24.0) * layoutScaleFactor, 
+          (isVeryNarrowScreen ? 18.0 : 24.0) * layoutScaleFactor, 
+          (isVeryNarrowScreen ? 18.0 : 24.0) * layoutScaleFactor, 
+          (isVeryNarrowScreen ? 18.0 : 24.0) * layoutScaleFactor
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Container(
-                  padding: EdgeInsetsDirectional.all(12.0),
+                  padding: EdgeInsetsDirectional.all((isVeryNarrowScreen ? 10.0 : 12.0) * layoutScaleFactor),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -886,15 +973,15 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
                       begin: AlignmentDirectional(-1.0, -1.0),
                       end: AlignmentDirectional(1.0, 1.0),
                     ),
-                    borderRadius: BorderRadius.circular(16.0),
+                    borderRadius: BorderRadius.circular(16.0 * layoutScaleFactor),
                   ),
                   child: Icon(
                     Icons.person,
                     color: FlutterFlowTheme.of(context).primary,
-                    size: 24.0,
+                    size: (isVeryNarrowScreen ? 20.0 : 24.0) * layoutScaleFactor,
                   ),
                 ),
-                SizedBox(width: 16.0),
+                SizedBox(width: (isVeryNarrowScreen ? 12.0 : 16.0) * layoutScaleFactor),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -903,15 +990,19 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
                         currentUserDocument?.nameEmergency ?? 'Unknown',
                         style: FlutterFlowTheme.of(context).headlineSmall.override(
                           font: GoogleFonts.sora(fontWeight: FontWeight.w600),
+                          fontSize: (isVeryNarrowScreen ? 16.0 : 18.0) * fontScaleFactor,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w600,
                         ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: 4.0),
+                      SizedBox(height: (isVeryNarrowScreen ? 3.0 : 4.0) * layoutScaleFactor),
                       Text(
                         currentUserDocument?.relationEmergency ?? 'Family Member',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                           font: GoogleFonts.inter(),
+                          fontSize: (isVeryNarrowScreen ? 12.0 : 14.0) * fontScaleFactor,
                           color: FlutterFlowTheme.of(context).primary,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w500,
@@ -923,40 +1014,46 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
                 InkWell(
                   onTap: () => _showAddEditContactModal(),
                   child: Container(
-                    padding: EdgeInsetsDirectional.all(8.0),
+                    padding: EdgeInsetsDirectional.all((isVeryNarrowScreen ? 6.0 : 8.0) * layoutScaleFactor),
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).primaryBackground,
-                      borderRadius: BorderRadius.circular(12.0),
+                      borderRadius: BorderRadius.circular(12.0 * layoutScaleFactor),
                     ),
                     child: Icon(
                       Icons.edit,
                       color: FlutterFlowTheme.of(context).primary,
-                      size: 20.0,
+                      size: (isVeryNarrowScreen ? 16.0 : 20.0) * layoutScaleFactor,
                     ),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 20.0),
+            SizedBox(height: (isVeryNarrowScreen ? 14.0 : 20.0) * layoutScaleFactor),
             Container(
-              padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+              padding: EdgeInsetsDirectional.fromSTEB(
+                (isVeryNarrowScreen ? 12.0 : 16.0) * layoutScaleFactor, 
+                (isVeryNarrowScreen ? 12.0 : 16.0) * layoutScaleFactor, 
+                (isVeryNarrowScreen ? 12.0 : 16.0) * layoutScaleFactor, 
+                (isVeryNarrowScreen ? 12.0 : 16.0) * layoutScaleFactor
+              ),
               decoration: BoxDecoration(
                 color: FlutterFlowTheme.of(context).primaryBackground,
-                borderRadius: BorderRadius.circular(16.0),
+                borderRadius: BorderRadius.circular(16.0 * layoutScaleFactor),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.phone,
                     color: FlutterFlowTheme.of(context).primary,
-                    size: 20.0,
+                    size: (isVeryNarrowScreen ? 16.0 : 20.0) * layoutScaleFactor,
                   ),
-                  SizedBox(width: 12.0),
+                  SizedBox(width: (isVeryNarrowScreen ? 8.0 : 12.0) * layoutScaleFactor),
                   Expanded(
                     child: Text(
                       currentUserDocument?.contactEmergency ?? 'No phone number',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                         font: GoogleFonts.inter(),
+                        fontSize: (isVeryNarrowScreen ? 13.0 : 14.0) * fontScaleFactor,
                         letterSpacing: 0.0,
                       ),
                     ),
@@ -964,15 +1061,15 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
                   InkWell(
                     onTap: () => logFirebaseEvent('MY_FAMILYINFO_phone_call_action'),
                     child: Container(
-                      padding: EdgeInsetsDirectional.all(8.0),
+                      padding: EdgeInsetsDirectional.all((isVeryNarrowScreen ? 6.0 : 8.0) * layoutScaleFactor),
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).primary,
-                        borderRadius: BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(8.0 * layoutScaleFactor),
                       ),
                       child: Icon(
                         Icons.call,
                         color: Colors.white,
-                        size: 16.0,
+                        size: (isVeryNarrowScreen ? 12.0 : 16.0) * layoutScaleFactor,
                       ),
                     ),
                   ),

@@ -159,6 +159,9 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
 
     final double fontScaleFactor = ((screenWidth / baseWidth) * clampedTextScale).clamp(1.0, 1.15);
     
+    // Galaxy Fold optimization: Detect very narrow screens (≤ 340px ≈ 2.64 inches)
+    final bool isVeryNarrowScreen = screenWidth <= 340;
+    
     final double bottomNavHeight = MediaQuery.of(context).padding.bottom + 80;
     // --- END OF RESPONSIVE SCALING LOGIC ---
 
@@ -166,7 +169,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: Colors.white,
         body: SafeArea(
           top: true,
           child: SingleChildScrollView(
@@ -189,7 +192,12 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                     ),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 24.0),
+                    padding: EdgeInsets.fromLTRB(
+                      (isVeryNarrowScreen ? 16.0 : 24.0) * layoutScaleFactor, 
+                      24.0, 
+                      (isVeryNarrowScreen ? 16.0 : 24.0) * layoutScaleFactor, 
+                      24.0
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -199,7 +207,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                           style: FlutterFlowTheme.of(context).headlineLarge.override(
                                 fontFamily: GoogleFonts.sora().fontFamily,
                                 color: Colors.white,
-                                fontSize: 28 * fontScaleFactor,
+                                fontSize: (isVeryNarrowScreen ? 24 : 28) * fontScaleFactor,
                                 fontWeight: FontWeight.bold,
                               ),
                         ),
@@ -209,7 +217,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                           style: FlutterFlowTheme.of(context).bodyLarge.override(
                                 fontFamily: GoogleFonts.inter().fontFamily,
                                 color: Color(0xFFE0E0E0),
-                                fontSize: 16 * fontScaleFactor,
+                                fontSize: (isVeryNarrowScreen ? 14 : 16) * fontScaleFactor,
                               ),
                         ),
                       ],
@@ -223,13 +231,16 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                     color: FlutterFlowTheme.of(context).secondaryBackground,
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: (isVeryNarrowScreen ? 16.0 : 20.0) * layoutScaleFactor, 
+                      vertical: 24.0 * layoutScaleFactor
+                    ),
                     child: Column(
                       children: [
-                        ...plans.map((plan) => _buildPlanCard(context, plan, layoutScaleFactor, fontScaleFactor)).toList()
+                        ...plans.map((plan) => _buildPlanCard(context, plan, layoutScaleFactor, fontScaleFactor, isVeryNarrowScreen)).toList()
                             .divide(SizedBox(height: 20.0)),
                         const SizedBox(height: 40.0),
-                        _buildConsultationCard(context, layoutScaleFactor, fontScaleFactor),
+                        _buildConsultationCard(context, layoutScaleFactor, fontScaleFactor, isVeryNarrowScreen),
                         SizedBox(height: bottomNavHeight + 20),
                       ],
                     ),
@@ -243,7 +254,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
     );
   }
 
-  Widget _buildPlanCard(BuildContext context, Plan plan, double layoutScale, double fontScale) {
+  Widget _buildPlanCard(BuildContext context, Plan plan, double layoutScale, double fontScale, bool isVeryNarrow) {
     final bool isFeatured = plan.isFeatured;
     final theme = FlutterFlowTheme.of(context);
 
@@ -270,7 +281,12 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
             children: [
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.fromLTRB(28.0, 24.0, 28.0, 24.0),
+                padding: EdgeInsets.fromLTRB(
+                  (isVeryNarrow ? 20.0 : 28.0) * layoutScale, 
+                  (isVeryNarrow ? 20.0 : 24.0) * layoutScale, 
+                  (isVeryNarrow ? 20.0 : 28.0) * layoutScale, 
+                  (isVeryNarrow ? 20.0 : 24.0) * layoutScale
+                ),
                 decoration: BoxDecoration(
                   color: isFeatured ? Color(0xFFC71F38) : Color(0xFFFF5E5E),
                 ),
@@ -285,10 +301,10 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                         child: Text(
-                          'RECOMMENDED',
+                          'BEST SELLER',
                           style: theme.labelSmall.override(
                                 fontFamily: GoogleFonts.inter().fontFamily,
-                                fontSize: 11 * fontScale,
+                                fontSize: (isVeryNarrow ? 10 : 11) * fontScale,
                                 color: Colors.white,
                                 letterSpacing: 0.5,
                                 fontWeight: FontWeight.bold,
@@ -300,7 +316,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                       plan.name,
                       style: theme.headlineMedium.override(
                             fontFamily: GoogleFonts.sora().fontFamily,
-                            fontSize: 24 * fontScale,
+                            fontSize: (isVeryNarrow ? 20 : 24) * fontScale,
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
                           ),
@@ -310,7 +326,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                       plan.tagline,
                       style: theme.bodyMedium.override(
                             fontFamily: GoogleFonts.inter().fontFamily,
-                            fontSize: 14 * fontScale,
+                            fontSize: (isVeryNarrow ? 12 : 14) * fontScale,
                             color: Colors.white.withOpacity(0.9),
                             lineHeight: 1.4,
                           ),
@@ -323,7 +339,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                           plan.price,
                           style: theme.displaySmall.override(
                                 fontFamily: GoogleFonts.sora().fontFamily,
-                                fontSize: 32 * fontScale,
+                                fontSize: (isVeryNarrow ? 28 : 32) * fontScale,
                                 fontWeight: FontWeight.w800,
                                 color: Colors.white,
                               ),
@@ -339,7 +355,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                                   plan.pricePeriod,
                                   style: theme.bodyMedium.override(
                                         fontFamily: GoogleFonts.inter().fontFamily,
-                                        fontSize: 14 * fontScale,
+                                        fontSize: (isVeryNarrow ? 12 : 14) * fontScale,
                                         color: Colors.white,
                                         fontWeight: FontWeight.w600,
                                         lineHeight: 1.2,
@@ -349,7 +365,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                                   plan.billingTerm,
                                   style: theme.labelSmall.override(
                                         fontFamily: GoogleFonts.inter().fontFamily,
-                                        fontSize: 12 * fontScale,
+                                        fontSize: (isVeryNarrow ? 10 : 12) * fontScale,
                                         color: Colors.white.withOpacity(0.7),
                                       ),
                                 ),
@@ -363,7 +379,12 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(28.0, 28.0, 28.0, 32.0),
+                padding: EdgeInsets.fromLTRB(
+                  (isVeryNarrow ? 20.0 : 28.0) * layoutScale, 
+                  (isVeryNarrow ? 24.0 : 28.0) * layoutScale, 
+                  (isVeryNarrow ? 20.0 : 28.0) * layoutScale, 
+                  (isVeryNarrow ? 28.0 : 32.0) * layoutScale
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -393,7 +414,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                                   feature,
                                   style: theme.bodyLarge.override(
                                         fontFamily: GoogleFonts.inter().fontFamily,
-                                        fontSize: 15 * fontScale,
+                                        fontSize: (isVeryNarrow ? 13 : 15) * fontScale,
                                         lineHeight: 1.4,
                                       ),
                                 ),
@@ -408,16 +429,17 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                       onPressed: () async {
                         await launchURL('https://wa.me/message/BFIUAWXCKN3BM1');
                       },
-                      text: 'Select ${plan.name} Plan',
+                      text: isVeryNarrow ? 'Select ${plan.name}' : 'Select ${plan.name} Plan', // Shorter text for Galaxy Fold
                       options: FFButtonOptions(
                         width: double.infinity,
-                        height: 56.0,
-                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        height: (isVeryNarrow ? 52.0 : 56.0) * layoutScale, // Adjust height for Galaxy Fold
+                        padding: EdgeInsets.symmetric(horizontal: (isVeryNarrow ? 16.0 : 24.0) * layoutScale),
                         iconPadding: EdgeInsets.zero,
                         color: isFeatured ? Color(0xFFC71F38) : Color(0xFFFF5E5E),
                         textStyle: theme.titleMedium.override(
                               fontFamily: GoogleFonts.inter().fontFamily,
                               color: Colors.white,
+                              fontSize: (isVeryNarrow ? 14 : 16) * fontScale, // Smaller font for Galaxy Fold
                               fontWeight: FontWeight.w600,
                             ),
                         elevation: 4.0,
@@ -435,7 +457,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
     );
   }
 
-  Widget _buildConsultationCard(BuildContext context, double layoutScale, double fontScale) {
+  Widget _buildConsultationCard(BuildContext context, double layoutScale, double fontScale, bool isVeryNarrow) {
     final theme = FlutterFlowTheme.of(context);
     return Material(
       elevation: 6.0,
@@ -460,14 +482,14 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(28.0),
+          padding: EdgeInsets.all((isVeryNarrow ? 20.0 : 28.0) * layoutScale),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0 * layoutScale),
                     decoration: BoxDecoration(
                       color: theme.primary.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(12.0),
@@ -475,50 +497,53 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                     child: Icon(
                       Icons.support_agent_rounded,
                       color: theme.primary,
-                      size: 28.0,
+                      size: (isVeryNarrow ? 24.0 : 28.0) * layoutScale,
                     ),
                   ),
-                  const SizedBox(width: 16.0),
+                  SizedBox(width: 16.0 * layoutScale),
                   Expanded(
                     child: Text(
                       'Still Not Sure?',
                       style: theme.headlineMedium.override(
                             fontFamily: GoogleFonts.sora().fontFamily,
+                            fontSize: (isVeryNarrow ? 20 : 24) * fontScale,
                             fontWeight: FontWeight.w700,
                           ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 16.0),
+              SizedBox(height: 16.0 * layoutScale),
               Text(
                 'Get a free consultation to find the perfect plan for your needs. Our experts are here to guide you through your healthcare journey!',
                 style: theme.bodyLarge.override(
                       fontFamily: GoogleFonts.inter().fontFamily,
+                      fontSize: (isVeryNarrow ? 14 : 16) * fontScale,
                       color: theme.secondaryText,
                       lineHeight: 1.5,
                     ),
               ),
-              const SizedBox(height: 24.0),
+              SizedBox(height: 24.0 * layoutScale),
               FFButtonWidget(
                 onPressed: () async {
                   await launchURL('https://wa.me/message/BFIUAWXCKN3BM1');
                 },
-                text: 'Get Free Consultation',
+                text: isVeryNarrow ? 'Free Consultation' : 'Get Free Consultation', // Shorter text for Galaxy Fold
                 // 2. UPDATED ICON
                 icon: FaIcon(
                   FontAwesomeIcons.whatsapp,
                   color: FlutterFlowTheme.of(context).info,
-                  size: 20.0,
+                  size: (isVeryNarrow ? 18.0 : 20.0) * layoutScale,
                 ),
                 options: FFButtonOptions(
                   width: double.infinity,
-                  height: 56.0,
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  iconPadding: EdgeInsets.only(right: 8.0),
+                  height: (isVeryNarrow ? 52.0 : 56.0) * layoutScale,
+                  padding: EdgeInsets.symmetric(horizontal: (isVeryNarrow ? 16.0 : 24.0) * layoutScale),
+                  iconPadding: EdgeInsets.only(right: 8.0 * layoutScale),
                   color: theme.primary,
                   textStyle: theme.titleMedium.override(
                         fontFamily: GoogleFonts.inter().fontFamily,
+                        fontSize: (isVeryNarrow ? 14 : 16) * fontScale,
                         color: theme.info,
                         fontWeight: FontWeight.w600,
                       ),

@@ -15,11 +15,20 @@ class FFDevEnvironmentValues {
 
   FFDevEnvironmentValues._internal();
 
+  String? _razorpayKeyId;
+  String? _razorpayKeySecret;
+
+  String get razorpayKeyId => _razorpayKeyId ?? '';
+  String get razorpayKeySecret => _razorpayKeySecret ?? '';
+
   Future<void> initialize() async {
     try {
       final String response =
           await rootBundle.loadString(environmentValuesPath);
       final data = await json.decode(response);
+      
+      _razorpayKeyId = data['razorpay_key_id'];
+      _razorpayKeySecret = data['razorpay_key_secret'];
     } catch (e) {
       print('Error loading environment values: $e');
     }

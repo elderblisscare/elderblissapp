@@ -4,27 +4,34 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // <-- 1. NEW I
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/backend/razorpay_service.dart';
 import 'package:flutter/material.dart';
 import 'view_plans_model.dart';
 export 'view_plans_model.dart';
 
 class Plan {
+  final String id;
   final String name;
   final String tagline;
   final String price;
   final String pricePeriod;
   final String billingTerm;
+  final double numericPrice; // Price in rupees for Razorpay
   final List<String> features;
   final bool isFeatured;
+  final bool hasPaymentIntegration;
 
   Plan({
+    required this.id,
     required this.name,
     required this.tagline,
     required this.price,
     required this.pricePeriod,
     required this.billingTerm,
+    required this.numericPrice,
     required this.features,
     this.isFeatured = false,
+    this.hasPaymentIntegration = false,
   });
 }
 
@@ -45,11 +52,14 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
 
   final List<Plan> plans = [
     Plan(
+      id: 'bliss_911',
       name: 'Bliss 911',
       tagline: 'Emergency Care plan for Active Elders',
       price: '₹499',
       pricePeriod: '/Month',
       billingTerm: '(Billed Annually)',
+      numericPrice: 499.0,
+      hasPaymentIntegration: true, // Enable payment for this plan
       features: [
         '24/7 Emergency Coordination',
         'Doctor Tele-Consultation',
@@ -63,11 +73,14 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
       ],
     ),
     Plan(
+      id: 'bliss_lifestyle',
       name: 'Bliss Lifestyle',
       tagline: 'Everyday Wellness & Support for Graceful Aging',
       price: '₹2100',
       pricePeriod: '/Month',
       billingTerm: '(Billed Annually)',
+      numericPrice: 2100.0,
+      hasPaymentIntegration: true, // Enable payment for this plan
       features: [
         '24/7 Emergency Response',
         'Unlimited Doctor Tele-Consultation',
@@ -87,11 +100,14 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
       isFeatured: true,
     ),
     Plan(
+      id: 'bliss_social',
       name: 'Bliss Social',
       tagline: 'Companionship, Conversation & Care',
       price: '₹5000',
       pricePeriod: '/Month',
       billingTerm: '(Billed Annually)',
+      numericPrice: 5000.0,
+      hasPaymentIntegration: true, // Enable payment for this plan
       features: [
         '24/7 Emergency Response',
         'Dedicated Elderbliss Guardian',
@@ -107,11 +123,14 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
       ],
     ),
     Plan(
+      id: 'bliss_healthplus',
       name: 'Bliss Healthplus',
       tagline: 'Proactive Health Support for Safer Aging',
       price: '₹5500',
       pricePeriod: '/Month',
       billingTerm: '(Billed Annually)',
+      numericPrice: 5500.0,
+      hasPaymentIntegration: true, // Enable payment for this plan
       features: [
         '24/7 Emergency Response',
         'Unlimited Doctor Tele-Consultation',
@@ -143,6 +162,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
   @override
   void dispose() {
     _model.dispose();
+    RazorpayService().dispose();
     super.dispose();
   }
 
@@ -427,14 +447,25 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                     const SizedBox(height: 32.0),
                     FFButtonWidget(
                       onPressed: () async {
-                        await launchURL('https://wa.me/message/BFIUAWXCKN3BM1');
+                        if (plan.hasPaymentIntegration) {
+                          _handlePlanPayment(context, plan, layoutScale, fontScale, isVeryNarrow);
+                        } else {
+                          await launchURL('https://wa.me/message/BFIUAWXCKN3BM1');
+                        }
                       },
-                      text: isVeryNarrow ? 'Select ${plan.name}' : 'Select ${plan.name} Plan', // Shorter text for Galaxy Fold
+                      text: plan.hasPaymentIntegration 
+                          ? (isVeryNarrow ? 'Pay ${plan.price}' : 'Pay ${plan.price} - ${plan.name}')
+                          : (isVeryNarrow ? 'Select ${plan.name}' : 'Select ${plan.name} Plan'),
+                      icon: plan.hasPaymentIntegration 
+                          ? Icon(Icons.payment_rounded, size: (isVeryNarrow ? 18.0 : 20.0) * layoutScale)
+                          : null,
                       options: FFButtonOptions(
                         width: double.infinity,
                         height: (isVeryNarrow ? 52.0 : 56.0) * layoutScale, // Adjust height for Galaxy Fold
                         padding: EdgeInsets.symmetric(horizontal: (isVeryNarrow ? 16.0 : 24.0) * layoutScale),
-                        iconPadding: EdgeInsets.zero,
+                        iconPadding: plan.hasPaymentIntegration 
+                            ? EdgeInsets.only(right: 8.0 * layoutScale)
+                            : EdgeInsets.zero,
                         color: isFeatured ? Color(0xFFC71F38) : Color(0xFFFF5E5E),
                         textStyle: theme.titleMedium.override(
                               fontFamily: GoogleFonts.inter().fontFamily,
@@ -556,6 +587,235 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
           ),
         ),
       ),
+    );
+  }
+
+  void _handlePlanPayment(BuildContext context, Plan plan, double layoutScale, double fontScale, bool isVeryNarrow) {
+    // Validate amount
+    if (!RazorpayService.isValidAmount(plan.numericPrice)) {
+      _showPaymentError(context, 'Invalid payment amount. Please contact support.');
+      return;
+    }
+
+    // Show loading indicator
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(FlutterFlowTheme.of(context).primary),
+                ),
+                SizedBox(height: 16.0),
+                Text(
+                  'Initializing Payment...',
+                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                        fontFamily: GoogleFonts.inter().fontFamily,
+                        fontSize: 16.0,
+                      ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    // Open Razorpay checkout
+    RazorpayService().openCheckout(
+      context: context,
+      planName: plan.name,
+      amount: plan.numericPrice,
+      planId: plan.id,
+      description: '${plan.name} - ${plan.tagline}',
+      onSuccess: () {
+        Navigator.of(context).pop(); // Close loading dialog
+        _handlePaymentSuccess(context, plan);
+      },
+      onError: (error) {
+        Navigator.of(context).pop(); // Close loading dialog
+        _showPaymentError(context, error);
+      },
+    );
+  }
+
+  void _handlePaymentSuccess(BuildContext context, Plan plan) {
+    // Log the successful payment
+    logFirebaseEvent('plan_purchased', parameters: {
+      'plan_id': plan.id,
+      'plan_name': plan.name,
+      'amount': plan.numericPrice.toString(),
+    });
+
+    // Show success dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          title: Row(
+            children: [
+              Icon(
+                Icons.check_circle_rounded,
+                color: Colors.green,
+                size: 28.0,
+              ),
+              SizedBox(width: 8.0),
+              Text(
+                'Payment Successful!',
+                style: FlutterFlowTheme.of(context).headlineSmall.override(
+                      fontFamily: GoogleFonts.sora().fontFamily,
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Congratulations! You have successfully subscribed to:',
+                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                      fontFamily: GoogleFonts.inter().fontFamily,
+                    ),
+              ),
+              SizedBox(height: 12.0),
+              Container(
+                padding: EdgeInsets.all(12.0),
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      plan.name,
+                      style: FlutterFlowTheme.of(context).titleMedium.override(
+                            fontFamily: GoogleFonts.sora().fontFamily,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    Text(
+                      plan.tagline,
+                      style: FlutterFlowTheme.of(context).bodySmall.override(
+                            fontFamily: GoogleFonts.inter().fontFamily,
+                            color: FlutterFlowTheme.of(context).secondaryText,
+                          ),
+                    ),
+                    SizedBox(height: 8.0),
+                    Text(
+                      'Amount Paid: ${plan.price}${plan.pricePeriod}',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            fontFamily: GoogleFonts.inter().fontFamily,
+                            fontWeight: FontWeight.w600,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Text(
+                'Our team will contact you shortly to activate your plan and guide you through the next steps.',
+                style: FlutterFlowTheme.of(context).bodySmall.override(
+                      fontFamily: GoogleFonts.inter().fontFamily,
+                      color: FlutterFlowTheme.of(context).secondaryText,
+                    ),
+              ),
+            ],
+          ),
+          actions: [
+            FFButtonWidget(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              text: 'Great!',
+              options: FFButtonOptions(
+                width: double.infinity,
+                height: 44.0,
+                color: FlutterFlowTheme.of(context).primary,
+                textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                      fontFamily: GoogleFonts.inter().fontFamily,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showPaymentError(BuildContext context, String error) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          title: Row(
+            children: [
+              Icon(
+                Icons.error_rounded,
+                color: Colors.red,
+                size: 28.0,
+              ),
+              SizedBox(width: 8.0),
+              Text(
+                'Payment Failed',
+                style: FlutterFlowTheme.of(context).headlineSmall.override(
+                      fontFamily: GoogleFonts.sora().fontFamily,
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ],
+          ),
+          content: Text(
+            error,
+            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                  fontFamily: GoogleFonts.inter().fontFamily,
+                ),
+          ),
+          actions: [
+            FFButtonWidget(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              text: 'Try Again',
+              options: FFButtonOptions(
+                width: double.infinity,
+                height: 44.0,
+                color: FlutterFlowTheme.of(context).primary,
+                textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                      fontFamily: GoogleFonts.inter().fontFamily,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

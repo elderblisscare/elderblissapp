@@ -14,6 +14,7 @@ import 'flutter_flow/internationalization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
+import 'backend/razorpay_service.dart';
 import 'index.dart';
 
 void main() async {
@@ -25,6 +26,9 @@ void main() async {
   await environmentValues.initialize();
 
   await initFirebase();
+
+  // Initialize Razorpay service
+  RazorpayService().initialize();
 
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();

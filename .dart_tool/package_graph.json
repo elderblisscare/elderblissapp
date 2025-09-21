@@ -5,7 +5,7 @@
   "packages": [
     {
       "name": "elderblisscare1",
-      "version": "2.0.0+109",
+      "version": "2.0.0+110",
       "dependencies": [
         "auto_size_text",
         "cached_network_image",
@@ -60,6 +60,7 @@
         "pin_code_fields",
         "plugin_platform_interface",
         "provider",
+        "razorpay_flutter",
         "rxdart",
         "shared_preferences",
         "shared_preferences_android",
@@ -179,6 +180,15 @@
       "name": "cupertino_icons",
       "version": "1.0.8",
       "dependencies": []
+    },
+    {
+      "name": "razorpay_flutter",
+      "version": "1.4.0",
+      "dependencies": [
+        "eventify",
+        "flutter",
+        "fluttertoast"
+      ]
     },
     {
       "name": "url_launcher_windows",
@@ -1146,6 +1156,20 @@
     {
       "name": "args",
       "version": "2.7.0",
+      "dependencies": []
+    },
+    {
+      "name": "fluttertoast",
+      "version": "8.2.14",
+      "dependencies": [
+        "flutter",
+        "flutter_web_plugins",
+        "web"
+      ]
+    },
+    {
+      "name": "eventify",
+      "version": "1.0.1",
       "dependencies": []
     },
     {

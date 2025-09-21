@@ -2,7 +2,7 @@
     package="com.elderblisscare1.myapp"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <application
         android:label="ElderBlissCare"
@@ -38,6 +38,15 @@
                 <data android:scheme="elderblisscare1" android:host="elderblisscare1.com" />
             </intent-filter>
 
+        </activity>
+
+        <!-- Razorpay Activity -->
+        <activity
+            android:name="com.razorpay.RzpTokenReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="rzp.device_binding.token.share" />
+            </intent-filter>
         </activity>
 
         <meta-data

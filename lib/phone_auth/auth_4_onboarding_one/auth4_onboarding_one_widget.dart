@@ -272,85 +272,99 @@ class _Auth4OnboardingOneWidgetState extends State<Auth4OnboardingOneWidget>
                                       padding: EdgeInsetsDirectional.fromSTEB(horizontalPadding, 0.0, horizontalPadding, 0.0),
                                       child: Column(
                                         children: [
-                                          // Logo Section - enhanced design to match target
-                                          Padding(
-                                            padding: EdgeInsetsDirectional.fromSTEB(0.0, isUltraNarrow ? 4.0 : 6.0, 0.0, isUltraNarrow ? 12.0 : 16.0),
-                                            child: Center(
-                                              child: Stack(
-                                                alignment: Alignment.center,
-                                                children: [
-                                                  // Outer subtle background circle
-                                                  Container(
-                                                    width: logoSize + (isTabletMode ? 80 : (isUltraNarrow ? 40 : 60)),
-                                                    height: logoSize + (isTabletMode ? 80 : (isUltraNarrow ? 40 : 60)),
-                                                    decoration: BoxDecoration(
-                                                      color: FlutterFlowTheme.of(context).primary.withOpacity(0.05),
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                  ),
-                                                  // Main logo container
-                                                  Container(
-                                                    padding: EdgeInsets.all(isTabletMode ? 28 : (isUltraNarrow ? 16 : (isFoldedMode ? 20 : 24))),
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      shape: BoxShape.circle,
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: FlutterFlowTheme.of(context).primary.withOpacity(0.15),
-                                                          blurRadius: 30,
-                                                          offset: Offset(0, 10),
-                                                          spreadRadius: 5,
-                                                        ),
-                                                        BoxShadow(
-                                                          color: Colors.black.withOpacity(0.05),
-                                                          blurRadius: 15,
-                                                          offset: Offset(0, 5),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    child: ClipOval(
-                                                      child: Image.asset(
-                                                        'assets/images/favicon.png',
-                                                        width: logoSize,
-                                                        height: logoSize,
-                                                        fit: BoxFit.cover,
-                                                        errorBuilder: (context, error, stackTrace) {
-                                                          return Container(
-                                                            width: logoSize,
-                                                            height: logoSize,
-                                                            decoration: BoxDecoration(
-                                                              color: FlutterFlowTheme.of(context).primary.withOpacity(0.1),
-                                                              shape: BoxShape.circle,
-                                                            ),
-                                                            child: Icon(
-                                                              Icons.favorite_border,
-                                                              color: FlutterFlowTheme.of(context).primary,
-                                                              size: logoSize * 0.5,
-                                                            ),
-                                                          );
-                                                        },
+                                          // Logo Section - enhanced design to match target (conditionally hidden when phone input is focused)
+                                          if (!(_model.phoneNumberFocusNode?.hasFocus ?? false))
+                                            Padding(
+                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, isUltraNarrow ? 4.0 : 6.0, 0.0, isUltraNarrow ? 12.0 : 16.0),
+                                              child: Center(
+                                                child: Stack(
+                                                  alignment: Alignment.center,
+                                                  children: [
+                                                    // Outer subtle background circle
+                                                    Container(
+                                                      width: logoSize + (isTabletMode ? 80 : (isUltraNarrow ? 40 : 60)),
+                                                      height: logoSize + (isTabletMode ? 80 : (isUltraNarrow ? 40 : 60)),
+                                                      decoration: BoxDecoration(
+                                                        color: FlutterFlowTheme.of(context).primary.withOpacity(0.05),
+                                                        shape: BoxShape.circle,
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
+                                                                                                         // Main logo container
+                                                     Container(
+                                                       padding: EdgeInsets.all(isTabletMode ? 24 : (isUltraNarrow ? 16 : (isFoldedMode ? 18 : 20))),
+                                                       decoration: BoxDecoration(
+                                                         color: Color(0xFFF7F6F6),
+                                                         shape: BoxShape.circle,
+                                                         boxShadow: [
+                                                           BoxShadow(
+                                                             color: FlutterFlowTheme.of(context).primary.withOpacity(0.15),
+                                                             blurRadius: 30,
+                                                             offset: Offset(0, 10),
+                                                             spreadRadius: 5,
+                                                           ),
+                                                           BoxShadow(
+                                                             color: Colors.black.withOpacity(0.05),
+                                                             blurRadius: 15,
+                                                             offset: Offset(0, 5),
+                                                           ),
+                                                         ],
+                                                       ),
+                                                       child: Container(
+                                                         width: logoSize,
+                                                         height: logoSize,
+                                                         child: Image.asset(
+                                                           'assets/images/favicon.png',
+                                                           width: logoSize,
+                                                           height: logoSize,
+                                                           fit: BoxFit.contain,
+                                                           errorBuilder: (context, error, stackTrace) {
+                                                             return Container(
+                                                               width: logoSize,
+                                                               height: logoSize,
+                                                               decoration: BoxDecoration(
+                                                                 color: FlutterFlowTheme.of(context).primary.withOpacity(0.1),
+                                                                 shape: BoxShape.circle,
+                                                               ),
+                                                               child: Icon(
+                                                                 Icons.favorite_border,
+                                                                 color: FlutterFlowTheme.of(context).primary,
+                                                                 size: logoSize * 0.5,
+                                                               ),
+                                                             );
+                                                           },
+                                                         ),
+                                                       ),
+                                                     ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
                                           
                                           // Welcome text - split into two lines and center aligned
-                                          Center(
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 4.0),
-                                                  child: Text(
-                                                    'Welcome to',
-                                                    textAlign: TextAlign.center,
-                                                    style: FlutterFlowTheme.of(context)
-                                                        .displayMedium
-                                                        .override(
-                                                          font: GoogleFonts.sora(
+                                          Padding(
+                                            padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                                            child: Center(
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 4.0),
+                                                    child: Text(
+                                                      'Welcome to',
+                                                      textAlign: TextAlign.center,
+                                                      style: FlutterFlowTheme.of(context)
+                                                          .displayMedium
+                                                          .override(
+                                                            font: GoogleFonts.sora(
+                                                              fontWeight: FlutterFlowTheme.of(context)
+                                                                  .displayMedium
+                                                                  .fontWeight,
+                                                              fontStyle: FlutterFlowTheme.of(context)
+                                                                  .displayMedium
+                                                                  .fontStyle,
+                                                            ),
+                                                            fontSize: isTabletMode ? 36.0 : (isUltraNarrow ? 18.0 : (isFoldedMode ? 24.0 : 32.0)),
+                                                            letterSpacing: 0.0,
                                                             fontWeight: FlutterFlowTheme.of(context)
                                                                 .displayMedium
                                                                 .fontWeight,
@@ -358,30 +372,22 @@ class _Auth4OnboardingOneWidgetState extends State<Auth4OnboardingOneWidget>
                                                                 .displayMedium
                                                                 .fontStyle,
                                                           ),
-                                                          fontSize: isTabletMode ? 36.0 : (isUltraNarrow ? 18.0 : (isFoldedMode ? 24.0 : 32.0)),
-                                                          letterSpacing: 0.0,
-                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                              .displayMedium
-                                                              .fontWeight,
-                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                              .displayMedium
-                                                              .fontStyle,
-                                                        ),
-                                                  ).animateOnPageLoad(animationsMap['textOnPageLoadAnimation1']!),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, isUltraNarrow ? 4.0 : 8.0),
-                                                  child: Text(
-                                                    'ElderBlissCare',
-                                                    textAlign: TextAlign.center,
-                                                    style: GoogleFonts.pacifico(
-                                                      fontSize: isTabletMode ? 36.0 : (isUltraNarrow ? 18.0 : (isFoldedMode ? 24.0 : 32.0)),
-                                                      color: Color(0xFF98404F),
-                                                      letterSpacing: 0.0,
-                                                    ),
-                                                  ).animateOnPageLoad(animationsMap['textOnPageLoadAnimation1']!),
-                                                ),
-                                              ],
+                                                    ).animateOnPageLoad(animationsMap['textOnPageLoadAnimation1']!),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, isUltraNarrow ? 4.0 : 8.0),
+                                                    child: Text(
+                                                      'ElderBlissCare',
+                                                      textAlign: TextAlign.center,
+                                                      style: GoogleFonts.pacifico(
+                                                        fontSize: isTabletMode ? 36.0 : (isUltraNarrow ? 18.0 : (isFoldedMode ? 24.0 : 32.0)),
+                                                        color: Color(0xFF98404F),
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                                    ).animateOnPageLoad(animationsMap['textOnPageLoadAnimation1']!),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -389,15 +395,16 @@ class _Auth4OnboardingOneWidgetState extends State<Auth4OnboardingOneWidget>
                                     ),
                                   ),
                                   
-                                  // Bottom Section: Remaining content (centered like before)
+                                  // Bottom Section: Remaining content (positioned closer to welcome text when typing)
                                   Expanded(
-                                    child: Center(
+                                    child: Container(
+                                      alignment: (_model.phoneNumberFocusNode?.hasFocus ?? false) ? Alignment.topCenter : Alignment.center,
                                       child: Container(
                                         constraints: BoxConstraints(
                                           maxWidth: isTabletMode ? 500.0 : double.infinity,
                                         ),
                                         child: Padding(
-                                          padding: EdgeInsetsDirectional.fromSTEB(horizontalPadding, 0.0, horizontalPadding, 0.0),
+                                          padding: EdgeInsetsDirectional.fromSTEB(horizontalPadding, (_model.phoneNumberFocusNode?.hasFocus ?? false) ? (isUltraNarrow ? 16.0 : 24.0) : 0.0, horizontalPadding, 0.0),
                                           child: SingleChildScrollView(
                                             child: Column(
                                               mainAxisSize: MainAxisSize.min,
@@ -645,7 +652,7 @@ class _Auth4OnboardingOneWidgetState extends State<Auth4OnboardingOneWidget>
                                                     Container(
                                                       padding: EdgeInsets.all(isTabletMode ? 24 : (isUltraNarrow ? 12 : (isFoldedMode ? 16 : 20))),
                                                       decoration: BoxDecoration(
-                                                        color: Colors.white,
+                                                        color: Color(0xFFF7F6F6),
                                                         shape: BoxShape.circle,
                                                         boxShadow: [
                                                           BoxShadow(
@@ -876,45 +883,46 @@ class _Auth4OnboardingOneWidgetState extends State<Auth4OnboardingOneWidget>
                           ),
                         ),
                         
-                        // Page Indicator
-                        Align(
-                          alignment: AlignmentDirectional(0.0, 1.0),
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 80),
-                            child: smooth_page_indicator.SmoothPageIndicator(
-                              controller: _model.pageViewController ??=
-                                  PageController(
-                                      initialPage: max(
-                                          0,
-                                          min(
-                                              valueOrDefault<int>(
-                                                widget.index,
-                                                0,
-                                              ),
-                                              1))),
-                              count: 2,
-                              axisDirection: Axis.horizontal,
-                              onDotClicked: (i) async {
-                                await _model.pageViewController!.animateToPage(
-                                  i,
-                                  duration: Duration(milliseconds: 500),
-                                  curve: Curves.ease,
-                                );
-                                safeSetState(() {});
-                              },
-                              effect: smooth_page_indicator.ExpandingDotsEffect(
-                                expansionFactor: 2.0,
-                                spacing: 8.0,
-                                radius: 16.0,
-                                dotWidth: 44.0,
-                                dotHeight: 8.0,
-                                dotColor: FlutterFlowTheme.of(context).accent1,
-                                activeDotColor: FlutterFlowTheme.of(context).primary,
-                                paintStyle: PaintingStyle.fill,
+                        // Page Indicator (hidden when phone input is focused)
+                        if (!(_model.phoneNumberFocusNode?.hasFocus ?? false))
+                          Align(
+                            alignment: AlignmentDirectional(0.0, 1.0),
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: 80),
+                              child: smooth_page_indicator.SmoothPageIndicator(
+                                controller: _model.pageViewController ??=
+                                    PageController(
+                                        initialPage: max(
+                                            0,
+                                            min(
+                                                valueOrDefault<int>(
+                                                  widget.index,
+                                                  0,
+                                                ),
+                                                1))),
+                                count: 2,
+                                axisDirection: Axis.horizontal,
+                                onDotClicked: (i) async {
+                                  await _model.pageViewController!.animateToPage(
+                                    i,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.ease,
+                                  );
+                                  safeSetState(() {});
+                                },
+                                effect: smooth_page_indicator.ExpandingDotsEffect(
+                                  expansionFactor: 2.0,
+                                  spacing: 8.0,
+                                  radius: 16.0,
+                                  dotWidth: 44.0,
+                                  dotHeight: 8.0,
+                                  dotColor: FlutterFlowTheme.of(context).accent1,
+                                  activeDotColor: FlutterFlowTheme.of(context).primary,
+                                  paintStyle: PaintingStyle.fill,
+                                ),
                               ),
                             ),
                           ),
-                        ),
                       ],
                     ),
                   ),
@@ -930,7 +938,7 @@ class _Auth4OnboardingOneWidgetState extends State<Auth4OnboardingOneWidget>
                     isUltraNarrow ? 12.0 : 20.0
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Color(0xFFF7F6F6),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.05),

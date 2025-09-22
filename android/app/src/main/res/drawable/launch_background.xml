@@ -7,10 +7,11 @@
         </shape>
     </item>
 
-    <!-- You can insert your own image assets here -->
-    <!-- <item>
+    <!-- Logo image with no container background - blends with main background -->
+    <item android:width="120dp" android:height="120dp" android:gravity="center">
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/launch_image" />
-    </item> -->
+            android:src="@mipmap/ic_launcher"
+            android:tileMode="disabled" />
+    </item>
 </layer-list>

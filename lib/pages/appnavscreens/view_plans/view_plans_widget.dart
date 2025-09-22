@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/backend/razorpay_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'view_plans_model.dart';
 export 'view_plans_model.dart';
 
@@ -597,11 +598,26 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
       return;
     }
 
-    // Show loading indicator
+    // Initialize RazorpayService if not already initialized
+    try {
+      RazorpayService().initialize();
+    } catch (e) {
+      debugPrint('RazorpayService initialization: $e');
+    }
+
+    // Show loading indicator with timeout safety
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
+        // Auto-dismiss after 30 seconds as a safety measure
+        Future.delayed(Duration(seconds: 30), () {
+          if (Navigator.of(dialogContext).canPop()) {
+            Navigator.of(dialogContext).pop();
+            _handlePaymentCancellation(context);
+          }
+        });
+        
         return Dialog(
           backgroundColor: Colors.transparent,
           child: Container(
@@ -624,6 +640,15 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
                         fontSize: 16.0,
                       ),
                 ),
+                SizedBox(height: 12.0),
+                Text(
+                  'Opening Razorpay...',
+                  style: FlutterFlowTheme.of(context).bodySmall.override(
+                        fontFamily: GoogleFonts.inter().fontFamily,
+                        fontSize: 12.0,
+                        color: FlutterFlowTheme.of(context).secondaryText,
+                      ),
+                ),
               ],
             ),
           ),
@@ -639,13 +664,59 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
       planId: plan.id,
       description: '${plan.name} - ${plan.tagline}',
       onSuccess: () {
-        Navigator.of(context).pop(); // Close loading dialog
+        // Close loading dialog safely
+        if (Navigator.of(context).canPop()) {
+          Navigator.of(context).pop();
+        }
         _handlePaymentSuccess(context, plan);
       },
       onError: (error) {
-        Navigator.of(context).pop(); // Close loading dialog
-        _showPaymentError(context, error);
+        // Close loading dialog safely
+        if (Navigator.of(context).canPop()) {
+          Navigator.of(context).pop();
+        }
+        
+        // Check if payment was cancelled by user
+        if (error.toLowerCase().contains('cancelled') || error.toLowerCase().contains('canceled')) {
+          _handlePaymentCancellation(context);
+        } else {
+          _showPaymentError(context, error);
+        }
       },
+    );
+  }
+
+  void _handlePaymentCancellation(BuildContext context) {
+    // Log the payment cancellation
+    logFirebaseEvent('payment_cancelled');
+    
+    // Show a subtle message to the user
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              Icons.info_outline,
+              color: Colors.white,
+              size: 20.0,
+            ),
+            SizedBox(width: 8.0),
+            Text(
+              'Payment was cancelled!',
+              style: GoogleFonts.inter(
+                fontSize: 14.0,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+                 backgroundColor: FlutterFlowTheme.of(context).primary.withOpacity(0.9),
+        duration: Duration(seconds: 3),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+      ),
     );
   }
 

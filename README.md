@@ -1,4 +1,4 @@
-# ElderBlissCare
+# 🏥 ElderBlissCare
 
 A comprehensive Flutter-based mobile application designed to provide on-demand elder care and healthcare services, ensuring accessibility, reliability, and peace of mind for seniors and their families.
 
@@ -15,32 +15,16 @@ ElderBlissCare is a production-ready mobile app that connects elderly users with
 
 ## Tech Stack
 
-### Frontend
-- **Framework**: Flutter (SDK >=3.0.0 <4.0.0)
-- **Language**: Dart
-- **UI Components**: Material Design, Google Fonts, Font Awesome Icons
-- **Animations**: Flutter Animate, Rive Animations
-
-### Backend & Database
-- **Authentication**: Firebase Auth (Email, Phone, Social Logins)
-- **Database**: Cloud Firestore
-- **Storage**: Firebase Storage
-- **Analytics**: Firebase Analytics
-- **Monitoring**: Firebase Crashlytics, Firebase Performance
-
-### Tools & Libraries
-- **State Management**: Provider
-- **Navigation**: GoRouter
-- **Payments**: Razorpay Flutter
-- **Networking**: HTTP, Dio
-- **Local Storage**: Shared Preferences, SQFlite
-- **Internationalization**: Flutter Localizations, Intl
-- **Development**: Flutter Lints, Flutter Launcher Icons
-
-### Platform Support
-- **Mobile**: Android (Gradle), iOS (CocoaPods)
-- **Web**: Flutter Web
-- **Build Tools**: Gradle, CocoaPods
+- Flutter and Dart (cross-platform app development)
+- Firebase Auth, Cloud Firestore, Firebase Storage
+- Firebase Analytics, Crashlytics, Firebase Performance
+- Provider (state management)
+- Razorpay Flutter (payments)
+- HTTP and Dio (networking)
+- Shared Preferences and SQFlite (local persistence)
+- Flutter Localizations and Intl
+- Google Fonts, Font Awesome, Flutter Animate, Rive
+- Android (Gradle), iOS (CocoaPods), Web (Flutter Web)
 
 ## Project Structure
 
@@ -89,70 +73,17 @@ lib/
 ## Authentication Details
 
 Supports multiple authentication methods:
-- **Phone Authentication**: SMS OTP verification with auto-retrieval
-- **Email/Password**: Standard email registration and login
-- **Social Logins**: Google, Apple, GitHub, and Anonymous access
-- **JWT Integration**: Token-based authentication for API access
-- **Web Support**: reCAPTCHA integration for web-based phone auth
+- Phone Authentication (SMS OTP)
+- Email/Password
+- Google Sign-In
+- Apple Sign-In
+- GitHub Sign-In
+- Anonymous Sign-In
+- JWT-based Sign-In
 
 ## State Management Explanation
 
-Uses Provider for global state management:
-- **FFAppState**: Application-wide state (user data, settings, persisted preferences)
-- **Firebase Auth Streams**: Real-time authentication state updates
-- **ChangeNotifier**: Reactive UI updates for auth and app state changes
-- **Local Persistence**: Shared Preferences for offline data storage
-
-## Navigation System
-
-- **GoRouter**: Declarative routing with path-based navigation
-- **Bottom Navigation**: Floating bottom navigation bar for main sections
-- **Deep Linking**: URL-based navigation support
-- **Route Guards**: Authentication-based route protection
-
-## APIs & Integrations
-
-- **Firebase Services**: Auth, Firestore, Storage, Analytics, Crashlytics, Performance
-- **Razorpay**: Secure payment processing with branded checkout
-- **External APIs**: Lead creation via ZenEDS Pilot API (`zenedspilotapi.zhl.in`)
-- **Social Media**: Instagram and Facebook integration links
-- **Cloud Functions**: Node.js backend functions for server-side logic
-
-## Data Models
-
-### Users Record (Firestore)
-```dart
-class UsersRecord {
-  String displayName;
-  String uid;
-  String phoneNumber;
-  DateTime createdTime;
-  String role;
-  DateTime dateOfBirth;
-  String email;
-  String photoUrl;
-  // Emergency contacts
-  String nameEmergency;
-  String contactEmergency;
-  String relationEmergency;
-  // Medical information
-  String bloodGroup;
-  String medicalCondition;
-  String drugAllergy;
-}
-```
-
-### Subscription Plans
-```dart
-class Plan {
-  String id;
-  String name;
-  String price;
-  List<String> features;
-  double numericPrice; // For Razorpay
-  bool isFeatured;
-}
-```
+Uses Provider with Firebase auth streams and persisted local state.
 
 ## Setup Instructions
 
@@ -202,10 +133,7 @@ flutter build web --release
 
 ## Monitoring & Analytics
 
-- **Firebase Analytics**: Tracks user interactions, screen views, and conversion events
-- **Crashlytics**: Automatic crash reporting with detailed stack traces
-- **Performance Monitoring**: App performance metrics and latency tracking
-- **Custom Events**: Business-specific tracking (e.g., service bookings, plan subscriptions)
+Uses Firebase Analytics, Crashlytics, and Performance Monitoring for product insights, stability, and runtime health.
 
 ## Security Considerations
 
@@ -214,37 +142,6 @@ flutter build web --release
 - **Data Encryption**: Firebase handles data encryption at rest and in transit
 - **Authentication Security**: Multi-factor authentication support via phone verification
 - **Payment Security**: PCI-compliant Razorpay integration
-
-## Challenges
-
-- **Healthcare Compliance**: Managing sensitive medical data with appropriate privacy measures
-- **Real-time Reliability**: Ensuring 24/7 service availability for emergency features
-- **Cross-platform Consistency**: Maintaining UI/UX parity across Android, iOS, and Web
-- **Scalability**: Handling growing user base with Firebase infrastructure
-- **Offline Functionality**: Balancing online features with offline accessibility
-
-## Future Improvements
-
-- **AI Health Monitoring**: Integration with wearable devices for proactive care
-- **Telemedicine Features**: Video consultations with healthcare providers
-- **IoT Integration**: Smart home devices for automated emergency detection
-- **Advanced Analytics**: Predictive health insights using machine learning
-- **Multi-language Expansion**: Support for regional languages and dialects
-- **Offline Mode Enhancement**: Expanded offline capabilities for critical features
-
-## Contribution Guide
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Code Standards
-- Follow Flutter linting rules
-- Use meaningful commit messages
-- Maintain test coverage for new features
-- Update documentation for API changes
 
 ## Contact Information
 

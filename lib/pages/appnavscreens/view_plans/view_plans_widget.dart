@@ -190,7 +190,7 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Colors.white,
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: SafeArea(
           top: true,
           child: SingleChildScrollView(
@@ -288,10 +288,10 @@ class _ViewPlansWidgetState extends State<ViewPlansWidget> {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: isFeatured ? Color(0xFFFFF7ED) : theme.secondaryBackground,
+          color: isFeatured ? (theme is DarkModeTheme ? theme.secondaryBackground : Color(0xFFFFF7ED)) : theme.secondaryBackground,
           borderRadius: BorderRadius.circular(24.0),
           border: Border.all(
-            color: isFeatured ? Color(0xFFC71F38) : theme.alternate,
+            color: isFeatured ? Color(0xFFC71F38) : (theme is DarkModeTheme ? theme.secondaryBackground : theme.alternate),
             width: isFeatured ? 2.0 : 1.0,
           ),
         ),

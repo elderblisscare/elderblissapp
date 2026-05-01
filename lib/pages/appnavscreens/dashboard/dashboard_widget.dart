@@ -276,7 +276,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
       margin: EdgeInsets.symmetric(horizontal: 12),
       padding: EdgeInsets.all(18 * layoutScale), // Use layout scale
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: FlutterFlowTheme.of(context).secondaryBackground,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -307,7 +307,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                 '"${testimonial['text']}"',
                 style: GoogleFonts.inter(
                   fontSize: 14 * fontScale, // Use font scale
-                  color: Color(0xFF374151),
+                  color: FlutterFlowTheme.of(context).primaryText,
                   height: 1.5,
                   fontStyle: FontStyle.italic,
                 ),
@@ -337,7 +337,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                       style: GoogleFonts.inter(
                         fontSize: 14 * fontScale, // Use font scale
                         fontWeight: FontWeight.w600,
-                        color: Color(0xFF1F2937),
+                        color: FlutterFlowTheme.of(context).primaryText,
                       ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
@@ -346,7 +346,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                       testimonial['role']!,
                       style: GoogleFonts.inter(
                         fontSize: 10 * fontScale, // Reduced from 12 to 10
-                        color: Color(0xFF6B7280),
+                        color: FlutterFlowTheme.of(context).secondaryText,
                       ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
@@ -395,7 +395,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Colors.white,
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: FadeTransition(
           opacity: _fadeAnimation,
           child: SafeArea(
@@ -705,7 +705,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                               style: GoogleFonts.inter(
                                 fontSize: 22 * fontScaleFactor, // Use font scale
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF1F2937),
+                                color: FlutterFlowTheme.of(context).primaryText,
                               ),
                             ),
                           ],
@@ -715,7 +715,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                           'Comprehensive care solutions tailored for your loved ones',
                           style: GoogleFonts.inter(
                             fontSize: 15 * fontScaleFactor, // Use font scale
-                            color: Color(0xFF6B7280),
+                            color: FlutterFlowTheme.of(context).secondaryText,
                             height: 1.4,
                           ),
                         ),
@@ -819,7 +819,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                     style: GoogleFonts.inter(
                                       fontSize: 22 * fontScaleFactor, // Use font scale
                                       fontWeight: FontWeight.bold,
-                                      color: Color(0xFF1F2937),
+                                      color: FlutterFlowTheme.of(context).primaryText,
                                     ),
                                   ),
                                 ],
@@ -829,7 +829,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                 'Real experiences from families who trust us with their loved ones',
                                 style: GoogleFonts.inter(
                                   fontSize: 15 * fontScaleFactor, // Use font scale
-                                  color: Color(0xFF6B7280),
+                                  color: FlutterFlowTheme.of(context).secondaryText,
                                   height: 1.4,
                                 ),
                                 textAlign: TextAlign.center,

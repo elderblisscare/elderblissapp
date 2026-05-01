@@ -101,7 +101,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Colors.white, // Single white background
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground, // Dynamic background
         body: SafeArea(
           top: true,
           child: SingleChildScrollView(
@@ -178,7 +178,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                       Container(
                         width: MediaQuery.sizeOf(context).width * 1.0,
                         decoration: BoxDecoration(
-                          color: Colors.white, // Consistent white background
+                          color: FlutterFlowTheme.of(context).primaryBackground, // Dynamic background
                         ),
                         child: Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(

@@ -59,7 +59,9 @@ class _ContactusWidgetState extends State<ContactusWidget>
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? const Color(0xFF1F2937)
+            : Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -116,7 +118,7 @@ class _ContactusWidgetState extends State<ContactusWidget>
                         style: GoogleFonts.inter(
                           fontSize: (isVeryNarrow ? 16 : 18) * fontScale,
                           fontWeight: FontWeight.w600,
-                          color: Color(0xFF1F2937),
+                          color: FlutterFlowTheme.of(context).primaryText,
                         ),
                       ),
                       SizedBox(height: 4 * layoutScale),
@@ -124,7 +126,7 @@ class _ContactusWidgetState extends State<ContactusWidget>
                         subtitle,
                         style: GoogleFonts.inter(
                           fontSize: (isVeryNarrow ? 12 : 14) * fontScale,
-                          color: Color(0xFF6B7280),
+                          color: FlutterFlowTheme.of(context).secondaryText,
                           fontWeight: FontWeight.w500,
                           height: isVeryNarrow ? 1.3 : 1.2, // Better line height for narrow screens
                         ),
@@ -167,7 +169,9 @@ class _ContactusWidgetState extends State<ContactusWidget>
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? const Color(0xFF1F2937)
+            : Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -214,7 +218,7 @@ class _ContactusWidgetState extends State<ContactusWidget>
                         style: GoogleFonts.inter(
                           fontSize: (isVeryNarrow ? 14 : 16) * fontScale,
                           fontWeight: FontWeight.w600,
-                          color: Color(0xFF1F2937),
+                          color: FlutterFlowTheme.of(context).primaryText,
                         ),
                       ),
                       if (subtitle.isNotEmpty) ...[
@@ -223,7 +227,7 @@ class _ContactusWidgetState extends State<ContactusWidget>
                           subtitle,
                           style: GoogleFonts.inter(
                             fontSize: (isVeryNarrow ? 10 : 12) * fontScale,
-                            color: Color(0xFF6B7280),
+                            color: FlutterFlowTheme.of(context).secondaryText,
                           ),
                         ),
                       ],
@@ -246,7 +250,9 @@ class _ContactusWidgetState extends State<ContactusWidget>
   Widget _buildBusinessHoursCard(double layoutScale, double fontScale, bool isVeryNarrow) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? const Color(0xFF1F2937)
+            : Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -277,7 +283,7 @@ class _ContactusWidgetState extends State<ContactusWidget>
                   style: GoogleFonts.inter(
                     fontSize: (isVeryNarrow ? 18 : 20) * fontScale,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF1F2937),
+                    color: FlutterFlowTheme.of(context).primaryText,
                   ),
                 ),
               ],
@@ -294,7 +300,14 @@ class _ContactusWidgetState extends State<ContactusWidget>
     );
   }
 
-  Widget _buildHourRow(String day, String hours, {required bool isOpen, required double layoutScale, required double fontScale, required bool isVeryNarrow}) {
+  Widget _buildHourRow(
+      String day,
+      String hours, {
+        required bool isOpen,
+        required double layoutScale,
+        required double fontScale,
+        required bool isVeryNarrow,
+      }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -304,16 +317,21 @@ class _ContactusWidgetState extends State<ContactusWidget>
             style: GoogleFonts.inter(
               fontSize: (isVeryNarrow ? 14 : 16) * fontScale,
               fontWeight: FontWeight.w500,
-              color: Color(0xFF374151),
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white   // ✅ FIXED (visible in dark mode)
+                  : const Color(0xFF374151),
             ),
           ),
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 12 * layoutScale, vertical: 6 * layoutScale),
+          padding: EdgeInsets.symmetric(
+            horizontal: 12 * layoutScale,
+            vertical: 6 * layoutScale,
+          ),
           decoration: BoxDecoration(
             color: isOpen
-                ? Color(0xFF10B981).withOpacity(0.1)
-                : Color(0xFFEF4444).withOpacity(0.1),
+                ? const Color(0xFF10B981).withOpacity(0.1)
+                : const Color(0xFFEF4444).withOpacity(0.1),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
@@ -321,7 +339,9 @@ class _ContactusWidgetState extends State<ContactusWidget>
             style: GoogleFonts.inter(
               fontSize: (isVeryNarrow ? 12 : 14) * fontScale,
               fontWeight: FontWeight.w500,
-              color: isOpen ? Color(0xFF059669) : Color(0xFFDC2626),
+              color: isOpen
+                  ? const Color(0xFF059669)
+                  : const Color(0xFFDC2626),
             ),
           ),
         ),
@@ -358,7 +378,9 @@ class _ContactusWidgetState extends State<ContactusWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? const Color(0xFF111827)
+            : Colors.white,
         body: FadeTransition(
           opacity: _fadeAnimation,
           child: SafeArea(
@@ -460,7 +482,7 @@ class _ContactusWidgetState extends State<ContactusWidget>
                               style: GoogleFonts.inter(
                                 fontSize: (isVeryNarrowScreen ? 20 : 24) * fontScaleFactor,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF1F2937),
+                                color: FlutterFlowTheme.of(context).primaryText,
                               ),
                             ),
                           ],
@@ -551,7 +573,7 @@ class _ContactusWidgetState extends State<ContactusWidget>
                               style: GoogleFonts.inter(
                                 fontSize: (isVeryNarrowScreen ? 20 : 24) * fontScaleFactor,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF1F2937),
+                                color: FlutterFlowTheme.of(context).primaryText,
                               ),
                             ),
                           ],
@@ -561,7 +583,7 @@ class _ContactusWidgetState extends State<ContactusWidget>
                           'Stay connected with us on social media for updates and health tips',
                           style: GoogleFonts.inter(
                             fontSize: (isVeryNarrowScreen ? 14 : 16) * fontScaleFactor,
-                            color: Color(0xFF6B7280),
+                            color: FlutterFlowTheme.of(context).secondaryText,
                             height: 1.4,
                           ),
                         ),
@@ -604,7 +626,9 @@ class _ContactusWidgetState extends State<ContactusWidget>
                         Container(
                           padding: EdgeInsets.all((isVeryNarrowScreen ? 16 : 20) * layoutScaleFactor),
                           decoration: BoxDecoration(
-                            color: Color(0xFFFEF3C7),
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? const Color(0xFF1F2937)
+                                : const Color(0xFFFEF3C7),
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
                               color: Color(0xFFF59E0B).withOpacity(0.2),

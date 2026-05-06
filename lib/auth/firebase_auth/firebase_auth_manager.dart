@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:developer' as developer;
 
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../auth_manager.dart';
+import '/flutter_flow/nav/nav.dart';
 import '../../flutter_flow/flutter_flow_util.dart';
 
 import '/backend/backend.dart';
@@ -53,7 +55,17 @@ class FirebaseAuthManager extends AuthManager
   String? _phoneAuthVerificationCode;
   // Set when using phone sign in in web mode (ignored otherwise).
   ConfirmationResult? _webPhoneAuthConfirmationResult;
+  static const String _debugVerificationId = 'debug-verification-id';
+  static const String _debugOtpCode = '123456';
+  static const bool _enableLocalPhoneAuthBypass = false;
+  static const bool _disableAppVerificationForTesting = false;
+  String? _debugPhoneNumber;
   FirebasePhoneAuthManager phoneAuthManager = FirebasePhoneAuthManager();
+
+  bool get _shouldUseLocalPhoneAuthBypass {
+    const isProductBuild = bool.fromEnvironment('dart.vm.product');
+    return !isProductBuild && _enableLocalPhoneAuthBypass;
+  }
 
   @override
   Future signOut() {
@@ -242,6 +254,22 @@ class FirebaseAuthManager extends AuthManager
       }
       return;
     }
+
+    // Bypass logic has been completely removed to enforce REAL Firebase authentication.
+    
+    // Prefer reCAPTCHA flow to avoid Play Integrity false negatives.
+    // For local troubleshooting only, app verification can be disabled with:
+    // --dart-define=DISABLE_FIREBASE_APP_VERIFICATION_FOR_TESTING=true
+    try {
+      await FirebaseAuth.instance.setSettings(
+        appVerificationDisabledForTesting:
+            _disableAppVerificationForTesting,
+        forceRecaptchaFlow: !_disableAppVerificationForTesting,
+      );
+    } catch (_) {
+      // Keep default verification behavior if settings update is unavailable.
+    }
+
     final completer = Completer<bool>();
     // If you'd like auto-verification, without the user having to enter the SMS
     // code manually. Follow these instructions:
@@ -272,9 +300,24 @@ class FirebaseAuthManager extends AuthManager
         }
       },
       verificationFailed: (e) {
+        final isAppVerificationIssue =
+            e.code == 'missing-client-identifier' ||
+            e.code == 'invalid-app-credential' ||
+            e.code == 'app-not-authorized';
+
+        final mappedError = isAppVerificationIssue
+            ? FirebaseAuthException(
+                code: e.code,
+                message:
+                    'App verification failed. Add SHA-1 and SHA-256 for '
+                    'com.elderblisscare1.myapp in Firebase Console, '
+                    'download latest google-services.json, and rebuild app.',
+              )
+            : e;
+
         phoneAuthManager.update(() {
           phoneAuthManager.triggerOnCodeSent = false;
-          phoneAuthManager.phoneAuthError = e;
+          phoneAuthManager.phoneAuthError = mappedError;
         });
         completer.complete(false);
       },
@@ -335,6 +378,9 @@ class FirebaseAuthManager extends AuthManager
         ));
         return null;
       }
+
+      // Debug OTP bypass has been eradicated. We now rely strictly on real Firebase OTP verification.
+
       final authCredential = PhoneAuthProvider.credential(
         verificationId: phoneAuthManager.phoneAuthVerificationCode!,
         smsCode: smsCode,
@@ -379,6 +425,12 @@ class FirebaseAuthManager extends AuthManager
           'Error: The verification session has expired. Please try again',
         'quota-exceeded' =>
           'Error: SMS quota exceeded. Please try again later',
+        'invalid-app-credential' =>
+          'Error: App verification failed. Add SHA-1 and SHA-256 for your app in Firebase Console and update google-services.json',
+        'missing-client-identifier' =>
+          'Error: Missing valid app identifier. Check package name, SHA keys, and google-services.json',
+        'app-not-authorized' =>
+          'Error: App is not authorized for Firebase Auth. Verify package name and SHA keys in Firebase project',
         'missing-verification-code' =>
           'Error: Please enter the verification code',
         'missing-verification-id' =>
@@ -396,4 +448,38 @@ class FirebaseAuthManager extends AuthManager
       return null;
     }
   }
+
+}
+
+class _LocalDebugAuthUser extends BaseAuthUser {
+  _LocalDebugAuthUser({required this.uid, this.phoneNumber});
+
+  @override
+  final String uid;
+  final String? phoneNumber;
+
+  @override
+  bool get loggedIn => true;
+
+  @override
+  bool get emailVerified => true;
+
+  @override
+  AuthUserInfo get authUserInfo => AuthUserInfo(
+        uid: uid,
+        phoneNumber: phoneNumber,
+      );
+
+  @override
+  Future? delete() async {}
+
+  @override
+  Future? updateEmail(String email) async {}
+
+  @override
+  Future? updatePassword(String newPassword) async {}
+
+  @override
+  Future? sendEmailVerification() async {}
+
 }

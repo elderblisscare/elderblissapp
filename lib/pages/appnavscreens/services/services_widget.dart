@@ -200,8 +200,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                     width: MediaQuery.sizeOf(context).width *
                                         1.0,
                                     decoration: BoxDecoration(
-                                      color: Colors
-                                          .white, // Consistent white background
+                                      color: FlutterFlowTheme.of(context).secondaryBackground,
                                       borderRadius:
                                           BorderRadius.circular(20.0),
                                       border: Border.all(
@@ -377,8 +376,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                     width: MediaQuery.sizeOf(context).width *
                                         1.0,
                                     decoration: BoxDecoration(
-                                      color: Colors
-                                          .white, // Consistent white background
+                                      color: FlutterFlowTheme.of(context).secondaryBackground,
                                       borderRadius:
                                           BorderRadius.circular(20.0),
                                       border: Border.all(
@@ -552,8 +550,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                     width: MediaQuery.sizeOf(context).width *
                                         1.0,
                                     decoration: BoxDecoration(
-                                      color: Colors
-                                          .white, // Consistent white background
+                                      color: FlutterFlowTheme.of(context).secondaryBackground,
                                       borderRadius:
                                           BorderRadius.circular(20.0),
                                       border: Border.all(
@@ -724,8 +721,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                     width: MediaQuery.sizeOf(context).width *
                                         1.0,
                                     decoration: BoxDecoration(
-                                      color: Colors
-                                          .white, // Consistent white background
+                                      color: FlutterFlowTheme.of(context).secondaryBackground,
                                       borderRadius:
                                           BorderRadius.circular(20.0),
                                       border: Border.all(
@@ -896,8 +892,7 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                                     width: MediaQuery.sizeOf(context).width *
                                         1.0,
                                     decoration: BoxDecoration(
-                                      color: Colors
-                                          .white, // Consistent white background
+                                      color: FlutterFlowTheme.of(context).secondaryBackground,
                                       borderRadius:
                                           BorderRadius.circular(20.0),
                                       border: Border.all(

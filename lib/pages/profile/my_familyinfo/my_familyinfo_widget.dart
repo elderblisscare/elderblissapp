@@ -27,6 +27,24 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   bool _hasShownTooltip = false;
 
+  String get _effectiveEmergencyName {
+    final remote = currentUserDocument?.nameEmergency ?? '';
+    return remote.isNotEmpty ? remote : FFAppState().emergencyName;
+  }
+
+  String get _effectiveEmergencyContact {
+    final remote = currentUserDocument?.contactEmergency ?? '';
+    return remote.isNotEmpty ? remote : FFAppState().emergencyContact;
+  }
+
+  String get _effectiveEmergencyRelation {
+    final remote = currentUserDocument?.relationEmergency ?? '';
+    return remote.isNotEmpty ? remote : FFAppState().emergencyRelation;
+  }
+
+  bool get _hasEffectiveEmergencyContact =>
+      _effectiveEmergencyName.isNotEmpty || _effectiveEmergencyContact.isNotEmpty;
+
   @override
   void initState() {
     super.initState();
@@ -54,9 +72,7 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
   }
 
   void _checkAndShowTooltip() {
-    if (!_hasShownTooltip && 
-        (currentUserDocument?.nameEmergency?.isEmpty ?? true) && 
-        (currentUserDocument?.contactEmergency?.isEmpty ?? true)) {
+    if (!_hasShownTooltip && !_hasEffectiveEmergencyContact) {
       _showAddContactTooltip();
       _hasShownTooltip = true;
     }
@@ -201,10 +217,12 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
 
   void _showAddEditContactModal() {
     // Pre-populate with existing data
-    _model.nameController?.text = currentUserDocument?.nameEmergency ?? '';
-    _model.phoneController?.text = currentUserDocument?.contactEmergency ?? '';
+    _model.nameController?.text = _effectiveEmergencyName;
+    _model.phoneController?.text = _effectiveEmergencyContact;
     _model.emailController?.text = ''; // Email not stored in original schema
-    _model.selectedRelationship = currentUserDocument?.relationEmergency;
+    _model.selectedRelationship = _effectiveEmergencyRelation.isNotEmpty
+        ? _effectiveEmergencyRelation
+        : null;
 
     showModalBottomSheet(
       context: context,
@@ -229,8 +247,7 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
   }
 
   Widget _buildContactFormModal(StateSetter setModalState) {
-    final bool hasExistingContact = (currentUserDocument?.nameEmergency?.isNotEmpty ?? false) ||
-                                   (currentUserDocument?.contactEmergency?.isNotEmpty ?? false);
+    final bool hasExistingContact = _hasEffectiveEmergencyContact;
 
     return Container(
       width: MediaQuery.sizeOf(context).width,
@@ -538,12 +555,25 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
     }
 
     try {
-      // Save to users record
-      await currentUserReference!.update(createUsersRecordData(
-        nameEmergency: _model.nameController?.text ?? '',
-        contactEmergency: _model.phoneController?.text ?? '',
-        relationEmergency: _model.selectedRelationship,
-      ));
+      final name = (_model.nameController?.text ?? '').trim();
+      final phone = (_model.phoneController?.text ?? '').trim();
+      final relation = (_model.selectedRelationship ?? '').trim();
+
+      final userRef = currentUserReference;
+      if (userRef != null) {
+        await userRef.update(createUsersRecordData(
+          nameEmergency: name,
+          contactEmergency: phone,
+          relationEmergency: relation,
+        ));
+      }
+
+      // Always keep a local fallback for debug/local-auth sessions.
+      FFAppState().update(() {
+        FFAppState().emergencyName = name;
+        FFAppState().emergencyContact = phone;
+        FFAppState().emergencyRelation = relation;
+      });
 
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -776,8 +806,7 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
                         // Emergency Contact Display
                         AuthUserStreamWidget(
                           builder: (context) {
-                            final hasContact = (currentUserDocument?.nameEmergency?.isNotEmpty ?? false) ||
-                                            (currentUserDocument?.contactEmergency?.isNotEmpty ?? false);
+                            final hasContact = _hasEffectiveEmergencyContact;
                             
                             if (!hasContact) {
                               return _buildEmptyState();
@@ -987,7 +1016,9 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        currentUserDocument?.nameEmergency ?? 'Unknown',
+                        _effectiveEmergencyName.isNotEmpty
+                            ? _effectiveEmergencyName
+                            : 'Unknown',
                         style: FlutterFlowTheme.of(context).headlineSmall.override(
                           font: GoogleFonts.sora(fontWeight: FontWeight.w600),
                           fontSize: (isVeryNarrowScreen ? 16.0 : 18.0) * fontScaleFactor,
@@ -999,7 +1030,9 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
                       ),
                       SizedBox(height: (isVeryNarrowScreen ? 3.0 : 4.0) * layoutScaleFactor),
                       Text(
-                        currentUserDocument?.relationEmergency ?? 'Family Member',
+                        _effectiveEmergencyRelation.isNotEmpty
+                            ? _effectiveEmergencyRelation
+                            : 'Family Member',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                           font: GoogleFonts.inter(),
                           fontSize: (isVeryNarrowScreen ? 12.0 : 14.0) * fontScaleFactor,
@@ -1050,7 +1083,9 @@ class _MyFamilyinfoWidgetState extends State<MyFamilyinfoWidget> {
                   SizedBox(width: (isVeryNarrowScreen ? 8.0 : 12.0) * layoutScaleFactor),
                   Expanded(
                     child: Text(
-                      currentUserDocument?.contactEmergency ?? 'No phone number',
+                      _effectiveEmergencyContact.isNotEmpty
+                          ? _effectiveEmergencyContact
+                          : 'No phone number',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                         font: GoogleFonts.inter(),
                         fontSize: (isVeryNarrowScreen ? 13.0 : 14.0) * fontScaleFactor,

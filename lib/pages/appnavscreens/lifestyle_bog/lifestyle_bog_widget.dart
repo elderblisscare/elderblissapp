@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
@@ -49,6 +50,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
     required double fontScale,
     required bool isVeryNarrowScreen,
   }) {
+    final theme = FlutterFlowTheme.of(context);
     // Dynamic sizing for Galaxy Fold optimization
     final double baseMargin = isVeryNarrowScreen ? 16.0 : 20.0;
     final double basePadding = isVeryNarrowScreen ? 18.0 : 24.0;
@@ -116,7 +118,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                         style: GoogleFonts.inter(
                           fontSize: baseTitleFontSize * fontScale,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF1F2937),
+                          color: theme.primaryText,
                         ),
                         overflow: TextOverflow.visible,
                         softWrap: true,
@@ -126,7 +128,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                         description,
                         style: GoogleFonts.inter(
                           fontSize: baseDescriptionFontSize * fontScale,
-                          color: Color(0xFF6B7280),
+                          color: theme.secondaryText,
                           height: 1.4,
                         ),
                         overflow: TextOverflow.visible,
@@ -151,7 +153,9 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                 margin: EdgeInsets.only(bottom: baseActivityMargin * layoutScale),
                 padding: EdgeInsets.all(baseActivityPadding * layoutScale),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? const Color(0xFF111827)
+                      : Colors.white,
                   borderRadius: BorderRadius.circular(12 * layoutScale),
                   border: Border.all(
                     color: primaryColor.withAlpha((0.1 * 255).round()),
@@ -174,7 +178,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                         activity,
                         style: GoogleFonts.inter(
                           fontSize: baseActivityFontSize * fontScale,
-                          color: Color(0xFF374151),
+                          color: theme.primaryText,
                           height: 1.4,
                         ),
                       ),
@@ -199,6 +203,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
     required double fontScale,
     required bool isVeryNarrowScreen,
   }) {
+    final theme = FlutterFlowTheme.of(context);
     // Dynamic sizing for Galaxy Fold optimization
     final double basePadding = isVeryNarrowScreen ? 12.0 : 16.0;
     final double baseBorderRadius = isVeryNarrowScreen ? 12.0 : 16.0;
@@ -214,7 +219,9 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
       child: Container(
         padding: EdgeInsets.all(basePadding * layoutScale),
         decoration: BoxDecoration(
-          color: color.withAlpha((0.1 * 255).round()),
+          color: Theme.of(context).brightness == Brightness.dark
+              ? const Color(0xFF1F2937)
+              : color.withAlpha((0.1 * 255).round()),
           borderRadius: BorderRadius.circular(baseBorderRadius * layoutScale),
           border: Border.all(
             color: color.withAlpha((0.2 * 255).round()),
@@ -236,7 +243,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
               style: GoogleFonts.inter(
                 fontSize: baseValueFontSize * fontScale,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1F2937),
+                color: theme.primaryText,
               ),
             ),
             SizedBox(height: baseSmallSpacing * layoutScale),
@@ -255,7 +262,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
               description,
               style: GoogleFonts.inter(
                 fontSize: baseDescriptionFontSize * fontScale,
-                color: Color(0xFF6B7280),
+                color: theme.secondaryText,
                 height: 1.3,
               ),
               maxLines: isVeryNarrowScreen ? 3 : 2,
@@ -293,6 +300,8 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
     final double bottomNavHeight = MediaQuery.of(context).padding.bottom + 80;
     // --- END OF RESPONSIVE SCALING LOGIC ---
 
+    // Get theme
+    final theme = FlutterFlowTheme.of(context);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -300,7 +309,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Color(0xFFF8FAFC),
+        backgroundColor: theme.secondaryBackground,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -481,7 +490,9 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                     Container(
                       padding: EdgeInsets.all(isVeryNarrowScreen ? 18 : 24),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? const Color(0xFF1F2937)
+                            : Colors.white,
                         borderRadius: BorderRadius.circular(16 * layoutScaleFactor),
                         boxShadow: [
                           BoxShadow(
@@ -508,7 +519,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                                   style: GoogleFonts.inter(
                                     fontSize: (isVeryNarrowScreen ? 20 : 24) * fontScaleFactor,
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFF1F2937),
+                                    color: theme.primaryText,
                                   ),
                                   overflow: TextOverflow.visible,
                                   softWrap: true,
@@ -521,7 +532,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                             'A fulfilling lifestyle in senior years encompasses physical wellness, social engagement, personal growth, and meaningful activities that bring joy and purpose to daily life.',
                             style: GoogleFonts.inter(
                               fontSize: (isVeryNarrowScreen ? 14 : 16) * fontScaleFactor,
-                              color: Color(0xFF4B5563),
+                              color: theme.secondaryText,
                               height: 1.6,
                             ),
                           ),
@@ -537,7 +548,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                       style: GoogleFonts.inter(
                         fontSize: (isVeryNarrowScreen ? 22 : 28) * fontScaleFactor,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF1F2937),
+                        color: theme.primaryText,
                       ),
                     ),
                     SizedBox(height: (isVeryNarrowScreen ? 16 : 20) * layoutScaleFactor),
@@ -554,7 +565,9 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                       ],
                       icon: Icons.fitness_center,
                       primaryColor: Color(0xFFEA580C),
-                      backgroundColor: Color(0xFFFFF7ED),
+                      backgroundColor: Theme.of(context).brightness == Brightness.dark
+                          ? const Color(0xFF1F2937)
+                          : const Color(0xFFFFF7ED),
                       isEmphasized: true,
                       layoutScale: layoutScaleFactor,
                       fontScale: fontScaleFactor,
@@ -573,7 +586,9 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                       ],
                       icon: Icons.groups,
                       primaryColor: Color(0xFF10B981),
-                      backgroundColor: Color(0xFFF0FDF4),
+                      backgroundColor: Theme.of(context).brightness == Brightness.dark
+                          ? const Color(0xFF1F2937)
+                          : const Color(0xFFF0FDF4),
                       layoutScale: layoutScaleFactor,
                       fontScale: fontScaleFactor,
                       isVeryNarrowScreen: isVeryNarrowScreen,
@@ -591,7 +606,9 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                       ],
                       icon: Icons.palette,
                       primaryColor: Color(0xFF8B5CF6),
-                      backgroundColor: Color(0xFFF5F3FF),
+                      backgroundColor: Theme.of(context).brightness == Brightness.dark
+                          ? const Color(0xFF1F2937)
+                          : const Color(0xFFF5F3FF),
                       layoutScale: layoutScaleFactor,
                       fontScale: fontScaleFactor,
                       isVeryNarrowScreen: isVeryNarrowScreen,
@@ -609,7 +626,9 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                       ],
                       icon: Icons.psychology,
                       primaryColor: Color(0xFF3B82F6),
-                      backgroundColor: Color(0xFFF0F9FF),
+                      backgroundColor: Theme.of(context).brightness == Brightness.dark
+                          ? const Color(0xFF1F2937)
+                          : const Color(0xFFF0F9FF),
                       layoutScale: layoutScaleFactor,
                       fontScale: fontScaleFactor,
                       isVeryNarrowScreen: isVeryNarrowScreen,
@@ -624,10 +643,12 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: [
-                            Color(0xFFEA580C).withAlpha((0.1 * 255).round()),
-                            Color(0xFFF97316).withAlpha((0.1 * 255).round()),
-                          ],
+                          colors: Theme.of(context).brightness == Brightness.dark
+                              ? [const Color(0xFF1F2937), const Color(0xFF111827)]
+                              : [
+                                  Color(0xFFEA580C).withAlpha((0.1 * 255).round()),
+                                  Color(0xFFF97316).withAlpha((0.1 * 255).round()),
+                                ],
                         ),
                         borderRadius: BorderRadius.circular(16 * layoutScaleFactor),
                         border: Border.all(
@@ -652,7 +673,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                                   style: GoogleFonts.inter(
                                     fontSize: (isVeryNarrowScreen ? 18 : 22) * fontScaleFactor,
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFF1F2937),
+                                    color: theme.primaryText,
                                   ),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
@@ -699,10 +720,12 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: [
-                            Color(0xFFEA580C),
-                            Color(0xFFF97316),
-                          ],
+                          colors: Theme.of(context).brightness == Brightness.dark
+                              ? [const Color(0xFF1F2937), const Color(0xFF111827)]
+                              : [
+                                  Color(0xFFEA580C),
+                                  Color(0xFFF97316),
+                                ],
                         ),
                         borderRadius: BorderRadius.circular(20 * layoutScaleFactor),
                         boxShadow: [
@@ -761,7 +784,9 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                       width: double.infinity,
                       padding: EdgeInsets.all(isVeryNarrowScreen ? 18 : 24),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? const Color(0xFF1F2937)
+                            : Colors.white,
                         borderRadius: BorderRadius.circular(20 * layoutScaleFactor),
                         boxShadow: [
                           BoxShadow(
@@ -783,7 +808,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                           style: GoogleFonts.inter(
                             fontSize: (isVeryNarrowScreen ? 20 : 24) * fontScaleFactor,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF1F2937),
+                            color: theme.primaryText,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -792,7 +817,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
                           'Connect with our lifestyle coordinators to explore enriching activities and wellness programs.',
                           style: GoogleFonts.inter(
                             fontSize: (isVeryNarrowScreen ? 14 : 16) * fontScaleFactor,
-                            color: Color(0xFF6B7280),
+                            color: theme.secondaryText,
                             height: 1.5,
                           ),
                           textAlign: TextAlign.center,  
@@ -850,6 +875,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
   }
 
   Widget _buildBenefitItem(String title, String description, IconData icon, {required bool isVeryNarrowScreen, required double layoutScale, required double fontScale}) {
+    final theme = FlutterFlowTheme.of(context);
     // Dynamic sizing for Galaxy Fold optimization and normal mobile devices
     final double basePadding = isVeryNarrowScreen ? 12.0 : 14.0; // Slightly reduced padding for normal screens
     final double baseBorderRadius = isVeryNarrowScreen ? 10.0 : 12.0;
@@ -862,7 +888,9 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
     return Container(
       padding: EdgeInsets.all(basePadding * layoutScale),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? const Color(0xFF111827)
+            : Colors.white,
         borderRadius: BorderRadius.circular(baseBorderRadius * layoutScale),
         border: Border.all(
           color: Color(0xFFEA580C).withAlpha((0.1 * 255).round()),
@@ -884,7 +912,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
             style: GoogleFonts.inter(
               fontSize: baseTitleFontSize * fontScale,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF1F2937),
+              color: theme.primaryText,
               height: 1.2, // Tighter line height for better space utilization
             ),
             maxLines: 2,
@@ -896,7 +924,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
               description,
               style: GoogleFonts.inter(
                 fontSize: baseDescriptionFontSize * fontScale,
-                color: Color(0xFF6B7280),
+                color: theme.secondaryText,
                 height: 1.25, // Slightly tighter line height for better fitting
               ),
               maxLines: isVeryNarrowScreen ? 4 : 4, // Increased maxLines for normal screens
@@ -910,6 +938,7 @@ class _LifestyleBogWidgetState extends State<LifestyleBogWidget> {
   }
 
   Widget _buildTakeawayPoint(String text, {required bool isVeryNarrowScreen}) {
+    final theme = FlutterFlowTheme.of(context);
     return Container(
       margin: EdgeInsets.only(bottom: isVeryNarrowScreen ? 10 : 12),
       child: Row(

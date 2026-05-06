@@ -1055,10 +1055,13 @@ class _Auth4OnboardingOneWidgetState extends State<Auth4OnboardingOneWidget>
                               await FirebaseAuth.instance.currentUser!.updateDisplayName(userName);
                             }
                             
-                            // Update Firestore user document
-                            await currentUserReference!.update(createUsersRecordData(
-                              displayName: userName,
-                            ));
+                            // Update Firestore user document when auth user exists.
+                            final userRef = currentUserReference;
+                            if (FirebaseAuth.instance.currentUser != null && userRef != null) {
+                              await userRef.update(createUsersRecordData(
+                                displayName: userName,
+                              ));
+                            }
                             
                             // Update app state
                             FFAppState().name = userName;

@@ -1,6 +1,7 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart'; 
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,14 +62,20 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
     final double baseServiceIconSize = isVeryNarrowScreen ? 14.0 : 16.0;
     final double baseBorderRadius = isVeryNarrowScreen ? 12.0 : 16.0;
 
+    // Get theme colors
+    final theme = FlutterFlowTheme.of(context);
+    final isDarkMode = theme.primaryBackground == const Color(0xFF1A1F2E);
+
     return Container(
       margin: EdgeInsets.only(bottom: baseMargin * layoutScale),
       padding: EdgeInsets.all(basePadding * layoutScale),
       decoration: BoxDecoration(
-        color: isHighlighted ? accentColor.withOpacity(0.05) : Colors.white,
+        color: isHighlighted 
+          ? (isDarkMode ? theme.secondaryBackground : accentColor.withOpacity(0.08))
+          : theme.secondaryBackground,
         borderRadius: BorderRadius.circular(baseBorderRadius * layoutScale),
         border: Border.all(
-          color: isHighlighted ? accentColor : Color(0xFFE5E7EB),
+          color: isHighlighted ? accentColor.withOpacity(0.3) : theme.alternate,
           width: isHighlighted ? 2 : 1,
         ),
         boxShadow: [
@@ -103,7 +110,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                   style: GoogleFonts.inter(
                     fontSize: baseTitleFontSize * fontScale,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF1F2937),
+                    color: theme.primaryText,
                   ),
                   overflow: TextOverflow.visible,
                   softWrap: true,
@@ -116,7 +123,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
             description,
             style: GoogleFonts.inter(
               fontSize: baseDescriptionFontSize * fontScale,
-              color: Color(0xFF4B5563),
+              color: theme.secondaryText,
               height: 1.5,
             ),
           ),
@@ -124,7 +131,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
           Container(
             padding: EdgeInsets.all(baseInnerPadding * layoutScale),
             decoration: BoxDecoration(
-              color: Color(0xFFF8FAFC),
+              color: isDarkMode ? theme.primaryBackground : accentColor.withOpacity(0.06),
               borderRadius: BorderRadius.circular(12 * layoutScale),
               border: Border.all(
                 color: accentColor.withOpacity(0.2),
@@ -148,7 +155,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                         service,
                         style: GoogleFonts.inter(
                           fontSize: baseServiceFontSize * fontScale,
-                          color: Color(0xFF374151),
+                          color: theme.primaryText,
                           height: 1.4,
                         ),
                       ),
@@ -183,11 +190,15 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
     final double baseSpacing = isVeryNarrowScreen ? 8.0 : 10.0;
     final double baseSmallSpacing = isVeryNarrowScreen ? 4.0 : 6.0;
 
+    // Get theme colors
+    final theme = FlutterFlowTheme.of(context);
+    final isDarkMode = theme.primaryBackground == const Color(0xFF1A1F2E);
+
     return Container(
       height: baseHeight * layoutScale, // Fixed height for consistent card alignment
       padding: EdgeInsets.all(basePadding * layoutScale), // Slightly increased padding for better balance
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: isDarkMode ? color.withOpacity(0.15) : color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(baseBorderRadius * layoutScale), // Slightly increased border radius
         border: Border.all(
           color: color.withOpacity(0.2),
@@ -221,7 +232,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                 style: GoogleFonts.inter(
                   fontSize: baseTitleFontSize * fontScale, // Slightly reduced for better fit
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF1F2937),
+                  color: theme.primaryText,
                   height: 1.2, // Tight line height
                 ),
                 maxLines: 2, // Maximum 2 lines for title
@@ -242,7 +253,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                 textAlign: TextAlign.center, // Center align description
                 style: GoogleFonts.inter(
                   fontSize: baseDescriptionFontSize * fontScale, // Optimized font size for better fit
-                  color: Color(0xFF4B5563),
+                  color: theme.secondaryText,
                   height: 1.3, // Controlled line height
                 ),
                 maxLines: isVeryNarrowScreen ? 5 : 4, // Allow more lines on narrow screens
@@ -279,6 +290,9 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
     
     // Calculate bottom navigation bar height to prevent content overlap
     final double bottomNavHeight = MediaQuery.of(context).padding.bottom + 80;
+    
+    // Get theme
+    final theme = FlutterFlowTheme.of(context);
     // --- END OF RESPONSIVE SCALING LOGIC ---
 
     return GestureDetector(
@@ -288,7 +302,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Color(0xFFF8FAFC),
+        backgroundColor: theme.primaryBackground,
         body: SingleChildScrollView(
           child: Column(
               children: [
@@ -459,7 +473,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                     Container(
                       padding: EdgeInsets.all(isVeryNarrowScreen ? 18 : 24),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: theme.secondaryBackground,
                         borderRadius: BorderRadius.circular(16 * layoutScaleFactor),
                         boxShadow: [
                           BoxShadow(
@@ -486,7 +500,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                                   style: GoogleFonts.inter(
                                     fontSize: (isVeryNarrowScreen ? 20 : 24) * fontScaleFactor,
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFF1F2937),
+                                    color: theme.primaryText,
                                   ),
                                   overflow: TextOverflow.visible,
                                   softWrap: true,
@@ -499,7 +513,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                             'Our convenience services are designed to support seniors in maintaining their independence while ensuring all daily needs are met with professional care and attention.',
                             style: GoogleFonts.inter(
                               fontSize: (isVeryNarrowScreen ? 14 : 16) * fontScaleFactor,
-                              color: Color(0xFF4B5563),
+                              color: theme.secondaryText,
                               height: 1.6,
                             ),
                           ),
@@ -515,7 +529,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                       style: GoogleFonts.inter(
                         fontSize: (isVeryNarrowScreen ? 22 : 28) * fontScaleFactor,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF1F2937),
+                        color: theme.primaryText,
                       ),
                     ),
                     SizedBox(height: (isVeryNarrowScreen ? 16 : 20) * layoutScaleFactor),
@@ -595,8 +609,8 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            Color(0xFF8B5CF6).withOpacity(0.1),
-                            Color(0xFF3B82F6).withOpacity(0.1),
+                            Color(0xFF8B5CF6).withOpacity(0.08),
+                            Color(0xFF3B82F6).withOpacity(0.08),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(16),
@@ -622,7 +636,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                                   style: GoogleFonts.inter(
                                     fontSize: 20 * fontScaleFactor, // Apply responsive font scaling, reduced from 22 to 20
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFF1F2937),
+                                    color: theme.primaryText,
                                     height: 1.2, // Tighter line height for better control
                                   ),
                                   maxLines: 2, // Allow text to wrap to prevent overflow
@@ -650,9 +664,14 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: [
-                            Color(0xFF8B5CF6),
-                            Color(0xFFA855F7),
+                          colors: Theme.of(context).brightness == Brightness.dark
+                              ? [
+                            const Color(0xFF1F2937),
+                            const Color(0xFF111827),
+                          ]
+                              : [
+                            const Color(0xFF8B5CF6),
+                            const Color(0xFFA855F7),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20 * layoutScaleFactor),
@@ -712,7 +731,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                       width: double.infinity,
                       padding: EdgeInsets.all(isVeryNarrowScreen ? 18 : 24),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: theme.secondaryBackground,
                         borderRadius: BorderRadius.circular(20 * layoutScaleFactor),
                         boxShadow: [
                           BoxShadow(
@@ -735,7 +754,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                             style: GoogleFonts.inter(
                               fontSize: (isVeryNarrowScreen ? 20 : 24) * fontScaleFactor,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF1F2937),
+                              color: theme.primaryText,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -744,7 +763,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                             'Let our team help you with personalized convenience solutions for your daily needs.',
                             style: GoogleFonts.inter(
                               fontSize: (isVeryNarrowScreen ? 14 : 16) * fontScaleFactor,
-                              color: Color(0xFF6B7280),
+                              color: theme.secondaryText,
                               height: 1.5,
                             ),
                             textAlign: TextAlign.center,
@@ -810,6 +829,9 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
     final double baseSpacing = isVeryNarrowScreen ? 12.0 : 16.0;
     final double baseSmallSpacing = isVeryNarrowScreen ? 3.0 : 4.0;
 
+    // Get theme colors
+    final theme = FlutterFlowTheme.of(context);
+
     return Container(
       margin: EdgeInsets.only(bottom: baseMargin * layoutScale),
       child: Row(
@@ -843,7 +865,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                   style: GoogleFonts.inter(
                     fontSize: baseTitleFontSize * fontScale,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF1F2937),
+                    color: theme.primaryText,
                   ),
                 ),
                 SizedBox(height: baseSmallSpacing * layoutScale),
@@ -851,7 +873,7 @@ class _ConvenienceBlogWidgetState extends State<ConvenienceBlogWidget> {
                   description,
                   style: GoogleFonts.inter(
                     fontSize: baseDescriptionFontSize * fontScale,
-                    color: Color(0xFF4B5563),
+                    color: theme.secondaryText,
                     height: 1.4,
                             ),
                           ),

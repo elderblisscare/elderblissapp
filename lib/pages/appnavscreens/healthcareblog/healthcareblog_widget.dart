@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
@@ -46,6 +47,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
     required double fontScale,
     required bool isVeryNarrowScreen,
   }) {
+    final theme = FlutterFlowTheme.of(context);
     // Dynamic sizing based on screen type
     final double basePadding = isVeryNarrowScreen ? 12.0 : 16.0;
     final double baseBorderRadius = isVeryNarrowScreen ? 12.0 : 16.0;
@@ -81,7 +83,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
               style: GoogleFonts.inter(
                 fontSize: baseTitleFontSize * fontScale,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1F2937),
+                color: theme.primaryText,
               ),
               textAlign: TextAlign.start,
             ),
@@ -90,7 +92,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
               subtitle,
               style: GoogleFonts.inter(
                 fontSize: baseSubtitleFontSize * fontScale,
-                color: Color(0xFF6B7280),
+                color: theme.secondaryText,
                 fontWeight: FontWeight.w500,
               ),
               maxLines: 2,
@@ -112,6 +114,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
     required double fontScale,
     required bool isVeryNarrowScreen,
   }) {
+    final theme = FlutterFlowTheme.of(context);
     // Dynamic sizing for Galaxy Fold optimization
     final double baseMargin = isVeryNarrowScreen ? 12.0 : 16.0;
     final double basePadding = isVeryNarrowScreen ? 18.0 : 24.0;
@@ -166,7 +169,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                   style: GoogleFonts.inter(
                     fontSize: baseTitleFontSize * fontScale,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF1F2937),
+                    color: theme.primaryText,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -179,7 +182,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
             content,
             style: GoogleFonts.inter(
               fontSize: baseContentFontSize * fontScale,
-              color: Color(0xFF4B5563),
+              color: theme.secondaryText,
               height: 1.6,
             ),
           ),
@@ -187,7 +190,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
           Container(
             padding: EdgeInsets.all(baseInnerPadding * layoutScale),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: FlutterFlowTheme.of(context).secondaryBackground,
               borderRadius: BorderRadius.circular(12 * layoutScale),
               border: Border.all(
                 color: accentColor.withAlpha((0.1 * 255).round()),
@@ -218,7 +221,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                         point,
                         style: GoogleFonts.inter(
                           fontSize: basePointFontSize * fontScale,
-                          color: Color(0xFF374151),
+                          color: theme.primaryText,
                           height: 1.5,
                         ),
                       ),
@@ -243,6 +246,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
     required double fontScale,
     required bool isVeryNarrowScreen,
   }) {
+    final theme = FlutterFlowTheme.of(context);
     // Dynamic sizing for Galaxy Fold optimization
     final double basePadding = isVeryNarrowScreen ? 18.0 : 24.0;
     final double baseMargin = isVeryNarrowScreen ? 16.0 : 20.0;
@@ -330,6 +334,8 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
     final double bottomNavHeight = MediaQuery.of(context).padding.bottom + 80;
     // --- END OF RESPONSIVE SCALING LOGIC ---
 
+    // Get theme
+    final theme = FlutterFlowTheme.of(context);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -337,7 +343,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Color(0xFFF8FAFC),
+        backgroundColor: theme.primaryBackground,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -407,7 +413,9 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                               style: GoogleFonts.inter(
                                       fontSize: (isVeryNarrowScreen ? 13 : 14) * fontScaleFactor,
                                       fontWeight: FontWeight.w600,
-                                color: Colors.white,
+                                color: Theme.of(context).brightness == Brightness.dark 
+                                    ? const Color(0xFF111827) 
+                                    : Colors.white,
                                     ),
                                   ),
                                 ),
@@ -417,7 +425,9 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                             style: GoogleFonts.inter(
                               fontSize: (isVeryNarrowScreen ? 24 : 28) * fontScaleFactor,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: Theme.of(context).brightness == Brightness.dark 
+                                  ? Colors.white
+                                  : Colors.white,
                               height: 1.2,
                             ),
                             overflow: TextOverflow.visible,
@@ -430,7 +440,9 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                                 : 'Empowering seniors with technology-driven health monitoring for better well-being and peace of mind',
                             style: GoogleFonts.inter(
                               fontSize: (isVeryNarrowScreen ? 13 : 15) * fontScaleFactor,
-                              color: Colors.white.withAlpha((0.9 * 255).round()),
+                              color: Theme.of(context).brightness == Brightness.dark 
+                                  ? Colors.white.withAlpha((0.9 * 255).round())
+                                  : Colors.white.withAlpha((0.9 * 255).round()),
                               height: 1.4,
                             ),
                           ),
@@ -480,10 +492,12 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                     Container(
                       padding: EdgeInsets.all(isVeryNarrowScreen ? 18 : 24),
                       decoration: BoxDecoration(
-                        color: Color(0xFFF0FDF4),
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? theme.secondaryBackground
+                            : const Color(0xFFF0FDF4),
                         borderRadius: BorderRadius.circular(16 * layoutScaleFactor),
                         border: Border.all(
-                          color: Color(0xFF059669).withAlpha((0.2 * 255).round()),
+                          color: const Color(0xFF059669).withAlpha((0.2 * 255).round()),
                           width: 1,
                         ),
                         boxShadow: [
@@ -502,7 +516,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                             style: GoogleFonts.inter(
                               fontSize: (isVeryNarrowScreen ? 20 : 24) * fontScaleFactor,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF1F2937),
+                              color: theme.primaryText,
                             ),
                           ),
                           SizedBox(height: (isVeryNarrowScreen ? 12 : 16) * layoutScaleFactor),
@@ -510,7 +524,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                             'Health tracking during elder years transforms healthcare from reactive to proactive. By leveraging modern technology and personalized monitoring, seniors can maintain independence while ensuring optimal health outcomes.',
                             style: GoogleFonts.inter(
                               fontSize: (isVeryNarrowScreen ? 14 : 16) * fontScaleFactor,
-                              color: Color(0xFF4B5563),
+                              color: theme.secondaryText,
                               height: 1.6,
                             ),
                           ),
@@ -571,7 +585,9 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                     _buildHighlightBox(
                       title: 'Enhanced Independence',
                       content: 'Health tracking empowers seniors to take control of their well-being, make informed decisions, and maintain independence while staying connected to their healthcare team.',
-                      backgroundColor: Color(0xFF059669),
+                      backgroundColor: Theme.of(context).brightness == Brightness.dark
+                          ? const Color(0xFF1F2937) // dark mode card (similar to your tech section style)
+                          : const Color(0xFF059669), // light mode (keep same),
                       textColor: Colors.white,
                       icon: Icons.accessibility_new,
                       layoutScale: layoutScaleFactor,
@@ -588,10 +604,15 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: [
-                            Color(0xFF059669),
-                            Color(0xFF10B981),
-                          ],
+                            colors: Theme.of(context).brightness == Brightness.dark
+                                ? [
+                              const Color(0xFF1F2937),
+                              const Color(0xFF111827),
+                            ]
+                                : [
+                              const Color(0xFF059669),
+                              const Color(0xFF10B981),
+                            ],
                         ),
                         borderRadius: BorderRadius.circular(20 * layoutScaleFactor),
                         boxShadow: [
@@ -645,7 +666,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                       width:double.infinity,
                       padding:EdgeInsets.all(isVeryNarrowScreen ? 18 : 24),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: theme.secondaryBackground,
                         borderRadius: BorderRadius.circular(20 * layoutScaleFactor),
                         boxShadow: [
                           BoxShadow(
@@ -668,7 +689,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                             style:GoogleFonts.inter(
                               fontSize: (isVeryNarrowScreen ? 20 : 24) * fontScaleFactor,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF1F2937),
+                              color: theme.primaryText,
                             ),
                             textAlign: TextAlign.center,
                             ),
@@ -677,7 +698,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
                             'Speak with our healthcare specialists to begin your personalized health tracking and care plan.',
                             style:GoogleFonts.inter(
                               fontSize: (isVeryNarrowScreen ? 14 : 16) * fontScaleFactor,
-                              color: Color(0xFF4B5563),
+                              color: theme.secondaryText,
                               height: 1.5,
                             ),
                             textAlign: TextAlign.center,
@@ -734,6 +755,7 @@ class _HealthcareblogWidgetState extends State<HealthcareblogWidget> {
   }
 
   Widget _buildTakeawayPoint(String text, {required bool isVeryNarrowScreen}) {
+    final theme = FlutterFlowTheme.of(context);
     return Container(
       margin: EdgeInsets.only(bottom: isVeryNarrowScreen ? 10 : 12),
       child: Row(

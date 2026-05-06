@@ -2,10 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:elderblisscare1/flutter_flow/theme_controller.dart';
 
 abstract class FlutterFlowTheme {
   static FlutterFlowTheme of(BuildContext context) {
-    return LightModeTheme();
+    try {
+      final themeController = context.watch<ThemeController>();
+      return themeController.isDarkMode ? DarkModeTheme() : LightModeTheme();
+    } catch (_) {
+      // Fallback to light theme if ThemeController is not available
+      return LightModeTheme();
+    }
   }
 
   @Deprecated('Use primary instead')
@@ -119,6 +127,32 @@ class LightModeTheme extends FlutterFlowTheme {
   late Color warning = const Color(0xFFEC9C4B);
   late Color error = const Color(0xFFF83B46);
   late Color info = const Color(0xFFFFFFFF);
+}
+
+class DarkModeTheme extends FlutterFlowTheme {
+  @Deprecated('Use primary instead')
+  Color get primaryColor => primary;
+  @Deprecated('Use secondary instead')
+  Color get secondaryColor => secondary;
+  @Deprecated('Use tertiary instead')
+  Color get tertiaryColor => tertiary;
+
+  late Color primary = const Color(0xFFFF6B7A);
+  late Color secondary = const Color(0xFFFF8A99);
+  late Color tertiary = const Color(0xFF4DB8FF);
+  late Color alternate = const Color(0xFF404854);
+  late Color primaryText = const Color(0xFFF0F4F8);
+  late Color secondaryText = const Color(0xFFB8C5D6);
+  late Color primaryBackground = const Color(0xFF1A1F2E);
+  late Color secondaryBackground = const Color(0xFF262D3D);
+  late Color accent1 = const Color(0x66FF6B7A);
+  late Color accent2 = const Color(0x66FF8A99);
+  late Color accent3 = const Color(0x664DB8FF);
+  late Color accent4 = const Color(0x66424D5C);
+  late Color success = const Color(0xFF5FD285);
+  late Color warning = const Color(0xFFFFB84D);
+  late Color error = const Color(0xFFFF6B7A);
+  late Color info = const Color(0xFF1A1F2E);
 }
 
 abstract class Typography {

@@ -35,32 +35,38 @@ class _DashboardWidgetState extends State<DashboardWidget>
   // Testimonials data
   final List<Map<String, String>> testimonials = [
     {
-      'text': 'When my mother needed a doctor late at night, ElderBliss Care came through without delay. The doctor arrived quickly, was calm and reassuring, and took great care of her. I truly appreciate their dependable service during such a tense moment.',
+      'text':
+          'When my mother needed a doctor late at night, ElderBliss Care came through without delay. The doctor arrived quickly, was calm and reassuring, and took great care of her. I truly appreciate their dependable service during such a tense moment.',
       'name': 'Antionette Martin',
       'role': 'Jungpura, South Delhi • Doctor Visit'
     },
     {
-      'text': 'The nursing support from ElderBliss has been excellent. The nurse is not only skilled but also kind and respectful. It’s reassuring to have someone so dependable looking after my health at home.',
+      'text':
+          'The nursing support from ElderBliss has been excellent. The nurse is not only skilled but also kind and respectful. It’s reassuring to have someone so dependable looking after my health at home.',
       'name': 'V C Abraham',
       'role': 'Kalkaji, South Delhi • Nursing at home'
     },
     {
-      'text': 'We needed urgent help for my father late at night, and ElderBliss Care arranged an attendant within hours. The caregiver was calm, skilled, and handled everything with great care. Truly grateful for their prompt and reliable support during a critical time.',
+      'text':
+          'We needed urgent help for my father late at night, and ElderBliss Care arranged an attendant within hours. The caregiver was calm, skilled, and handled everything with great care. Truly grateful for their prompt and reliable support during a critical time.',
       'name': 'Geetanjali Shabi',
       'role': 'Faridabad • Caregiver Services (Attendant)'
     },
     {
-      'text': 'ElderBliss Care truly came through when my father needed medical attention early in the morning. They quickly arranged a doctor visit and diagnostics at home, making the whole process smooth and stress-free. Their prompt and caring service made all the difference.',
+      'text':
+          'ElderBliss Care truly came through when my father needed medical attention early in the morning. They quickly arranged a doctor visit and diagnostics at home, making the whole process smooth and stress-free. Their prompt and caring service made all the difference.',
       'name': 'Nitish Arun',
       'role': 'Munirka, Delhi • Emergency Doctor Visit'
     },
     {
-      'text': 'ElderBlissCare has been a great support for us. The attendant assigned to my mother is caring, patient and treats her like family. We feel so much more at peace knowing Mom’s in good hands.',
+      'text':
+          'ElderBlissCare has been a great support for us. The attendant assigned to my mother is caring, patient and treats her like family. We feel so much more at peace knowing Mom’s in good hands.',
       'name': 'Aditya Mota',
       'role': 'Greater Noida • Caregiver Services (Attendant)'
     },
     {
-      'text': 'When my wife suddenly needed medical attention at home, ElderBlissCare responded immediately. Their team was quick, professional, and incredibly supportive during a very stressful time. I can’t thank them enough for being there when we needed it the most.',
+      'text':
+          'When my wife suddenly needed medical attention at home, ElderBlissCare responded immediately. Their team was quick, professional, and incredibly supportive during a very stressful time. I can’t thank them enough for being there when we needed it the most.',
       'name': 'Douglas Paul',
       'role': 'Noida • Emergency Doctor Visit'
     },
@@ -98,8 +104,10 @@ class _DashboardWidgetState extends State<DashboardWidget>
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('DASHBOARD_PAGE_Dashboard_ON_INIT_STATE');
       logFirebaseEvent('Dashboard_backend_call');
-      _model.userdata =
-          await UsersRecord.getDocumentOnce(currentUserReference!);
+      if (currentUserReference != null) {
+        _model.userdata =
+            await UsersRecord.getDocumentOnce(currentUserReference!);
+      }
       logFirebaseEvent('Dashboard_update_app_state');
       FFAppState().name = 'userdata.name';
       FFAppState().phonenumber = 'userdata.phone_number';
@@ -218,7 +226,8 @@ class _DashboardWidgetState extends State<DashboardWidget>
                 ),
                 Positioned.fill(
                   child: Padding(
-                    padding: EdgeInsets.all(12 * layoutScale), // Use layout scale
+                    padding:
+                        EdgeInsets.all(12 * layoutScale), // Use layout scale
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,7 +248,8 @@ class _DashboardWidgetState extends State<DashboardWidget>
                         ),
                         SizedBox(height: 8),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(15),
@@ -320,7 +330,8 @@ class _DashboardWidgetState extends State<DashboardWidget>
             children: [
               CircleAvatar(
                 radius: 20 * layoutScale, // Use layout scale
-                backgroundColor: FlutterFlowTheme.of(context).primary.withOpacity(0.1),
+                backgroundColor:
+                    FlutterFlowTheme.of(context).primary.withOpacity(0.1),
                 child: Icon(
                   Icons.person,
                   color: FlutterFlowTheme.of(context).primary,
@@ -372,20 +383,23 @@ class _DashboardWidgetState extends State<DashboardWidget>
 
     // Get accessibility text scale factor and clamp it to prevent UI breakage
     final accessibilityTextScale = MediaQuery.textScalerOf(context).scale(1.0);
-    final clampedTextScale = accessibilityTextScale.clamp(1.0, 1.3); // Max 130% for accessibility
+    final clampedTextScale =
+        accessibilityTextScale.clamp(1.0, 1.3); // Max 130% for accessibility
 
     // A factor for layout elements like padding and container sizes.
     // Clamped to prevent elements from becoming excessively large.
     final double layoutScaleFactor = (screenWidth / baseWidth).clamp(1.0, 1.2);
 
     // Conservative font scale factor that considers accessibility settings
-    final double fontScaleFactor = ((screenWidth / baseWidth) * clampedTextScale).clamp(1.0, 1.15);
-    
+    final double fontScaleFactor =
+        ((screenWidth / baseWidth) * clampedTextScale).clamp(1.0, 1.15);
+
     // Galaxy Fold optimization: Detect very narrow screens (≤ 340px ≈ 2.64 inches)
     final bool isVeryNarrowScreen = screenWidth <= 340;
-    
+
     // Calculate bottom navigation bar height to prevent content overlap
-    final double bottomNavHeight = MediaQuery.of(context).padding.bottom + 80; // Safe area + nav bar height
+    final double bottomNavHeight = MediaQuery.of(context).padding.bottom +
+        80; // Safe area + nav bar height
     // --- END OF RESPONSIVE SCALING LOGIC ---
 
     return GestureDetector(
@@ -421,138 +435,192 @@ class _DashboardWidgetState extends State<DashboardWidget>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          IntrinsicHeight(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.only(right: 11),
-                                  child: Container(
-                                    width: 45 * layoutScaleFactor, // Use layout scale
-                                    height: 45 * layoutScaleFactor, // Use layout scale
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
-                                          blurRadius: 5,
-                                          offset: Offset(0, 2),
-                                        ),
-                                      ],
-                                    ),
-                                    alignment: Alignment.center,
-                                    child: ClipOval(
-                                      child: Image.asset(
-                                        'assets/images/favicon.png',
-                                        fit: BoxFit.contain,
-                                        height: 35 * layoutScaleFactor, // Use layout scale
-                                        width: 35 * layoutScaleFactor, // Use layout scale
-                                        errorBuilder: (context, error, stackTrace) {
-                                          return Icon(
-                                            Icons.error,
-                                            color: Colors.grey,
-                                            size: 30,
-                                          );
-                                        },
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(right: 11),
+                                child: Container(
+                                  width: 45 *
+                                      layoutScaleFactor, // Use layout scale
+                                  height: 45 *
+                                      layoutScaleFactor, // Use layout scale
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius: 5,
+                                        offset: Offset(0, 2),
                                       ),
+                                    ],
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: ClipOval(
+                                    child: Image.asset(
+                                      'assets/images/favicon.png',
+                                      fit: BoxFit.contain,
+                                      height: 35 *
+                                          layoutScaleFactor, // Use layout scale
+                                      width: 35 *
+                                          layoutScaleFactor, // Use layout scale
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Icon(
+                                          Icons.error,
+                                          color: Colors.grey,
+                                          size: 30,
+                                        );
+                                      },
                                     ),
                                   ),
                                 ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'ElderBlissCare',
-                                        style: GoogleFonts.inter(
-                                          fontSize: isVeryNarrowScreen 
-                                              ? 18 * fontScaleFactor  // Smaller font for Galaxy Fold
-                                              : 22 * fontScaleFactor, // Normal size for regular screens
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                          letterSpacing: -0.5,
-                                        ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ElderBlissCare',
+                                      style: GoogleFonts.inter(
+                                        fontSize: isVeryNarrowScreen
+                                            ? 18 *
+                                                fontScaleFactor // Smaller font for Galaxy Fold
+                                            : 22 *
+                                                fontScaleFactor, // Normal size for regular screens
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        letterSpacing: -0.5,
                                       ),
-                                      SizedBox(height: 4),
-                                      // Galaxy Fold optimization: Stack name below welcome text for better visibility
-                                      isVeryNarrowScreen 
-                                          ? Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                      textHeightBehavior:
+                                          const TextHeightBehavior(
+                                        applyHeightToFirstAscent: false,
+                                        applyHeightToLastDescent: false,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      softWrap: false,
+                                    ),
+                                    SizedBox(height: 4),
+                                    // Galaxy Fold optimization: Stack name below welcome text for better visibility
+                                    isVeryNarrowScreen
+                                        ? Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Welcome back,',
+                                                style: GoogleFonts.inter(
+                                                  fontSize:
+                                                      16 * fontScaleFactor,
+                                                  color: Colors.white
+                                                      .withOpacity(0.9),
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                                textHeightBehavior:
+                                                    const TextHeightBehavior(
+                                                  applyHeightToFirstAscent:
+                                                      false,
+                                                  applyHeightToLastDescent:
+                                                      false,
+                                                ),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: false,
+                                              ),
+                                              Text(
+                                                currentUserDisplayName
+                                                        .isNotEmpty
+                                                    ? currentUserDisplayName
+                                                    : 'User',
+                                                style: GoogleFonts.inter(
+                                                  fontSize:
+                                                      16 * fontScaleFactor,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                                textHeightBehavior:
+                                                    const TextHeightBehavior(
+                                                  applyHeightToFirstAscent:
+                                                      false,
+                                                  applyHeightToLastDescent:
+                                                      false,
+                                                ),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: false,
+                                              ),
+                                            ],
+                                          )
+                                        : RichText(
+                                            text: TextSpan(
                                               children: [
-                                                Text(
-                                                  'Welcome back,',
+                                                TextSpan(
+                                                  text: 'Welcome back, ',
                                                   style: GoogleFonts.inter(
-                                                    fontSize: 16 * fontScaleFactor,
-                                                    color: Colors.white.withOpacity(0.9),
+                                                    fontSize: 16 *
+                                                        fontScaleFactor, // Use font scale
+                                                    color: Colors.white
+                                                        .withOpacity(0.9),
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                 ),
-                                                Text(
-                                                  currentUserDisplayName.isNotEmpty
+                                                TextSpan(
+                                                  text: currentUserDisplayName
+                                                          .isNotEmpty
                                                       ? currentUserDisplayName
                                                       : 'User',
                                                   style: GoogleFonts.inter(
-                                                    fontSize: 16 * fontScaleFactor,
+                                                    fontSize: 16 *
+                                                        fontScaleFactor, // Use font scale
                                                     color: Colors.white,
                                                     fontWeight: FontWeight.w600,
                                                   ),
                                                 ),
                                               ],
-                                            )
-                                          : RichText(
-                                              text: TextSpan(
-                                                children: [
-                                                  TextSpan(
-                                                    text: 'Welcome back, ',
-                                                    style: GoogleFonts.inter(
-                                                      fontSize: 16 * fontScaleFactor, // Use font scale
-                                                      color: Colors.white.withOpacity(0.9),
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                  TextSpan(
-                                                    text: currentUserDisplayName.isNotEmpty
-                                                        ? currentUserDisplayName
-                                                        : 'User',
-                                                    style: GoogleFonts.inter(
-                                                      fontSize: 16 * fontScaleFactor, // Use font scale
-                                                      color: Colors.white,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
                                             ),
-                                    ],
+                                            textHeightBehavior:
+                                                const TextHeightBehavior(
+                                              applyHeightToFirstAscent: false,
+                                              applyHeightToLastDescent: false,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: false,
+                                          ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: Colors.white.withOpacity(0.3),
+                                    width: 1,
                                   ),
                                 ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                      color: Colors.white.withOpacity(0.3),
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: IconButton(
-                                    onPressed: () async {
-                                      logFirebaseEvent('DASHBOARD_PAGE_HELP_BTN_ON_TAP');
-                                      logFirebaseEvent('Button_navigate_to');
-                                      context.pushNamed(ContactusWidget.routeName);
-                                    },
-                                    icon: Icon(
-                                      Icons.help_outline,
-                                      color: Colors.white,
-                                      size: 24 * layoutScaleFactor, // Use layout scale
-                                    ),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    logFirebaseEvent(
+                                        'DASHBOARD_PAGE_HELP_BTN_ON_TAP');
+                                    logFirebaseEvent('Button_navigate_to');
+                                    context
+                                        .pushNamed(ContactusWidget.routeName);
+                                  },
+                                  icon: Icon(
+                                    Icons.help_outline,
+                                    color: Colors.white,
+                                    size: 24 *
+                                        layoutScaleFactor, // Use layout scale
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -590,7 +658,8 @@ class _DashboardWidgetState extends State<DashboardWidget>
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () async {
-                            logFirebaseEvent('DASHBOARD_PAGE_PANIC_BUTTON_BTN_ON_TAP');
+                            logFirebaseEvent(
+                                'DASHBOARD_PAGE_PANIC_BUTTON_BTN_ON_TAP');
                             logFirebaseEvent('Button_navigate_to');
                             context.pushNamed(PanicScreenWidget.routeName);
                           },
@@ -620,16 +689,22 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                     ],
                                   ),
                                   child: Container(
-                                    width: 32 * layoutScaleFactor * 1.5, // Use layout scale
-                                    height: 32 * layoutScaleFactor * 1.5, // Use layout scale
+                                    width: 32 *
+                                        layoutScaleFactor *
+                                        1.5, // Use layout scale
+                                    height: 32 *
+                                        layoutScaleFactor *
+                                        1.5, // Use layout scale
                                     child: Image.asset(
                                       'assets/images/PanicButton.png',
                                       fit: BoxFit.contain,
-                                      errorBuilder: (context, error, stackTrace) {
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
                                         return Icon(
                                           Icons.warning,
                                           color: Color(0xFFDC2626),
-                                          size: 24 * layoutScaleFactor, // Use layout scale
+                                          size: 24 *
+                                              layoutScaleFactor, // Use layout scale
                                         );
                                       },
                                     ),
@@ -638,13 +713,16 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                 SizedBox(width: 16 * layoutScaleFactor),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
                                         'Panic Button',
                                         style: GoogleFonts.inter(
-                                          fontSize: 17.0 * fontScaleFactor, // Use font scale
+                                          fontSize: 17.0 *
+                                              fontScaleFactor, // Use font scale
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
                                           letterSpacing: 0.5,
@@ -658,7 +736,8 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                             ? 'Emergency Help'
                                             : 'Tap for Emergency Help',
                                         style: GoogleFonts.inter(
-                                          fontSize: 11.0 * fontScaleFactor, // Reduced from 13 to 11
+                                          fontSize: 11.0 *
+                                              fontScaleFactor, // Reduced from 13 to 11
                                           color: Colors.white.withOpacity(0.9),
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -672,7 +751,8 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                 Icon(
                                   Icons.arrow_forward_ios,
                                   color: Colors.white,
-                                  size: 16 * layoutScaleFactor, // Use layout scale
+                                  size: 16 *
+                                      layoutScaleFactor, // Use layout scale
                                 ),
                               ],
                             ),
@@ -693,7 +773,8 @@ class _DashboardWidgetState extends State<DashboardWidget>
                           children: [
                             Container(
                               width: 4,
-                              height: 24 * layoutScaleFactor, // Use layout scale
+                              height:
+                                  24 * layoutScaleFactor, // Use layout scale
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context).primary,
                                 borderRadius: BorderRadius.circular(2),
@@ -703,7 +784,8 @@ class _DashboardWidgetState extends State<DashboardWidget>
                             Text(
                               'Our Care Services',
                               style: GoogleFonts.inter(
-                                fontSize: 22 * fontScaleFactor, // Use font scale
+                                fontSize:
+                                    22 * fontScaleFactor, // Use font scale
                                 fontWeight: FontWeight.bold,
                                 color: FlutterFlowTheme.of(context).primaryText,
                               ),
@@ -726,19 +808,23 @@ class _DashboardWidgetState extends State<DashboardWidget>
                           crossAxisCount: isVeryNarrowScreen ? 1 : 2,
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16,
-                          childAspectRatio: isVeryNarrowScreen 
-                              ? 1.4  // Single column on Galaxy Fold - wider aspect ratio for better content visibility
-                              : (screenWidth > 420 ? 0.8 : 0.85), // Original logic for normal screens
+                          childAspectRatio: isVeryNarrowScreen
+                              ? 1.4 // Single column on Galaxy Fold - wider aspect ratio for better content visibility
+                              : (screenWidth > 420
+                                  ? 0.8
+                                  : 0.85), // Original logic for normal screens
                           children: [
                             _buildServiceCard(
                               title: 'Healthcare',
-                              image: 'assets/images/WhatsApp_Image_2025-03-22_at_13.46.23_19615335.jpg',
+                              image:
+                                  'assets/images/WhatsApp_Image_2025-03-22_at_13.46.23_19615335.jpg',
                               primaryColor: Color(0xFF059669),
                               secondaryColor: Color(0xFF10B981),
                               layoutScale: layoutScaleFactor,
                               fontScale: fontScaleFactor,
                               onTap: () async {
-                                context.pushNamed(HealthcareblogWidget.routeName);
+                                context
+                                    .pushNamed(HealthcareblogWidget.routeName);
                               },
                             ),
                             _buildServiceCard(
@@ -749,7 +835,8 @@ class _DashboardWidgetState extends State<DashboardWidget>
                               layoutScale: layoutScaleFactor,
                               fontScale: fontScaleFactor,
                               onTap: () async {
-                                context.pushNamed(EmergencyBlogWidget.routeName);
+                                context
+                                    .pushNamed(EmergencyBlogWidget.routeName);
                               },
                             ),
                             _buildServiceCard(
@@ -760,7 +847,8 @@ class _DashboardWidgetState extends State<DashboardWidget>
                               layoutScale: layoutScaleFactor,
                               fontScale: fontScaleFactor,
                               onTap: () async {
-                                context.pushNamed(ConvenienceBlogWidget.routeName);
+                                context
+                                    .pushNamed(ConvenienceBlogWidget.routeName);
                               },
                             ),
                             _buildServiceCard(
@@ -787,7 +875,7 @@ class _DashboardWidgetState extends State<DashboardWidget>
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(vertical: 32),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: FlutterFlowTheme.of(context).primaryBackground,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.05),
@@ -807,9 +895,11 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                 children: [
                                   Container(
                                     width: 4,
-                                    height: 24 * layoutScaleFactor, // Use layout scale
+                                    height: 24 *
+                                        layoutScaleFactor, // Use layout scale
                                     decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context).primary,
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
                                       borderRadius: BorderRadius.circular(2),
                                     ),
                                   ),
@@ -817,9 +907,11 @@ class _DashboardWidgetState extends State<DashboardWidget>
                                   Text(
                                     'What Families Say',
                                     style: GoogleFonts.inter(
-                                      fontSize: 22 * fontScaleFactor, // Use font scale
+                                      fontSize: 22 *
+                                          fontScaleFactor, // Use font scale
                                       fontWeight: FontWeight.bold,
-                                      color: FlutterFlowTheme.of(context).primaryText,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
                                     ),
                                   ),
                                 ],
@@ -828,8 +920,10 @@ class _DashboardWidgetState extends State<DashboardWidget>
                               Text(
                                 'Real experiences from families who trust us with their loved ones',
                                 style: GoogleFonts.inter(
-                                  fontSize: 15 * fontScaleFactor, // Use font scale
-                                  color: FlutterFlowTheme.of(context).secondaryText,
+                                  fontSize:
+                                      15 * fontScaleFactor, // Use font scale
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
                                   height: 1.4,
                                 ),
                                 textAlign: TextAlign.center,
@@ -840,9 +934,11 @@ class _DashboardWidgetState extends State<DashboardWidget>
                         SizedBox(height: 24),
                         Container(
                           // Galaxy Fold optimization: Increased height for better visibility on narrow screens
-                          height: isVeryNarrowScreen 
-                              ? screenHeight * 0.45  // Larger height for Galaxy Fold devices
-                              : screenHeight * 0.36, // Original height for normal devices
+                          height: isVeryNarrowScreen
+                              ? screenHeight *
+                                  0.45 // Larger height for Galaxy Fold devices
+                              : screenHeight *
+                                  0.36, // Original height for normal devices
                           child: PageView.builder(
                             controller: _testimonialController,
                             itemCount: testimonials.length,
@@ -867,7 +963,9 @@ class _DashboardWidgetState extends State<DashboardWidget>
                               margin: EdgeInsets.symmetric(horizontal: 4),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: FlutterFlowTheme.of(context).primary.withOpacity(0.3),
+                                color: FlutterFlowTheme.of(context)
+                                    .primary
+                                    .withOpacity(0.3),
                               ),
                             );
                           }).toList(),

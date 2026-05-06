@@ -41,6 +41,11 @@ class _MedicalEquipmentWidgetState extends State<MedicalEquipmentWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.sizeOf(context).width;
+    final bool isVeryNarrowScreen = screenWidth < 380;
+    final double layoutScaleFactor = isVeryNarrowScreen ? 0.9 : 1.0;
+    final double fontScaleFactor = isVeryNarrowScreen ? 0.9 : 1.0;
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -227,18 +232,24 @@ class _MedicalEquipmentWidgetState extends State<MedicalEquipmentWidget> {
                         color: Colors.transparent,
                         elevation: 2.0,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.0),
+                          borderRadius: BorderRadius.circular(16.0 * layoutScaleFactor),
                         ),
                         child: Container(
                           width: MediaQuery.sizeOf(context).width * 1.0,
                           decoration: BoxDecoration(
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            borderRadius: BorderRadius.circular(16.0),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16.0 * layoutScaleFactor),
+                            border: Border.all(
+                              color: Color(0xFFE5E7EB),
+                              width: 1.0,
+                            ),
                           ),
                           child: Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
-                                20.0, 20.0, 20.0, 20.0),
+                                20.0 * layoutScaleFactor, 
+                                20.0 * layoutScaleFactor, 
+                                20.0 * layoutScaleFactor, 
+                                20.0 * layoutScaleFactor),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -257,6 +268,8 @@ class _MedicalEquipmentWidgetState extends State<MedicalEquipmentWidget> {
                                                   .headlineSmall
                                                   .fontStyle,
                                         ),
+                                        color: Color(0xFF111827),
+                                        fontSize: FlutterFlowTheme.of(context).headlineSmall.fontSize! * fontScaleFactor,
                                         letterSpacing: 0.0,
                                         fontWeight: FlutterFlowTheme.of(context)
                                             .headlineSmall
@@ -283,6 +296,8 @@ class _MedicalEquipmentWidgetState extends State<MedicalEquipmentWidget> {
                                                     .bodyMedium
                                                     .fontStyle,
                                           ),
+                                          color: Color(0xFF4B5563),
+                                          fontSize: FlutterFlowTheme.of(context).bodyMedium.fontSize! * fontScaleFactor,
                                           letterSpacing: 0.0,
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
@@ -301,39 +316,43 @@ class _MedicalEquipmentWidgetState extends State<MedicalEquipmentWidget> {
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        Text(
-                                          'Monitor\nUrine Catheter\nECG electrodes\nCrash Cart\nVentilator\nPleureva\nNasogastric suction\nEKG Machine\nIV Catheter\nNasogastric tube (NG tube)\nPulse Oximeter\nStretcher\nOxygen Cylinder\nGun Thermometer\nGlucometer\nHearing Aids\nB P Instruments\nDigital Thermometer\nAmbu Bag with Mask\nPulse Oximeter\nBiPAP\nCPAP',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.inter(
+                                        Expanded(
+                                          child: Text(
+                                            'Monitor\nUrine Catheter\nECG electrodes\nCrash Cart\nVentilator\nPleureva\nNasogastric suction\nEKG Machine\nIV Catheter\nNasogastric tube (NG tube)\nPulse Oximeter\nStretcher\nOxygen Cylinder\nGun Thermometer\nGlucometer\nHearing Aids\nB P Instruments\nDigital Thermometer\nAmbu Bag with Mask\nPulse Oximeter\nBiPAP\nCPAP',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.inter(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  color: Color(0xFF4B5563),
+                                                  fontSize: FlutterFlowTheme.of(context).bodyMedium.fontSize! * fontScaleFactor,
+                                                  letterSpacing: 0.0,
                                                   fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
+                                                      FlutterFlowTheme.of(context)
                                                           .bodyMedium
                                                           .fontWeight,
                                                   fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
+                                                      FlutterFlowTheme.of(context)
                                                           .bodyMedium
                                                           .fontStyle,
                                                 ),
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
+                                          ),
                                         ),
-                                      ].divide(SizedBox(width: 12.0)),
+                                      ].divide(SizedBox(width: 12.0 * layoutScaleFactor)),
                                     ),
-                                  ].divide(SizedBox(height: 12.0)),
+                                  ].divide(SizedBox(height: 12.0 * layoutScaleFactor)),
                                 ),
-                              ].divide(SizedBox(height: 16.0)),
+                              ].divide(SizedBox(height: 16.0 * layoutScaleFactor)),
                             ),
                           ),
                         ),

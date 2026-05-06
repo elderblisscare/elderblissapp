@@ -20,7 +20,15 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "528225851763-6teqb7k11bkpbgm9jcsbe8tmv3k5io43.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.elderblisscare.app"
+              }
+            }
+          ]
         }
       }
     }
